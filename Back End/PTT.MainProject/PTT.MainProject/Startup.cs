@@ -52,6 +52,12 @@ namespace PTT.MainProject
                 app.UseHsts();
             }
 
+            AutoMapper.Mapper.Initialize( cfg =>
+            {
+                cfg.CreateMap<PPT.Database.Models.AccountForCreationDto, PPT.Database.Entities.AccountEntity>();
+                cfg.CreateMap<PPT.Database.Models.AccountRoleForCreationDto, PPT.Database.Entities.AccountRoleEntity>();
+            });
+
             app.UseHttpsRedirection();
 
             app.UseMvc();
