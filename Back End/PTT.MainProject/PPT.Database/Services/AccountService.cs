@@ -25,5 +25,29 @@ namespace PPT.Database.Services
         {
             return _context.Accounts.Any(c => c.AccountId == accountId);
         }
+
+        public void Register(AccountEntity accountEntity)
+        {
+            _context.Accounts.Add(accountEntity);
+            AccountRoleEntity role = new AccountRoleEntity();
+            role.AccountId = accountEntity.AccountId;
+            role.RoleId = 2;
+            _context.AccountRoles.Add(role);
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
+        }
+
+        public bool EmailExist(string email)
+        {
+            AccountEntity acc = _context.Accounts.FirstOrDefault(c => c.Email.Equals(email)); 
+            if(acc == null)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
