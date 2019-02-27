@@ -33,7 +33,7 @@ namespace PTT.MainProject
                .AddMvcOptions(o => o.OutputFormatters.Add(
                    new XmlDataContractSerializerOutputFormatter()));
 
-            var connectionString = @"Data Source=CPU051;Initial Catalog=ppt_senior_project;Persist Security Info=True;User ID=admin;Password=admin";
+            var connectionString = @"Data Source=CPU051;Initial Catalog=pass_toeic_together_ptt;Persist Security Info=True;User ID=admin;Password=admin";
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
         }
