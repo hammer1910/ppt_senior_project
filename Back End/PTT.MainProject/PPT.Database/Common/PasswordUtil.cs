@@ -1,28 +1,11 @@
-﻿using PPT.Database.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PPT.Database
+namespace PPT.Database.Common
 {
-    public static class Insert
+    public class PasswordUtil
     {
-        public static void EnsureSeedDataForContext(this ExamContext context)
-        {
-            string a = "abc";
-            var history = new List<AccountEntity>
-            {
-                new AccountEntity()
-                {
-                    Email = "vancanh",
-                    Password = CreateMD5(a)               
-
-                 }
-                
-            };
-            context.Accounts.AddRange(history);
-            context.SaveChanges();
-        }
         public static string CreateMD5(string input)
         {
             // Use input string to calculate MD5 hash
@@ -39,5 +22,6 @@ namespace PPT.Database
                 return sb.ToString();
             }
         }
+
     }
 }
