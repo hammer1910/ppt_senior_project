@@ -9,7 +9,7 @@ namespace PPT.Database.Entities
     {
         public ExamContext(DbContextOptions<ExamContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            Database.Migrate();
         }
 
         public DbSet<AccountEntity> Accounts { get; set; }
