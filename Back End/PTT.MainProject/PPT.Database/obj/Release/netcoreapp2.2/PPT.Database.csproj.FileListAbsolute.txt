@@ -1,0 +1,10 @@
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.deps.json
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.runtimeconfig.json
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.runtimeconfig.dev.json
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.dll
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.pdb
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.dll
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.pdb

@@ -9,8 +9,11 @@ namespace PPT.Database.Services
     {
         bool AccountExists(int accountId);
         AccountEntity LoginAccount(string email, string password);
+        IEnumerable<AccountRoleEntity> GetAccountRoles(int accountId);
+        RoleEntity GetRole(int id);
         void Register(AccountEntity accountEntity);
         bool Save();
         bool EmailExist(string email);
+        AccountEntity GetAccountByEmail(string email);
     }
 }

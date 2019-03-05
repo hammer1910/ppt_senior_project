@@ -49,5 +49,20 @@ namespace PPT.Database.Services
             }
             return false;
         }
+
+        public AccountEntity GetAccountByEmail(string email)
+        {
+            return _context.Accounts.Where(a => a.Email == email).FirstOrDefault();
+        }
+
+        public IEnumerable<AccountRoleEntity> GetAccountRoles(int accountId)
+        {
+            return _context.AccountRoles.Where(p => p.AccountId == accountId).ToList();
+        }
+
+        public RoleEntity GetRole(int id)
+        {
+            return _context.Roles.FirstOrDefault(c => c.RoleId == id);
+        }
     }
 }
