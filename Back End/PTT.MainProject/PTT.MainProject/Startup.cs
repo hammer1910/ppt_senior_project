@@ -56,6 +56,7 @@ namespace PTT.MainProject
             {
                 cfg.CreateMap<PPT.Database.Models.AccountForCreationDto, PPT.Database.Entities.AccountEntity>();
                 cfg.CreateMap<PPT.Database.Models.AccountRoleForCreationDto, PPT.Database.Entities.AccountRoleEntity>();
+                cfg.CreateMap<PPT.Database.Models.AccountForUpdateDto, PPT.Database.Entities.AccountEntity>();
             });
 
             app.UseHttpsRedirection();
