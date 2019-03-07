@@ -1,0 +1,223 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PPT.Database.Services;
+using PPT.Database.Entities;
+using Microsoft.AspNetCore.JsonPatch;
+using System.Text;
+using PPT.Database.Common;
+using PPT.Database.Models;
+using AutoMapper;
+using PPT.Database.ResultObject;
+
+namespace PTT.MainProject.Controllers
+{
+    [Route("api/exam")]
+    public class AccountController : Controller
+    {
+        private IAccountRepository _accountRepository;
+
+        public AccountController(IAccountRepository accountRepository)
+        {
+            _accountRepository = accountRepository;
+        }
+
+        [HttpPost("login")]
+        public JsonResult Login([FromBody] AccountEntity account)
+        {
+            if (account == null)
+            {
+                return null;
+            }
+            string hastPwd = PasswordUtil.CreateMD5(account.Password);
+            AccountEntity accountEntity = _accountRepository.LoginAccount(account.Email, hastPwd);
+            if (accountEntity == null)
+            {
+                return null;
+            }
+            IEnumerable<AccountRoleEntity> listRole = _accountRepository.GetAccountRoles(accountEntity.AccountId);          
+            LoginResult result = new LoginResult();
+            result.accountId = accountEntity.AccountId;
+            result.email = accountEntity.Email;
+            result.password = accountEntity.Password;
+            result.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+            result.phoneNumber = accountEntity.Phone;
+            result.address = accountEntity.Address;
+            var listRoles = new List<string>();
+            List<RoleEntity> roles = new List<RoleEntity>();
+            foreach (var poi in listRole )
+            {
+                RoleEntity roleEntity = _accountRepository.GetRole(poi.RoleId);
+                roles.Add(roleEntity);
+            }
+            foreach (var item in roles)
+            {
+                listRoles.Add(item.NameRole);
+            }
+            result.Roles = listRoles;
+            return Json(result);           
+
+        }
+        
+        [HttpGet("forgotpassword")]
+        public JsonResult ForgotPassword([FromBody] AccountEntity account)
+        {
+            if (account == null)
+            {
+                return Json(MessageResult.GetMessage(6));
+            }
+
+            if (_accountRepository.EmailExist(account.Email))
+            {
+                return Json(MessageResult.GetMessage(8));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            if (!_accountRepository.EmailExist(account.Email))
+            {
+                string code = SendGmail.ForgotPassword(account.Email);
+                AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
+                accountEntity.Password = PasswordUtil.CreateMD5(code);
+            }
+
+            if (!_accountRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(7));
+        }
+
+        [HttpPost("register")]
+        public JsonResult CreatePointOfInterest([FromBody] AccountForCreationDto account)
+        {
+            if (account == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            if (!_accountRepository.EmailExist(account.Email))
+            {
+                return Json(MessageResult.GetMessage(5));
+            }
+
+            SendGmail.SendVertified(account.Email);
+
+            account.Password = PasswordUtil.CreateMD5(account.Password);
+            var finalAccount = Mapper.Map<PPT.Database.Entities.AccountEntity>(account);
+
+            _accountRepository.Register(finalAccount);
+
+            if (!_accountRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(1));
+        }
+
+        [HttpGet("getinformationaccount/{id}")]
+        public JsonResult GetInformationAccount(int id)
+        {
+            if (!_accountRepository.AccountExists(id))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            AccountEntity account = _accountRepository.GetAccountById(id);
+
+            return Json(account);
+        }
+
+        [HttpPut("updateinformationaccount/{id}")]
+        public JsonResult UpdateAccount(int id, [FromBody] AccountForUpdateDto account)
+        {
+            if (!_accountRepository.AccountExists(id))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            if (account == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            var accountEntity = _accountRepository.GetAccountById(id);
+
+            if (accountEntity == null)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            Mapper.Map(account, accountEntity);
+
+            if (!_accountRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(10));
+        }
+
+        [HttpPatch("updateinformationaccount/{id}")]
+        public JsonResult UpdateAccountPatch(int id, [FromBody] JsonPatchDocument<AccountForUpdateDto> account)
+        {
+            if (!_accountRepository.AccountExists(id))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            if (account == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            var accountEntity = _accountRepository.GetAccountById(id);
+
+            if (accountEntity == null)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //Mapper.Map(account, accountEntity);
+
+            var pointOfInterestToPatch = Mapper.Map<AccountForUpdateDto>(accountEntity);
+
+            account.ApplyTo(pointOfInterestToPatch, ModelState);
+
+            if (!_accountRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(10));
+        }
+
+    }
+}

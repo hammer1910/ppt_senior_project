@@ -15,5 +15,6 @@ namespace PPT.Database.Services
         bool Save();
         bool EmailExist(string email);
         AccountEntity GetAccountByEmail(string email);
+        AccountEntity GetAccountById(int id);
     }
 }
