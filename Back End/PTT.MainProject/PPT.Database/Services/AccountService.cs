@@ -9,6 +9,7 @@ namespace PPT.Database.Services
     public class AccountService : IAccountRepository
     {
         private ExamContext _context;
+
         public AccountService(ExamContext context)
         {
             _context = context;
@@ -63,6 +64,11 @@ namespace PPT.Database.Services
         public RoleEntity GetRole(int id)
         {
             return _context.Roles.FirstOrDefault(c => c.RoleId == id);
+        }
+
+        public AccountEntity GetAccountById(int id)
+        {
+            return _context.Accounts.FirstOrDefault(a => a.AccountId == id);
         }
     }
 }
