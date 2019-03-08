@@ -268,5 +268,34 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(10));
         }
 
+        //This is delete account function
+        [HttpDelete("deleteaccount/{id}")]
+        public JsonResult DeleteAccount(int id)
+        {
+            //Check id account exist in the database
+            if (!_accountRepository.AccountExists(id))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            //This is get all information of account
+            var accountEntity = _accountRepository.GetAccountById(id);
+
+            if (accountEntity == null)
+            {
+                return Json(MessageResult.GetMessage(11));
+            }
+
+            //This is query to delete account
+            _accountRepository.DeleteAccount(accountEntity);
+
+            if (!_accountRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(13));
+        }
+
     }
 }

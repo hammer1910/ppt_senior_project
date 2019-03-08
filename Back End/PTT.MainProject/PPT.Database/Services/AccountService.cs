@@ -70,5 +70,10 @@ namespace PPT.Database.Services
         {
             return _context.Accounts.FirstOrDefault(a => a.AccountId == id);
         }
+
+        public void DeleteAccount(AccountEntity account)
+        {
+            _context.Accounts.Remove(account);
+        }
     }
 }
