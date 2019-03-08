@@ -72,6 +72,11 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 12,
                     MessageReturn = "Your old password don't true. Please enter again!"
+                },
+                new MessageResult()
+                {
+                    MessageId = 13,
+                    MessageReturn = "You deleted account success!"
                 }
             };
             MessageResult result = new MessageResult();
