@@ -57,5 +57,10 @@ namespace PPT.Database.Services
         {
             _context.Groups.Remove(group);
         }
+
+        public List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId)
+        {
+            return _context.GroupOwners.Where(c => c.AccountId == ownerId).ToList();
+        }
     }
 }

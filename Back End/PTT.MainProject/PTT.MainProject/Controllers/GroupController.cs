@@ -178,5 +178,38 @@ namespace PTT.MainProject.Controllers
 
             return Json(MessageResult.GetMessage(13));
         }
+
+        //This is get list group function
+        [HttpGet("getlistgroup/{ownerId}")]
+        public JsonResult GetGroupList(int ownerId)
+        {
+            //Check value enter id account
+            if (ownerId == 0)
+            {
+                return Json(MessageResult.GetMessage(11));
+            }
+
+            List<GroupOwnerEntity> groupEntities = _groupRepository.getGroupListByOwnerId(ownerId);
+
+            if (groupEntities == null)
+            {
+                return Json(MessageResult.GetMessage(14));
+            }
+
+            List<GroupListResult> groupListResult = new List<GroupListResult>();
+
+            foreach (var groupOwner in groupEntities)
+            {
+                GroupListResult groupList = new GroupListResult();
+                groupList.groupId = groupOwner.GroupId;
+                groupList.groupOwnerId = groupOwner.GroupOwnerId;
+                groupList.ownerGroupId = groupOwner.AccountId;
+                GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
+                groupList.groupName = group.Name;
+                groupListResult.Add(groupList);
+            }
+
+            return Json(groupListResult);
+        }
     }
 }
