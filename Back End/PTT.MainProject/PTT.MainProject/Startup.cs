@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PPT.Database;
 using PPT.Database.Entities;
+using PPT.Database.Repositories;
 using PPT.Database.Services;
 
 namespace PTT.MainProject
@@ -36,6 +37,7 @@ namespace PTT.MainProject
             var connectionString = @"Data Source=CPU051;Initial Catalog=pass_toeic_together_ptt;Persist Security Info=True;User ID=admin;Password=admin";
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
+            services.AddScoped<IGroupRepository, GroupService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,6 +59,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.AccountForCreationDto, PPT.Database.Entities.AccountEntity>();
                 cfg.CreateMap<PPT.Database.Models.AccountRoleForCreationDto, PPT.Database.Entities.AccountRoleEntity>();
                 cfg.CreateMap<PPT.Database.Models.AccountForUpdateDto, PPT.Database.Entities.AccountEntity>();
+                cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
             });
 
             app.UseHttpsRedirection();
