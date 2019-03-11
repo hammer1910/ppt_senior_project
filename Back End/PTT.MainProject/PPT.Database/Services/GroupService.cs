@@ -48,6 +48,14 @@ namespace PPT.Database.Services
             return _context.Groups.Where(a => a.GroupId == id).FirstOrDefault();
         }
 
+        public bool GroupExist(int groupId)
+        {
+            return _context.Groups.Any(g => g.GroupId == groupId);
+        }
 
+        public void DeleteGroup(GroupEntity group)
+        {
+            _context.Groups.Remove(group);
+        }
     }
 }
