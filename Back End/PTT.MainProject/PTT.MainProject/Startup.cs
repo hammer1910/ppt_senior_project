@@ -60,6 +60,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.AccountRoleForCreationDto, PPT.Database.Entities.AccountRoleEntity>();
                 cfg.CreateMap<PPT.Database.Models.AccountForUpdateDto, PPT.Database.Entities.AccountEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
+                cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
             });
 
             app.UseHttpsRedirection();
