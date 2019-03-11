@@ -16,7 +16,7 @@ x64/
 packages/*
 node_modules/
 bower_components/
-.vs/
+.vs
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
@@ -161,3 +161,5 @@ $RECYCLE.BIN/
 src/Modules/**/launchSettings.json
 PublishProfiles/
 logs/
+
+v15
