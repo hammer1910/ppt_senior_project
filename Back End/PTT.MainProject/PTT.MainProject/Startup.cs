@@ -42,8 +42,7 @@ namespace PTT.MainProject
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ExamContext examContext)
-        {
-            //examContext.EnsureSeedDataForContext();
+        {            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

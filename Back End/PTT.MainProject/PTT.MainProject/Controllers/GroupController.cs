@@ -4,6 +4,7 @@ using PPT.Database.Entities;
 using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
+
 using PPT.Database.Services;
 using System;
 using System.Collections.Generic;
@@ -87,6 +88,34 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(2));
             }
             return Json(MessageResult.GetMessage(1));
+        }
+        [HttpGet("getlistgroup/{ownerId}")]
+        public JsonResult GetGroupList(int ownerId)
+        {
+            //Check value enter from the form 
+            if (ownerId == 0)
+            {
+                return Json(ResultMessage.notFound);
+            }
+
+            List<GroupOwnerEntity> groupEntities = _groupRepository.getGroupListByOwnerId(ownerId);
+            if(groupEntities == null)
+            {
+                return Json(MessageResult.GetMessage(14));
+            }
+            List<GroupListResult> groupListResult = new List<GroupListResult>();
+
+            foreach (var groupOwner in groupEntities)
+            {
+                GroupListResult groupList = new GroupListResult();
+                groupList.groupId = groupOwner.GroupId;
+                groupList.groupOwnerId = groupOwner.GroupOwnerId;
+                groupList.ownerGroupId = groupOwner.AccountId;
+                GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
+                groupList.groupName = group.Name;
+                groupListResult.Add(groupList);
+            }
+            return Json(groupListResult);
         }
     }
 }

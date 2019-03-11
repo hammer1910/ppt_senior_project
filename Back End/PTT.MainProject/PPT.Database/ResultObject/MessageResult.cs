@@ -77,6 +77,11 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 13,
                     MessageReturn = "You deleted account success!"
+                },
+                new MessageResult()
+                {
+                    MessageId = 14,
+                    MessageReturn = "You haven't owned any group right now!"
                 }
             };
             MessageResult result = new MessageResult();

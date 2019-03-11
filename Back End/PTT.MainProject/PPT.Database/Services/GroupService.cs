@@ -48,6 +48,9 @@ namespace PPT.Database.Services
             return _context.Groups.Where(a => a.GroupId == id).FirstOrDefault();
         }
 
-
+        public List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId)
+        {
+            return _context.GroupOwners.Where(c => c.AccountId == ownerId).ToList();
+        }
     }
 }
