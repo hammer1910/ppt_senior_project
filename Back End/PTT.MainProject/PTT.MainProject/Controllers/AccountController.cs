@@ -54,7 +54,8 @@ namespace PTT.MainProject.Controllers
             result.accountId = accountEntity.AccountId;
             result.email = accountEntity.Email;
             result.password = accountEntity.Password;
-            result.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+            result.firstName = accountEntity.FirstName;
+            result.lastName = accountEntity.LastName;
             result.phoneNumber = accountEntity.Phone;
             result.address = accountEntity.Address;
 

@@ -58,9 +58,25 @@ namespace PPT.Database.Services
             _context.Groups.Remove(group);
         }
 
-        public List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId)
+        public List<GroupOwnerEntity> GetGroupListByOwnerId(int ownerId)
         {
             return _context.GroupOwners.Where(c => c.AccountId == ownerId).ToList();
         }
+
+        public List<GroupMemberEntity> GetMemberListByGroupId(int groupId)
+        {
+            return _context.GroupMembers.Where(m => m.GroupId == groupId).ToList();
+        }
+
+        public GroupMemberEntity GetMemberByAccountId(int accountId)
+        {
+            return _context.GroupMembers.FirstOrDefault(a => a.AccountId == accountId);
+        }
+
+        public void DeleteMember(GroupMemberEntity member)
+        {
+            _context.GroupMembers.Remove(member);
+        }
+        
     }
 }
