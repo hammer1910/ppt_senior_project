@@ -89,22 +89,6 @@ namespace PTT.MainProject.Controllers
             }
             return Json(MessageResult.GetMessage(1));
         }
-<<<<<<< HEAD
-        [HttpGet("getlistgroup/{ownerId}")]
-        public JsonResult GetGroupList(int ownerId)
-        {
-            //Check value enter from the form 
-            if (ownerId == 0)
-            {
-                return Json(ResultMessage.notFound);
-            }
-
-            List<GroupOwnerEntity> groupEntities = _groupRepository.getGroupListByOwnerId(ownerId);
-            if(groupEntities == null)
-            {
-                return Json(MessageResult.GetMessage(14));
-            }
-=======
 
         //This is get information group function
         [HttpGet("getinformationgroup/{groupId}")]
@@ -206,14 +190,13 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(11));
             }
 
-            List<GroupOwnerEntity> groupEntities = _groupRepository.getGroupListByOwnerId(ownerId);
+            List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
 
             if (groupEntities == null)
             {
                 return Json(MessageResult.GetMessage(14));
             }
 
->>>>>>> dev
             List<GroupListResult> groupListResult = new List<GroupListResult>();
 
             foreach (var groupOwner in groupEntities)
@@ -226,11 +209,24 @@ namespace PTT.MainProject.Controllers
                 groupList.groupName = group.Name;
                 groupListResult.Add(groupList);
             }
-<<<<<<< HEAD
-=======
 
->>>>>>> dev
             return Json(groupListResult);
+        }
+
+        [HttpDelete("{groupId}/outgroup/{accountId}")]
+        public JsonResult DeleteGroup(int groupId, int accountId)
+        {
+            if(groupId == 0 || accountId == 0)
+            {
+                return Json(ResultMessage.NOTFOUND);
+            }
+            _groupRepository.OutGroup(groupId, accountId);
+            if (!_groupRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(13));
         }
     }
 }

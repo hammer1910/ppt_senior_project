@@ -48,8 +48,6 @@ namespace PPT.Database.Services
             return _context.Groups.Where(a => a.GroupId == id).FirstOrDefault();
         }
 
-<<<<<<< HEAD
-=======
         public bool GroupExist(int groupId)
         {
             return _context.Groups.Any(g => g.GroupId == groupId);
@@ -60,10 +58,20 @@ namespace PPT.Database.Services
             _context.Groups.Remove(group);
         }
 
->>>>>>> dev
-        public List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId)
+        public List<GroupOwnerEntity> GetGroupListByOwnerId(int ownerId)
         {
             return _context.GroupOwners.Where(c => c.AccountId == ownerId).ToList();
+        }
+
+        public void OutGroup(int groupId, int accountId)
+        {
+
+            _context.GroupMembers.Remove(GetGroupMemberByGroupIdAndMemberId(groupId, accountId));
+        }
+
+        public GroupMemberEntity GetGroupMemberByGroupIdAndMemberId(int groupId, int memberId)
+        {
+            return _context.GroupMembers.FirstOrDefault(c => c.GroupId == groupId && c.AccountId == memberId);
         }
     }
 }
