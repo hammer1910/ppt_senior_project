@@ -89,6 +89,7 @@ namespace PTT.MainProject.Controllers
             }
             return Json(MessageResult.GetMessage(1));
         }
+<<<<<<< HEAD
         [HttpGet("getlistgroup/{ownerId}")]
         public JsonResult GetGroupList(int ownerId)
         {
@@ -103,6 +104,116 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(14));
             }
+=======
+
+        //This is get information group function
+        [HttpGet("getinformationgroup/{groupId}")]
+        public JsonResult GetInformationGroup(int groupId)
+        {
+            //Check id group exist in the database
+            if (!_groupRepository.GroupExist(groupId))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //This is get all information of group by Id
+            GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
+
+            return Json(groupEntity);
+        }
+
+        //This is update information group function
+        [HttpPut("updateinformationgroup/{groupId}")]
+        public JsonResult UpdateAccount(int groupId, [FromBody] GroupForUpdateDto group)
+        {
+            //Check id group exist in the database
+            if (!_groupRepository.GroupExist(groupId))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            //Check value enter from the form 
+            if (group == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //This is get all information of group
+            var groupEntity = _groupRepository.GetGroupById(groupId);
+
+            if (groupEntity == null)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //Map data enter from the form to group entity
+            Mapper.Map(group, groupEntity);
+
+            if (!_groupRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(10));
+        }
+
+        //This is delete group function
+        [HttpDelete("deletegroup/{groupId}")]
+        public JsonResult DeleteGroup(int groupId)
+        {
+            //Check id group exist in the database
+            if (!_groupRepository.GroupExist(groupId))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            //This is get all information of group by Id
+            var groupEntity = _groupRepository.GetGroupById(groupId);
+
+            if (groupEntity == null)
+            {
+                return Json(MessageResult.GetMessage(11));
+            }
+
+            //This is query to delete group
+            _groupRepository.DeleteGroup(groupEntity);
+
+            if (!_groupRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(13));
+        }
+
+        //This is get list group function
+        [HttpGet("getlistgroup/{ownerId}")]
+        public JsonResult GetGroupList(int ownerId)
+        {
+            //Check value enter id account
+            if (ownerId == 0)
+            {
+                return Json(MessageResult.GetMessage(11));
+            }
+
+            List<GroupOwnerEntity> groupEntities = _groupRepository.getGroupListByOwnerId(ownerId);
+
+            if (groupEntities == null)
+            {
+                return Json(MessageResult.GetMessage(14));
+            }
+
+>>>>>>> dev
             List<GroupListResult> groupListResult = new List<GroupListResult>();
 
             foreach (var groupOwner in groupEntities)
@@ -115,6 +226,10 @@ namespace PTT.MainProject.Controllers
                 groupList.groupName = group.Name;
                 groupListResult.Add(groupList);
             }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
             return Json(groupListResult);
         }
     }

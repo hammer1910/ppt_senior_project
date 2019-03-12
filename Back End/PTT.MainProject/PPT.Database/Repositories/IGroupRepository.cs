@@ -12,7 +12,13 @@ namespace PPT.Database.Repositories
         bool Save();
         void AddMemberIntoGroup(GroupEntity groupEntity, AccountEntity accountEntity);
         GroupEntity GetGroupById(int id);
+<<<<<<< HEAD
         List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId);
 
+=======
+        bool GroupExist(int groupId);
+        void DeleteGroup(GroupEntity group);
+        List<GroupOwnerEntity> getGroupListByOwnerId(int ownerId);
+>>>>>>> dev
     }
 }
