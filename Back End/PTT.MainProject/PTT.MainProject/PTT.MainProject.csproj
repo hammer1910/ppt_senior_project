@@ -6,9 +6,16 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
-    <NoWarn>1701;1702</NoWarn>
-    <OutputPath></OutputPath>
+    <DocumentationFile>E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\PTT.MainProject.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <OutputPath>bin\Debug\netcoreapp2.2\netcoreapp2.2\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\PTT.MainProject.xml</DocumentationFile>
+    <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
+    <NoWarn>1701;1702; 1591</NoWarn>
+    <DefineConstants>TRACE;DEBUG;NETCOREAPP;NETCOREAPP2_2</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
