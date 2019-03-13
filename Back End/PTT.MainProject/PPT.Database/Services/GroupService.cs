@@ -73,5 +73,21 @@ namespace PPT.Database.Services
         {
             return _context.GroupMembers.FirstOrDefault(c => c.GroupId == groupId && c.AccountId == memberId);
         }
+
+        public List<GroupMemberEntity> GetMemberListByGroupId(int groupId)
+        {
+            return _context.GroupMembers.Where(m => m.GroupId == groupId).ToList();
+        }
+
+        public GroupMemberEntity GetMemberByAccountId(int accountId)
+        {
+            return _context.GroupMembers.FirstOrDefault(a => a.AccountId == accountId);
+        }
+
+        public void DeleteMember(GroupMemberEntity member)
+        {
+            _context.GroupMembers.Remove(member);
+        }
+        
     }
 }

@@ -38,6 +38,15 @@ namespace PTT.MainProject
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
             services.AddScoped<IGroupRepository, GroupService>();
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+            });
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,6 +70,8 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
             });
+           
+            app.UseSession();
 
             app.UseHttpsRedirection();
 

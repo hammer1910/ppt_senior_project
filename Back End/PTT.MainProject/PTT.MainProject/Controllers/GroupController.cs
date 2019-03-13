@@ -30,9 +30,10 @@ namespace PTT.MainProject.Controllers
             AccountEntity account = AccountController._account; //get account from AccountController stored data user logged in
             if (group == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(14));
             }
 
+            //This is get current day
             group.CreatedDate = DateTime.Now;
 
             if (!ModelState.IsValid)
@@ -50,15 +51,16 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(2));
             }
 
-            return Json(MessageResult.GetMessage(1));
+            return Json(MessageResult.GetMessage(15));
         }
+
         //Add members into group with group ID
         [HttpPost("group/addmembers/{groupId}")]
         public JsonResult AddMember([FromBody] AccountEntity account, int groupId)
         {        
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(6));
             }
             
             if (!ModelState.IsValid)
@@ -70,14 +72,14 @@ namespace PTT.MainProject.Controllers
             GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(16));
             }
 
             // get account by email. Email was input from the form
             AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
             if(accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(9));
             }
 
             //This is query add member into this group
@@ -87,7 +89,8 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(2));
             }
-            return Json(MessageResult.GetMessage(1));
+
+            return Json(MessageResult.GetMessage(17));
         }
 
         //This is get information group function
@@ -97,7 +100,7 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(16));
             }
 
             if (!ModelState.IsValid)
@@ -118,13 +121,13 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(16));
             }
 
             //Check value enter from the form 
             if (group == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(14));
             }
 
             if (!ModelState.IsValid)
@@ -137,7 +140,7 @@ namespace PTT.MainProject.Controllers
 
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(16));
             }
 
             //Map data enter from the form to group entity
@@ -148,7 +151,7 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(2));
             }
 
-            return Json(MessageResult.GetMessage(10));
+            return Json(MessageResult.GetMessage(18));
         }
 
         //This is delete group function
@@ -158,7 +161,7 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(16));
             }
 
             //This is get all information of group by Id
@@ -166,7 +169,7 @@ namespace PTT.MainProject.Controllers
 
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(16));
             }
 
             //This is query to delete group
@@ -177,7 +180,7 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(2));
             }
 
-            return Json(MessageResult.GetMessage(13));
+            return Json(MessageResult.GetMessage(19));
         }
 
         //This is get list group function
@@ -189,24 +192,28 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(11));
             }
-
+            
+            //get group list by owner Id
             List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
 
             if (groupEntities == null)
             {
-                return Json(MessageResult.GetMessage(14));
+                return Json(MessageResult.GetMessage(16));
             }
 
+            // Create new list result to get data
             List<GroupListResult> groupListResult = new List<GroupListResult>();
 
+            //
             foreach (var groupOwner in groupEntities)
             {
                 GroupListResult groupList = new GroupListResult();
                 groupList.groupId = groupOwner.GroupId;
                 groupList.groupOwnerId = groupOwner.GroupOwnerId;
-                groupList.ownerGroupId = groupOwner.AccountId;
+                groupList.ownerGroupId = groupOwner.AccountId;             
                 GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                 groupList.groupName = group.Name;
+                groupList.description = group.Description;
                 groupListResult.Add(groupList);
             }
 
@@ -216,17 +223,83 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("{groupId}/outgroup/{accountId}")]
         public JsonResult DeleteGroup(int groupId, int accountId)
         {
-            if(groupId == 0 || accountId == 0)
+            if (groupId == 0 || accountId == 0)
             {
-                return Json(ResultMessage.NOTFOUND);
+                return Json(MessageResult.GetMessage(4));
             }
             _groupRepository.OutGroup(groupId, accountId);
+
             if (!_groupRepository.Save())
             {
                 return Json(MessageResult.GetMessage(2));
             }
 
             return Json(MessageResult.GetMessage(13));
+        }
+
+        //This is get list member of group function
+        [HttpGet("getlistmember/{groupId}")]
+        public JsonResult GetMemberList(int groupId)
+        {
+            //Check value enter id group
+            if (groupId == 0)
+            {
+                return Json(MessageResult.GetMessage(11));
+            }
+
+            List<GroupMemberEntity> memberEntities = _groupRepository.GetMemberListByGroupId(groupId);
+
+            if (memberEntities == null)
+            {
+                return Json(MessageResult.GetMessage(20));
+            }
+
+            List<MemberListResult> memberListResult = new List<MemberListResult>();
+
+            foreach (var members in memberEntities)
+            {
+                MemberListResult memberList = new MemberListResult();
+                memberList.groupMemberId = members.GroupMemberId;
+                memberList.groupId = members.GroupId;
+                memberList.accountId = members.AccountId;
+                AccountEntity accountEntity = _accountRepository.GetAccountById(members.AccountId);
+                memberList.email = accountEntity.Email;
+                memberList.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+                memberList.address = accountEntity.Address;
+                memberList.phoneNumber = accountEntity.Phone;
+                memberListResult.Add(memberList);
+            }
+
+            return Json(memberListResult);
+        }
+
+        //This is delete group function
+        [HttpDelete("deletemember/{accountId}")]
+        public JsonResult DeleteMember(int accountId)
+        {
+            //Check id group exist in the database
+            if (!_accountRepository.AccountExists(accountId))
+            {
+                return Json(MessageResult.GetMessage(9));
+            }
+
+            //This is get all member of group by id acount
+            var memberEntity = _groupRepository.GetMemberByAccountId(accountId);
+
+            if (memberEntity == null)
+            {
+                return Json(MessageResult.GetMessage(20));
+            }
+
+            //This is query to delete member
+            _groupRepository.DeleteMember(memberEntity);
+
+            if (!_groupRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(21));
         }
     }
 }

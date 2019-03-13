@@ -16,7 +16,7 @@ namespace PPT.Database.ResultObject
                 new MessageResult()
                 {
                     MessageId = 1,
-                    MessageReturn = "Register success!"
+                    MessageReturn = "You registered the account successfully!"
                 },
                 new MessageResult()
                 {
@@ -61,7 +61,7 @@ namespace PPT.Database.ResultObject
                 new MessageResult()
                 {
                     MessageId = 10,
-                    MessageReturn = "Your account information updated success."
+                    MessageReturn = "Your account information updated successfully."
                 },
                 new MessageResult()
                 {
@@ -76,12 +76,47 @@ namespace PPT.Database.ResultObject
                 new MessageResult()
                 {
                     MessageId = 13,
-                    MessageReturn = "You deleted account success!"
+                    MessageReturn = "You deleted the account successfully!"
                 },
                 new MessageResult()
                 {
                     MessageId = 14,
-                    MessageReturn = "You haven't owned any group right now!"
+                    MessageReturn = "You haven't enter information for group."
+                },
+                new MessageResult()
+                {
+                    MessageId = 15,
+                    MessageReturn = "You created the group successfully."
+                },
+                new MessageResult()
+                {
+                    MessageId = 16,
+                    MessageReturn = "Your group information was not found."
+                },
+                new MessageResult()
+                {
+                    MessageId = 17,
+                    MessageReturn = "You add member into the group successfully."
+                },
+                new MessageResult()
+                {
+                    MessageId = 18,
+                    MessageReturn = "You updated the group successfully."
+                },
+                new MessageResult()
+                {
+                    MessageId = 19,
+                    MessageReturn = "You deleted the group successfully!"
+                },
+                new MessageResult()
+                {
+                    MessageId = 20,
+                    MessageReturn = "Your member information of the group was not found."
+                },
+                new MessageResult()
+                {
+                    MessageId = 21,
+                    MessageReturn = "You deleted the member successfully!"
                 }
             };
             MessageResult result = new MessageResult();

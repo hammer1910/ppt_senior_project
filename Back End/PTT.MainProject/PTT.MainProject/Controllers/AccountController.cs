@@ -11,6 +11,7 @@ using PPT.Database.Common;
 using PPT.Database.Models;
 using AutoMapper;
 using PPT.Database.ResultObject;
+using Microsoft.AspNetCore.Http;
 
 namespace PTT.MainProject.Controllers
 {
@@ -48,16 +49,23 @@ namespace PTT.MainProject.Controllers
             //This is get list role of account entity
             IEnumerable<AccountRoleEntity> listRole = _accountRepository.GetAccountRoles(accountEntity.AccountId);
             //set data for that account that declare in  line 20
-            _account = accountEntity; 
-            //This is set data for login result
+            _account = accountEntity;
+            //This is set data for login result            
+                       
+
             LoginResult result = new LoginResult();
+             
+
+            HttpContext.Session.SetInt32("accountId", account.AccountId);
             result.accountId = accountEntity.AccountId;
             result.email = accountEntity.Email;
             result.password = accountEntity.Password;
-            result.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+            result.firstName = accountEntity.FirstName;
+            result.lastName = accountEntity.LastName;
             result.phoneNumber = accountEntity.Phone;
             result.address = accountEntity.Address;
-
+            var a = HttpContext.Session.Get("accountId");
+            result.Session = a;
             var listRoles = new List<string>();
 
             List<RoleEntity> roles = new List<RoleEntity>();
@@ -73,9 +81,8 @@ namespace PTT.MainProject.Controllers
             {
                 listRoles.Add(item.NameRole);
             }
-
+           
             result.Roles = listRoles;
-
             return Json(result);           
 
         }
