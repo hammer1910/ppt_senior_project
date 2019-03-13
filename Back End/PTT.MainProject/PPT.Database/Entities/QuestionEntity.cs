@@ -37,6 +37,9 @@ namespace PPT.Database.Entities
         [MaxLength(255)]
         public string D { get; set; }
 
+        [MaxLength(10)]
+        public string CorrectAnswer { get; set; }
+
         [MaxLength(20)]
         public string Team { get; set; }
 

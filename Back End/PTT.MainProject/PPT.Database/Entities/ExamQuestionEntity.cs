@@ -12,9 +12,6 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ExamQuestionId { get; set; }
 
-        [MaxLength(10)]
-        public string CorrectAnswer { get; set; }
-
         [ForeignKey("QuestionId")]
         public QuestionEntity Question { set; get; }
         public int QuestionId { get; set; }
