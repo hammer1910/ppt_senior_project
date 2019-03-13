@@ -23,6 +23,10 @@ namespace PTT.MainProject.Controllers
             _accountRepository = accountRepository;
         }
 
+        /// <summary>
+        /// Create group function
+        /// </summary>
+        /// <param name="group">The group information from body</param> 
         [HttpPost("group/create")]
         public JsonResult CreationGroup([FromBody] GroupForCreationDto group)
         {
@@ -53,7 +57,11 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(15));
         }
 
-        //Add members into group with group ID
+        /// <summary>
+        /// Add members into group function
+        /// </summary>
+        /// <param name="account">The account information from body</param> 
+        /// <param name="groupId">Get id group on the url</param> 
         [HttpPost("group/addmembers/{groupId}")]
         public JsonResult AddMember([FromBody] AccountEntity account, int groupId)
         {        
@@ -92,7 +100,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(17));
         }
 
-        //This is get information group function
+        /// <summary>
+        /// Get information group function
+        /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         [HttpGet("getinformationgroup/{groupId}")]
         public JsonResult GetInformationGroup(int groupId)
         {
@@ -113,7 +124,10 @@ namespace PTT.MainProject.Controllers
             return Json(groupEntity);
         }
 
-        //This is update information group function
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         [HttpPut("updateinformationgroup/{groupId}")]
         public JsonResult UpdateAccount(int groupId, [FromBody] GroupForUpdateDto group)
         {
@@ -153,7 +167,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(18));
         }
 
-        //This is delete group function
+        /// <summary>
+        /// Delete group by owner function
+        /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         [HttpDelete("deletegroup/{groupId}")]
         public JsonResult DeleteGroup(int groupId)
         {
@@ -182,7 +199,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(19));
         }
 
-        //This is get list group function
+        /// <summary>
+        /// Get list group function
+        /// </summary>
+        /// <param name="ownerId">Get id owner on the url</param> 
         [HttpGet("getlistgroup/{ownerId}")]
         public JsonResult GetGroupList(int ownerId)
         {
@@ -216,7 +236,10 @@ namespace PTT.MainProject.Controllers
             return Json(groupListResult);
         }
 
-        //This is get list member of group function
+        /// <summary>
+        /// Get list member of group function
+        /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         [HttpGet("getlistmember/{groupId}")]
         public JsonResult GetMemberList(int groupId)
         {
@@ -252,7 +275,10 @@ namespace PTT.MainProject.Controllers
             return Json(memberListResult);
         }
 
-        //This is delete group function
+        /// <summary>
+        /// Delete member by owner function
+        /// </summary>
+        /// <param name="accountId">Get id account on the url</param> 
         [HttpDelete("deletemember/{accountId}")]
         public JsonResult DeleteMember(int accountId)
         {
