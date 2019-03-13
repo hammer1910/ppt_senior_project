@@ -1,11 +1,13 @@
-﻿using System;
+﻿using PPT.Database.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace PPT.Database.Repositories
 {
-    public class IExamRepository
+    public interface IExamRepository
     {
-
+        void CreateExam(ExamEntity examEntity);
+        bool Save();
     }
 }

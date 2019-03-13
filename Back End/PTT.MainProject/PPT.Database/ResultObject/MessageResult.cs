@@ -118,7 +118,18 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 21,
                     MessageReturn = Constants.memberDeleted
+                },
+                new MessageResult()
+                {
+                    MessageId = 22,
+                    MessageReturn = Constants.createdExam
+                },
+                new MessageResult()
+                {
+                    MessageId = 23,
+                    MessageReturn = Constants.failCreatedExam
                 }
+
             };
             MessageResult result = new MessageResult();
             foreach (var item in list)

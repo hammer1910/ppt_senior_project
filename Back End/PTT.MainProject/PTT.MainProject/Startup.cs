@@ -60,6 +60,7 @@ namespace PTT.MainProject
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
             services.AddScoped<IGroupRepository, GroupService>();
+            services.AddScoped<IExamRepository, ExamService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -91,6 +92,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.AccountForUpdateDto, PPT.Database.Entities.AccountEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
+                cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
             });
            
             app.UseSession();

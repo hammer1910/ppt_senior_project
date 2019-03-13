@@ -27,5 +27,7 @@ namespace PPT.Database.Common
         public static string groupDeleted = "You deleted the group successfully!";
         public static string notInformationMember = "Your member information of the group was not found.";
         public static string memberDeleted = "You deleted the member successfully!";
+        public static string createdExam = "You created exam successfully!";
+        public static string failCreatedExam = "You created exam failed!";
     }
 }
