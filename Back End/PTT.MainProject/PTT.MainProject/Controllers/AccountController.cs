@@ -25,7 +25,10 @@ namespace PTT.MainProject.Controllers
             _accountRepository = accountRepository;
         }
 
-        //This is login function
+        /// <summary>
+        /// Login function
+        /// </summary>
+        /// <param name="account">The account information from body</param>        
         [HttpPost("login")]
         public JsonResult Login([FromBody] AccountEntity account)
         {
@@ -81,7 +84,10 @@ namespace PTT.MainProject.Controllers
 
         }
 
-        //This is forgot password function
+        /// <summary>
+        /// Forgot password function
+        /// </summary>
+        /// <param name="account">The account information from body</param> 
         [HttpGet("forgotpassword")]
         public JsonResult ForgotPassword([FromBody] AccountEntity account)
         {
@@ -121,7 +127,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(7));
         }
 
-        //This is register user function
+        /// <summary>
+        /// Register user function
+        /// </summary>
+        /// <param name="account">The account information from body</param> 
         [HttpPost("register")]
         public JsonResult CreatePointOfInterest([FromBody] AccountForCreationDto account)
         {
@@ -159,10 +168,13 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(2));
             }
 
-            return Json(MessageResult.GetMessage(1));
+            return Json(MessageResult.GetMessage(1)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
         }
 
-        //This is get information account function
+        /// <summary>
+        /// Get information account function
+        /// </summary>
+        /// <param name="id">Get id account on the url</param> 
         [HttpGet("getinformationaccount/{id}")]
         public JsonResult GetInformationAccount(int id)
         {
@@ -183,7 +195,11 @@ namespace PTT.MainProject.Controllers
             return Json(account);
         }
 
-        //This is update information account function
+        /// <summary>
+        /// Update information account function
+        /// </summary>
+        /// <param name="id">Get id account on the url</param>
+        /// <param name="account">The account information from body</param>
         [HttpPut("updateinformationaccount/{id}")]
         public JsonResult UpdateAccount(int id, [FromBody] AccountForUpdateDto account)
         {
@@ -223,7 +239,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(10));
         }
 
-        //This is change password account function
+        /// <summary>
+        /// Change password account function
+        /// </summary>
+        /// <param name="id">Get id account on the url</param>
         [HttpPost("updatepasswordaccount/{id}")]
         public JsonResult UpdateAccountPatch(int id, [FromBody] ChangingPassword account)
         {
@@ -271,7 +290,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(10));
         }
 
-        //This is delete account function
+        /// <summary>
+        /// Delete account function
+        /// </summary>
+        /// <param name="id">Get id account on the url</param>
         [HttpDelete("deleteaccount/{id}")]
         public JsonResult DeleteAccount(int id)
         {

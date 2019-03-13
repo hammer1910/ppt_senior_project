@@ -4,5 +4,97 @@
         <name>PTT.MainProject</name>
     </assembly>
     <members>
+        <member name="M:PTT.MainProject.Controllers.AccountController.Login(PPT.Database.Entities.AccountEntity)">
+            <summary>
+            Login function
+            </summary>
+            <param name="account">The account information from body</param>        
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.ForgotPassword(PPT.Database.Entities.AccountEntity)">
+            <summary>
+            Forgot password function
+            </summary>
+            <param name="account">The account information from body</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.CreatePointOfInterest(PPT.Database.Models.AccountForCreationDto)">
+            <summary>
+            Register user function
+            </summary>
+            <param name="account">The account information from body</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.GetInformationAccount(System.Int32)">
+            <summary>
+            Get information account function
+            </summary>
+            <param name="id">Get id account on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccount(System.Int32,PPT.Database.Models.AccountForUpdateDto)">
+            <summary>
+            Update information account function
+            </summary>
+            <param name="id">Get id account on the url</param>
+            <param name="account">The account information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccountPatch(System.Int32,PPT.Database.Models.ChangingPassword)">
+            <summary>
+            Change password account function
+            </summary>
+            <param name="id">Get id account on the url</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AccountController.DeleteAccount(System.Int32)">
+            <summary>
+            Delete account function
+            </summary>
+            <param name="id">Get id account on the url</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto)">
+            <summary>
+            Create group function
+            </summary>
+            <param name="group">The group information from body</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Entities.AccountEntity,System.Int32)">
+            <summary>
+            Add members into group function
+            </summary>
+            <param name="account">The account information from body</param> 
+            <param name="groupId">Get id group on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetInformationGroup(System.Int32)">
+            <summary>
+            Get information group function
+            </summary>
+            <param name="groupId">Get id group on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.UpdateAccount(System.Int32,PPT.Database.Models.GroupForUpdateDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="groupId">Get id group on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteGroup(System.Int32)">
+            <summary>
+            Delete group by owner function
+            </summary>
+            <param name="groupId">Get id group on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetGroupList(System.Int32)">
+            <summary>
+            Get list group function
+            </summary>
+            <param name="ownerId">Get id owner on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetMemberList(System.Int32)">
+            <summary>
+            Get list member of group function
+            </summary>
+            <param name="groupId">Get id group on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32)">
+            <summary>
+            delete member by owner function
+            </summary>
+            <param name="accountId">Get id account on the url</param> 
+        </member>
     </members>
 </doc>
