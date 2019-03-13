@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,5 +15,7 @@ namespace PPT.Database.ResultObject
         public string address { get; set; }
         public string phoneNumber { get; set; }
         public List<string> Roles { get; set; }
+        public byte[] Session { get; set; }
+
     }
 }

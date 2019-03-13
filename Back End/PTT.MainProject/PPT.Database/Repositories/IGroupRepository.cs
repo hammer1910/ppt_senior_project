@@ -15,8 +15,9 @@ namespace PPT.Database.Repositories
         bool GroupExist(int groupId);
         void DeleteGroup(GroupEntity group);
         List<GroupOwnerEntity> GetGroupListByOwnerId(int ownerId);
+        void OutGroup(int groupId, int accountId);
+        GroupMemberEntity GetGroupMemberByGroupIdAndMemberId(int groupId, int memberId);
         List<GroupMemberEntity> GetMemberListByGroupId(int groupId);
         GroupMemberEntity GetMemberByAccountId(int accountId);
-        void DeleteMember(GroupMemberEntity member);
-    }
+        void DeleteMember(GroupMemberEntity member);    }
 }

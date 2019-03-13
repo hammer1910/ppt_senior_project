@@ -92,7 +92,7 @@
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32)">
             <summary>
-            delete member by owner function
+            Delete member by owner function
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>

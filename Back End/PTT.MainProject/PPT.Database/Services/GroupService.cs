@@ -63,6 +63,17 @@ namespace PPT.Database.Services
             return _context.GroupOwners.Where(c => c.AccountId == ownerId).ToList();
         }
 
+        public void OutGroup(int groupId, int accountId)
+        {
+
+            _context.GroupMembers.Remove(GetGroupMemberByGroupIdAndMemberId(groupId, accountId));
+        }
+
+        public GroupMemberEntity GetGroupMemberByGroupIdAndMemberId(int groupId, int memberId)
+        {
+            return _context.GroupMembers.FirstOrDefault(c => c.GroupId == groupId && c.AccountId == memberId);
+        }
+
         public List<GroupMemberEntity> GetMemberListByGroupId(int groupId)
         {
             return _context.GroupMembers.Where(m => m.GroupId == groupId).ToList();

@@ -4,6 +4,7 @@ using PPT.Database.Entities;
 using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
+
 using PPT.Database.Services;
 using System;
 using System.Collections.Generic;
@@ -211,7 +212,8 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(11));
             }
-
+            
+            //get group list by owner Id
             List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
 
             if (groupEntities == null)
@@ -219,8 +221,10 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(16));
             }
 
+            // Create new list result to get data
             List<GroupListResult> groupListResult = new List<GroupListResult>();
 
+            //
             foreach (var groupOwner in groupEntities)
             {
                 GroupListResult groupList = new GroupListResult();
@@ -236,10 +240,30 @@ namespace PTT.MainProject.Controllers
             return Json(groupListResult);
         }
 
+        [HttpDelete("{groupId}/outgroup/{accountId}")]
+        public JsonResult DeleteGroup(int groupId, int accountId)
+        {
+            if (groupId == 0 || accountId == 0)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+            _groupRepository.OutGroup(groupId, accountId);
+
+            if (!_groupRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+            return Json(MessageResult.GetMessage(13));
+        }
+
+        //This is get list member of group function
+
         /// <summary>
         /// Get list member of group function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
+
         [HttpGet("getlistmember/{groupId}")]
         public JsonResult GetMemberList(int groupId)
         {
