@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PPT.Database.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,7 +8,7 @@ namespace PPT.Database.ResultObject
     public class MessageResult
     {
         public int MessageId { get; set; }
-        public String MessageReturn { get; set; }
+        public string MessageReturn { get; set; }
 
         public static MessageResult GetMessage(int id)
         {
@@ -16,107 +17,107 @@ namespace PPT.Database.ResultObject
                 new MessageResult()
                 {
                     MessageId = 1,
-                    MessageReturn = "You registered the account successfully!"
+                    MessageReturn = Constants.registerSuccess
                 },
                 new MessageResult()
                 {
                     MessageId = 2,
-                    MessageReturn = "A problem happened while handling your request."
+                    MessageReturn = Constants.badRequest
                 },
                 new MessageResult()
                 {
                     MessageId = 3,
-                    MessageReturn = "You haven't enter information for account."
+                    MessageReturn = Constants.notInformationAccount
                 },
                 new MessageResult()
                 {
                     MessageId = 4,
-                    MessageReturn = "Not found!"
+                    MessageReturn = Constants.notFound
                 },
                 new MessageResult()
                 {
                     MessageId = 5,
-                    MessageReturn = "Your email have exist. Please enter again!"
+                    MessageReturn = Constants.emailExist
                 },
                 new MessageResult()
                 {
                     MessageId = 6,
-                    MessageReturn = "You haven't enter email."
+                    MessageReturn = Constants.notEnterEmail
                 },
                 new MessageResult()
                 {
                     MessageId = 7,
-                    MessageReturn = "Your password have send on your email account."
+                    MessageReturn = Constants.sendPassword
                 },
                 new MessageResult()
                 {
                     MessageId = 8,
-                    MessageReturn = "Your email haven't exist. Please enter again!"
+                    MessageReturn = Constants.emailNotExist
                 },
                 new MessageResult()
                 {
                     MessageId = 9,
-                    MessageReturn = "Your account information was not found."
+                    MessageReturn = Constants.accountNotFound
                 },
                 new MessageResult()
                 {
                     MessageId = 10,
-                    MessageReturn = "Your account information updated successfully."
+                    MessageReturn = Constants.accountUpdated
                 },
                 new MessageResult()
                 {
                     MessageId = 11,
-                    MessageReturn = "You have enter wrong email or password. Please enter again!"
+                    MessageReturn = Constants.emailAndPasswordWrong
                 },
                 new MessageResult()
                 {
                     MessageId = 12,
-                    MessageReturn = "Your old password don't true. Please enter again!"
+                    MessageReturn = Constants.oldPasswordNotTrue
                 },
                 new MessageResult()
                 {
                     MessageId = 13,
-                    MessageReturn = "You deleted the account successfully!"
+                    MessageReturn = Constants.accountDeleted
                 },
                 new MessageResult()
                 {
                     MessageId = 14,
-                    MessageReturn = "You haven't enter information for group."
+                    MessageReturn = Constants.notInformationGroup
                 },
                 new MessageResult()
                 {
                     MessageId = 15,
-                    MessageReturn = "You created the group successfully."
+                    MessageReturn = Constants.groupCreated
                 },
                 new MessageResult()
                 {
                     MessageId = 16,
-                    MessageReturn = "Your group information was not found."
+                    MessageReturn = Constants.groupNotFound
                 },
                 new MessageResult()
                 {
                     MessageId = 17,
-                    MessageReturn = "You add member into the group successfully."
+                    MessageReturn = Constants.memberAdded
                 },
                 new MessageResult()
                 {
                     MessageId = 18,
-                    MessageReturn = "You updated the group successfully."
+                    MessageReturn = Constants.groupUpdated
                 },
                 new MessageResult()
                 {
                     MessageId = 19,
-                    MessageReturn = "You deleted the group successfully!"
+                    MessageReturn = Constants.groupDeleted
                 },
                 new MessageResult()
                 {
                     MessageId = 20,
-                    MessageReturn = "Your member information of the group was not found."
+                    MessageReturn = Constants.notInformationMember
                 },
                 new MessageResult()
                 {
                     MessageId = 21,
-                    MessageReturn = "You deleted the member successfully!"
+                    MessageReturn = Constants.memberDeleted
                 }
             };
             MessageResult result = new MessageResult();
