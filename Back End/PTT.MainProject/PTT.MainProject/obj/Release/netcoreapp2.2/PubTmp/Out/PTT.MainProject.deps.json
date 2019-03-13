@@ -26,6 +26,7 @@
         "dependencies": {
           "AutoMapper": "8.0.0",
           "Microsoft.AspNetCore.App": "2.2.0",
+          "Microsoft.AspNetCore.Session": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
           "PPT.Database": "1.0.0",
@@ -404,6 +405,7 @@
       "PPT.Database/1.0.0": {
         "dependencies": {
           "AutoMapper": "8.0.0",
+          "Microsoft.AspNetCore.Session": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0",
           "Swashbuckle.AspNetCore": "4.0.1"
         },

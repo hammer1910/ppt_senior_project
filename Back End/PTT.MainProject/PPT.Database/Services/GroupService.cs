@@ -24,7 +24,6 @@ namespace PPT.Database.Services
             groupMemberEntity.AccountId = accountEntity.AccountId;
             groupMemberEntity.GroupId = groupEntity.GroupId;
             _context.GroupMembers.Add(groupMemberEntity);
-
         }
 
         public void CreationGroup(GroupEntity groupEntity,AccountEntity accountEntity)

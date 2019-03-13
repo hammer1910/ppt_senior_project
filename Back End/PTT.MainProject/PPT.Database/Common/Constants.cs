@@ -29,5 +29,9 @@ namespace PPT.Database.Common
         public static string memberDeleted = "You deleted the member successfully!";
         public static string createdExam = "You created exam successfully!";
         public static string failCreatedExam = "You created exam failed!";
+        public static string examNotFound = "Your exam information was not found.";
+        public static string notInformationExam = "You haven't enter information for exam.";
+        public static string examUpdated = "You updated the exam successfully.";
+        public static string examDeleted = "You deleted the exam successfully!";
     }
 }

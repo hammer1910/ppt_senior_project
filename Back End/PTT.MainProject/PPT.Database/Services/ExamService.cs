@@ -1,6 +1,7 @@
 ﻿using PPT.Database.Entities;
 using PPT.Database.Repositories;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,7 +19,21 @@ namespace PPT.Database.Services
         public void CreateExam(ExamEntity examEntity)
         {
             _context.Exams.Add(examEntity);
+        }
 
+        public void DeleteExam(ExamEntity exam)
+        {
+            _context.Exams.Remove(exam);
+        }
+
+        public bool ExamExist(int examId)
+        {
+            return _context.Exams.Any(e => e.ExamId == examId);
+        }
+
+        public ExamEntity GetExamById(int examId)
+        {
+            return _context.Exams.Where(e => e.ExamId == examId).FirstOrDefault();
         }
 
         public bool Save()

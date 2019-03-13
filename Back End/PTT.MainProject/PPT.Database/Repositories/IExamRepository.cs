@@ -9,5 +9,8 @@ namespace PPT.Database.Repositories
     {
         void CreateExam(ExamEntity examEntity);
         bool Save();
+        bool ExamExist(int examId);
+        ExamEntity GetExamById(int examId);
+        void DeleteExam(ExamEntity exam);
     }
 }
