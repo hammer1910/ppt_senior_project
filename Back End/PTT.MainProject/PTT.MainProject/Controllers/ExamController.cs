@@ -38,7 +38,7 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(4));
             }
-
+            
             exam.GroupId = groupId;
 
             //Map data enter from the form to exam entity
