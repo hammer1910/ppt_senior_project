@@ -128,6 +128,26 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 23,
                     MessageReturn = Constants.failCreatedExam
+                },
+                new MessageResult()
+                {
+                    MessageId = 24,
+                    MessageReturn = Constants.examNotFound
+                },
+                new MessageResult()
+                {
+                    MessageId = 25,
+                    MessageReturn = Constants.notInformationExam
+                },
+                new MessageResult()
+                {
+                    MessageId = 26,
+                    MessageReturn = Constants.examUpdated
+                },
+                new MessageResult()
+                {
+                    MessageId = 27,
+                    MessageReturn = Constants.examDeleted
                 }
 
             };

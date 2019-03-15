@@ -47,6 +47,32 @@
             </summary>
             <param name="id">Get id account on the url</param>
         </member>
+        <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto,System.Int32)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="exam">The account exam from body</param> 
+            <param name="groupId">Get id group on the url</param>  
+        </member>
+        <member name="M:PTT.MainProject.Controllers.ExamController.GetInformationGroup(System.Int32)">
+            <summary>
+            Get information exam function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.ExamController.UpdateAccount(System.Int32,PPT.Database.Models.ExamForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="exam">The exam information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.ExamController.DeleteGroup(System.Int32)">
+            <summary>
+            Delete exam by owner function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+        </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto)">
             <summary>
             Create group function
@@ -95,6 +121,20 @@
             Delete member by owner function
             </summary>
             <param name="accountId">Get id account on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartOne(System.Int32,PPT.Database.Models.PartOneForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="exam">The account exam from body</param> 
+            <param name="groupId">Get id group on the url</param>  
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateParttwo(System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="exam">The account exam from body</param> 
+            <param name="groupId">Get id group on the url</param>  
         </member>
     </members>
 </doc>

@@ -235,8 +235,7 @@ namespace PTT.MainProject.Controllers
             }
 
             //Map data enter from the form to account entity
-            Mapper.Map(acc
-                ount, accountEntity);
+            Mapper.Map(account, accountEntity);
 
             if (!_accountRepository.Save())
             {

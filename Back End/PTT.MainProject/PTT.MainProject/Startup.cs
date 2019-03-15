@@ -61,6 +61,7 @@ namespace PTT.MainProject
             services.AddScoped<IAccountRepository, AccountService>();
             services.AddScoped<IGroupRepository, GroupService>();
             services.AddScoped<IExamRepository, ExamService>();
+            services.AddScoped<IQuestionRepository, QuestionService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -93,6 +94,8 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
+                cfg.CreateMap<PPT.Database.Models.PartOneForCreationDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.PartTwoForCreationDto, PPT.Database.Entities.QuestionEntity>();
             });
            
             app.UseSession();
