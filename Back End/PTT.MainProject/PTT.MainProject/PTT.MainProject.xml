@@ -123,5 +123,19 @@
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartOne(System.Int32,PPT.Database.Models.PartOneForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="exam">The account exam from body</param> 
+            <param name="groupId">Get id group on the url</param>  
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateParttwo(System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="exam">The account exam from body</param> 
+            <param name="groupId">Get id group on the url</param>  
+        </member>
     </members>
 </doc>

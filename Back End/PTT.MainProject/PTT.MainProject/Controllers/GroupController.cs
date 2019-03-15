@@ -37,6 +37,7 @@ namespace PTT.MainProject.Controllers
             {
                 return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
             }
+            
 
             //This is get current day
             group.CreatedDate = DateTime.Now;
