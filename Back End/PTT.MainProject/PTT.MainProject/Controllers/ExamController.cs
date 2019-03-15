@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PPT.Database.Common;
 
 namespace PTT.MainProject.Controllers
 {
@@ -32,16 +33,16 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (exam == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_EXAM));
             }
             if (groupId == 0)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_EXAM));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             exam.GroupId = groupId;
@@ -54,10 +55,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_examRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(22)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
+            return Json(MessageResult.GetMessage(MessageType.CREATED_EXAM)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
         }
 
         /// <summary>
@@ -70,12 +71,12 @@ namespace PTT.MainProject.Controllers
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //This is get all information of exam by Id
@@ -95,18 +96,18 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(24));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             //Check value enter from the form 
             if (exam == null)
             {
-                return Json(MessageResult.GetMessage(25));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_EXAM));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
             //This is get all information of group
@@ -114,7 +115,7 @@ namespace PTT.MainProject.Controllers
 
             if (examEntity == null)
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             //Map data enter from the form to group entity
@@ -122,10 +123,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_examRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(26));
+            return Json(MessageResult.GetMessage(MessageType.EXAM_UPDATED));
         }
 
         /// <summary>
@@ -138,7 +139,7 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(24));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             //This is get all information of group by Id
@@ -146,7 +147,7 @@ namespace PTT.MainProject.Controllers
 
             if (examEntity == null)
             {
-                return Json(MessageResult.GetMessage(24));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             //This is query to delete group
@@ -154,10 +155,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_examRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(27));
+            return Json(MessageResult.GetMessage(MessageType.EXAM_DELETED));
         }
     }
 }

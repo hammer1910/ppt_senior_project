@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PPT.Database.Common;
 using PPT.Database.Entities;
 using PPT.Database.Models;
 using PPT.Database.Repositories;
@@ -34,7 +35,7 @@ namespace PTT.MainProject.Controllers
             AccountEntity account = AccountController._account; //get account from AccountController stored data user logged in
             if (group == null)
             {
-                return Json(MessageResult.GetMessage(14));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
             }
 
             //This is get current day
@@ -42,7 +43,7 @@ namespace PTT.MainProject.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             var finalGroup = Mapper.Map<PPT.Database.Entities.GroupEntity>(group);
@@ -52,10 +53,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(15));
+            return Json(MessageResult.GetMessage(MessageType.GROUP_CREATED));
         }
 
         /// <summary>
@@ -68,26 +69,26 @@ namespace PTT.MainProject.Controllers
         {        
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(6));
+                return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
             }
             
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             // get group by group Id in line 52
             GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             // get account by email. Email was input from the form
             AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
             if(accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             //This is query add member into this group
@@ -95,10 +96,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(17));
+            return Json(MessageResult.GetMessage(MessageType.MEMBER_ADDED));
         }
 
         /// <summary>
@@ -111,12 +112,12 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //This is get all information of group by Id
@@ -135,18 +136,18 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             //Check value enter from the form 
             if (group == null)
             {
-                return Json(MessageResult.GetMessage(14));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //This is get all information of group
@@ -154,7 +155,7 @@ namespace PTT.MainProject.Controllers
 
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             //Map data enter from the form to group entity
@@ -162,10 +163,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(18));
+            return Json(MessageResult.GetMessage(MessageType.GROUP_UPDATED));
         }
 
         /// <summary>
@@ -178,7 +179,7 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_groupRepository.GroupExist(groupId))
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             //This is get all information of group by Id
@@ -186,7 +187,7 @@ namespace PTT.MainProject.Controllers
 
             if (groupEntity == null)
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             //This is query to delete group
@@ -194,10 +195,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(19));
+            return Json(MessageResult.GetMessage(MessageType.GROUP_DELETED));
         }
 
         /// <summary>
@@ -210,7 +211,7 @@ namespace PTT.MainProject.Controllers
             //Check value enter id account
             if (ownerId == 0)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
             }
             
             //get group list by owner Id
@@ -218,7 +219,7 @@ namespace PTT.MainProject.Controllers
 
             if (groupEntities == null)
             {
-                return Json(MessageResult.GetMessage(16));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
 
             // Create new list result to get data
@@ -245,16 +246,16 @@ namespace PTT.MainProject.Controllers
         {
             if (groupId == 0 || accountId == 0)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
             _groupRepository.OutGroup(groupId, accountId);
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(13));
+            return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
         }
 
         //This is get list member of group function
@@ -270,14 +271,14 @@ namespace PTT.MainProject.Controllers
             //Check value enter id group
             if (groupId == 0)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
             }
 
             List<GroupMemberEntity> memberEntities = _groupRepository.GetMemberListByGroupId(groupId);
 
             if (memberEntities == null)
             {
-                return Json(MessageResult.GetMessage(20));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
             }
 
             List<MemberListResult> memberListResult = new List<MemberListResult>();
@@ -309,7 +310,7 @@ namespace PTT.MainProject.Controllers
             //Check id group exist in the database
             if (!_accountRepository.AccountExists(accountId))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             //This is get all member of group by id acount
@@ -317,7 +318,7 @@ namespace PTT.MainProject.Controllers
 
             if (memberEntity == null)
             {
-                return Json(MessageResult.GetMessage(20));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
             }
 
             //This is query to delete member
@@ -325,10 +326,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_groupRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(21));
+            return Json(MessageResult.GetMessage(MessageType.MEMBER_DELETED));
         }
     }
 }

@@ -35,7 +35,7 @@ namespace PTT.MainProject.Controllers
         {
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(6));
+                return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
             }
 
             //This is hash password
@@ -46,7 +46,7 @@ namespace PTT.MainProject.Controllers
 
             if (accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
             }
 
             //This is get list role of account entity
@@ -100,18 +100,18 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(6));
+                return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
             }
 
             //Check email enter from the form not exist in the database
             if (_accountRepository.EmailExist(account.Email))
             {
-                return Json(MessageResult.GetMessage(8));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_NOT_EXIST));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //Check email enter from the form exist in the database
@@ -127,10 +127,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_accountRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(7));
+            return Json(MessageResult.GetMessage(MessageType.SEND_PASSWORD));
         }
 
         /// <summary>
@@ -143,18 +143,18 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //Check email enter from the form exist in the database
             if (!_accountRepository.EmailExist(account.Email))
             {
-                return Json(MessageResult.GetMessage(5));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_EXIST));
             }
 
             //This is send email to vertified account
@@ -171,10 +171,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_accountRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(1)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
+            return Json(MessageResult.GetMessage(MessageType.REGISTER_SUCCESS)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
         }
 
         /// <summary>
@@ -187,12 +187,12 @@ namespace PTT.MainProject.Controllers
             //Check id account exist in the database
             if (!_accountRepository.AccountExists(id))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //This is get all information of account
@@ -212,18 +212,18 @@ namespace PTT.MainProject.Controllers
             //Check id account exist in the database
             if (!_accountRepository.AccountExists(id))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             //Check value enter from the form 
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //This is get all information of account
@@ -231,7 +231,7 @@ namespace PTT.MainProject.Controllers
 
             if (accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             //Map data enter from the form to account entity
@@ -239,34 +239,35 @@ namespace PTT.MainProject.Controllers
 
             if (!_accountRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(10));
+            return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
         }
 
         /// <summary>
         /// Change password account function
         /// </summary>
         /// <param name="id">Get id account on the url</param>
+        /// <param name="account">The account information from body</param>
         [HttpPost("updatepasswordaccount/{id}")]
         public JsonResult UpdateAccountPatch(int id, [FromBody] ChangingPassword account)
         {
             //Check id account exist in the database
             if (!_accountRepository.AccountExists(id))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             //Check value enter from the form 
             if (account == null)
             {
-                return Json(MessageResult.GetMessage(3));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(4));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
             var oldPass = PasswordUtil.CreateMD5(account.oldPassword);
@@ -276,13 +277,13 @@ namespace PTT.MainProject.Controllers
 
             if (accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
             }
 
             //This is check old password
             if (accountEntity.Password != oldPass)
             {
-                return Json(MessageResult.GetMessage(12));
+                return Json(MessageResult.GetMessage(MessageType.OLD_PASSWORD_NOT_TRUE));
             }
 
             //This is update new password
@@ -290,10 +291,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_accountRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(10));
+            return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
         }
 
         /// <summary>
@@ -306,7 +307,7 @@ namespace PTT.MainProject.Controllers
             //Check id account exist in the database
             if (!_accountRepository.AccountExists(id))
             {
-                return Json(MessageResult.GetMessage(9));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
             }
 
             //This is get all information of account
@@ -314,7 +315,7 @@ namespace PTT.MainProject.Controllers
 
             if (accountEntity == null)
             {
-                return Json(MessageResult.GetMessage(11));
+                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
             }
 
             //This is query to delete account
@@ -322,10 +323,10 @@ namespace PTT.MainProject.Controllers
 
             if (!_accountRepository.Save())
             {
-                return Json(MessageResult.GetMessage(2));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(13));
+            return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
         }
 
     }

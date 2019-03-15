@@ -40,6 +40,7 @@
             Change password account function
             </summary>
             <param name="id">Get id account on the url</param>
+            <param name="account">The account information from body</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.DeleteAccount(System.Int32)">
             <summary>
