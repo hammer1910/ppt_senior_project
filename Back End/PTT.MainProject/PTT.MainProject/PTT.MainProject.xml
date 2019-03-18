@@ -130,11 +130,25 @@
             <param name="part1">The information of question from body</param> 
             <param name="examId">Get id exam on the url</param>  
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateParttwo(System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartTwo(System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
             <summary>
             Create exam function
             </summary>
             <param name="part2">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartThree(System.Int32,PPT.Database.Models.PartThreeForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="part3">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param>  
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartFour(System.Int32,PPT.Database.Models.PartFourForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="part4">The information of question from body</param> 
             <param name="examId">Get id exam on the url</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartFive(System.Int32,PPT.Database.Models.PartFiveForCreationDto)">

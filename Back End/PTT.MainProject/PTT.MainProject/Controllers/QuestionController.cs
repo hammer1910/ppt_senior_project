@@ -72,7 +72,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part2">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>
         [HttpPost("{examId}/createparttwo")]
-        public JsonResult CreateParttwo(int examId, [FromBody] PartTwoForCreationDto part2)
+        public JsonResult CreatePartTwo(int examId, [FromBody] PartTwoForCreationDto part2)
         {
             //Check value enter from the form 
             if (part2 == null)
@@ -99,6 +99,92 @@ namespace PTT.MainProject.Controllers
 
             //This is query insert exam
             _questionRepository.CreatePart(partTwoExam, examId);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+
+            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+        }
+
+        /// <summary>
+        /// Create exam function
+        /// </summary>
+        /// <param name="part3">The information of question from body</param> 
+        /// <param name="examId">Get id exam on the url</param>  
+        [HttpPost("{examId}/createpartthree")]
+        public JsonResult CreatePartThree(int examId, [FromBody] PartThreeForCreationDto part3)
+        {
+            //Check value enter from the form 
+            if (part3 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+            if (examId == 0)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            //Map data enter from the form to exam entity
+            var partThreeExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part3);
+
+            //This is query insert exam
+            _questionRepository.CreatePart(partThreeExam, examId);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+
+            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+        }
+
+        /// <summary>
+        /// Create exam function
+        /// </summary>
+        /// <param name="part4">The information of question from body</param> 
+        /// <param name="examId">Get id exam on the url</param>
+        [HttpPost("{examId}/createpartfour")]
+        public JsonResult CreatePartFour(int examId, [FromBody] PartFourForCreationDto part4)
+        {
+            //Check value enter from the form 
+            if (part4 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+            if (examId == 0)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            }
+
+            //Map data enter from the form to exam entity
+            var partFourExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part4);
+
+            //This is query insert exam
+            _questionRepository.CreatePart(partFourExam, examId);
 
             if (!_questionRepository.Save())
             {
