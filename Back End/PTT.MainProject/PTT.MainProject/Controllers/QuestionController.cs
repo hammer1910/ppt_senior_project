@@ -71,7 +71,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="exam">The account exam from body</param> 
         /// <param name="groupId">Get id group on the url</param>  
         [HttpPost("{examId}/createparttwo")]
-        public JsonResult CreateParttwo(int examId, [FromBody] PartTwoForCreationDto part2)
+        public JsonResult CreatePartTwo(int examId, [FromBody] PartTwoForCreationDto part2)
         {
             //Check value enter from the form 
             if (part2 == null)
@@ -98,6 +98,86 @@ namespace PTT.MainProject.Controllers
 
             //This is query insert exam
             _questionRepository.CreatePart(partTwoExam, examId);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+
+            return Json(MessageResult.GetMessage(22)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
+        }
+
+        /// <summary>
+        /// Create exam function
+        /// </summary>
+        /// <param name="exam">The account exam from body</param> 
+        /// <param name="groupId">Get id group on the url</param>  
+        [HttpPost("{examId}/createpartthree")]
+        public JsonResult CreatePartThree(int examId, [FromBody] PartThreeForCreationDto part3)
+        {
+            //Check value enter from the form 
+            if (part3 == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+            if (examId == 0)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //Map data enter from the form to exam entity
+            var partThreeExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part3);
+
+            //This is query insert exam
+            _questionRepository.CreatePart(partThreeExam, examId);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(2));
+            }
+
+
+            return Json(MessageResult.GetMessage(22)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
+        }
+        [HttpPost("{examId}/createpartfour")]
+        public JsonResult CreatePartFour(int examId, [FromBody] PartFourForCreationDto part4)
+        {
+            //Check value enter from the form 
+            if (part4 == null)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+            if (examId == 0)
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(3));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(4));
+            }
+
+            //Map data enter from the form to exam entity
+            var partFourExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part4);
+
+            //This is query insert exam
+            _questionRepository.CreatePart(partFourExam , examId);
 
             if (!_questionRepository.Save())
             {
