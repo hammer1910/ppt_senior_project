@@ -96,6 +96,9 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
                 cfg.CreateMap<PPT.Database.Models.PartOneForCreationDto, PPT.Database.Entities.QuestionEntity>();
                 cfg.CreateMap<PPT.Database.Models.PartTwoForCreationDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.PartFiveForCreationDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.PartSixForCreationDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.PartSevenForCreationDto, PPT.Database.Entities.QuestionEntity>();
             });
            
             app.UseSession();

@@ -127,15 +127,36 @@
             <summary>
             Create exam function
             </summary>
-            <param name="exam">The account exam from body</param> 
-            <param name="groupId">Get id group on the url</param>  
+            <param name="part1">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param>  
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.CreateParttwo(System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
             <summary>
             Create exam function
             </summary>
-            <param name="exam">The account exam from body</param> 
-            <param name="groupId">Get id group on the url</param>  
+            <param name="part2">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartFive(System.Int32,PPT.Database.Models.PartFiveForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="part5">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartSix(System.Int32,PPT.Database.Models.PartSixForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="part6">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreatePartSeven(System.Int32,PPT.Database.Models.PartSevenForCreationDto)">
+            <summary>
+            Create exam function
+            </summary>
+            <param name="part7">The information of question from body</param> 
+            <param name="examId">Get id exam on the url</param> 
         </member>
     </members>
 </doc>
