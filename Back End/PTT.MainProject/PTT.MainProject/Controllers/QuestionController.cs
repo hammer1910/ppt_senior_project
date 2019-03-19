@@ -150,11 +150,11 @@ namespace PTT.MainProject.Controllers
         {
             //Check value enter from the form 
             if (part4 == null)
-            {
+            { 
                 return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
-            if (!_examRepository.ExamExist(examId))
+            if (!_examRepository.ExamExist(examId))                        
             {
                 return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
@@ -412,7 +412,7 @@ namespace PTT.MainProject.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                return Json(MessageResult.GetMessage(MessageType. ));
             }
 
             QuestionEntity question = null;
@@ -496,5 +496,279 @@ namespace PTT.MainProject.Controllers
 
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part3">The question information from body</param>
+        [HttpPut("{examId}/updatepartthree/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartThreeForCreationDto part3)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part3 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part3, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part4">The question information from body</param>
+        [HttpPut("{examId}/updatepartfour/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartFourForCreationDto part4)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part4 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part4, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part5">The question information from body</param>
+        [HttpPut("{examId}/updatepartfive/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartFiveForCreationDto part5)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part5 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part5, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part6">The question information from body</param>
+        [HttpPut("{examId}/updatepartsix/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartSixForCreationDto part6)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part6 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part6, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part7">The question information from body</param>
+        [HttpPut("{examId}/updatepartseven/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartSevenForCreationDto part7)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part7 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part7, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+
     }
 }
