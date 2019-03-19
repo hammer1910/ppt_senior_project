@@ -58,7 +58,10 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-            return Json(MessageResult.GetMessage(MessageType.GROUP_CREATED));
+            GroupListResult groupListResult = new GroupListResult();
+            groupListResult.groupId = finalGroup.GroupId;
+
+            return Json(groupListResult);
         }
 
         /// <summary>
