@@ -32,6 +32,8 @@ namespace PPT.Database.Common
         EXAM_NOT_FOUND = 24,    
         NOT_INFORMATION_EXAM = 25,
         EXAM_UPDATED = 26,
-        EXAM_DELETED = 27
+        EXAM_DELETED = 27,
+        NOT_INFORMATION_QUESTION = 28,
+        CREATED_QUESTION = 29
     }
 }

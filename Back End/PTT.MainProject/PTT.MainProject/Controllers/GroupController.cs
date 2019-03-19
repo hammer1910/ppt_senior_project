@@ -29,10 +29,11 @@ namespace PTT.MainProject.Controllers
         /// Create group function
         /// </summary>
         /// <param name="group">The group information from body</param> 
-        [HttpPost("group/create")]
-        public JsonResult CreationGroup([FromBody] GroupForCreationDto group)
+        /// <param name="accountId">Get id account on the url</param> 
+        [HttpPost("{accountId}/group/create")]
+        public JsonResult CreationGroup([FromBody] GroupForCreationDto group, int accountId)
         {
-            AccountEntity account = AccountController._account; //get account from AccountController stored data user logged in
+            AccountEntity account = _accountRepository.GetAccountById(accountId); //get account from AccountController stored data user logged in
             if (group == null)
             {
                 return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));

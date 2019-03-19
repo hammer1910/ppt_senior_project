@@ -74,11 +74,12 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto,System.Int32)">
             <summary>
             Create group function
             </summary>
             <param name="group">The group information from body</param> 
+            <param name="accountId">Get id account on the url</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Entities.AccountEntity,System.Int32)">
             <summary>
@@ -171,6 +172,19 @@
             </summary>
             <param name="part7">The information of question from body</param> 
             <param name="examId">Get id exam on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestion(System.Int32)">
+            <summary>
+            Get all questions of the exam function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.GetInformationGroup(System.Int32,System.Int32)">
+            <summary>
+            Get all informations of the question function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
         </member>
     </members>
 </doc>

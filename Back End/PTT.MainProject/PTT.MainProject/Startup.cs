@@ -62,6 +62,7 @@ namespace PTT.MainProject
             services.AddScoped<IGroupRepository, GroupService>();
             services.AddScoped<IExamRepository, ExamService>();
             services.AddScoped<IQuestionRepository, QuestionService>();
+            services.AddScoped<IExamQuestionRepository, ExamQuestionService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
