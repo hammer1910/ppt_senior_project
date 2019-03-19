@@ -202,5 +202,45 @@
             <param name="questionId">Get id question on the url</param>
             <param name="part2">The question information from body</param>
         </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartThreeForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part3">The question information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartFourForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part4">The question information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartFiveForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part5">The question information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartSixForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part6">The question information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartSevenForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part7">The question information from body</param>
+        </member>
     </members>
 </doc>

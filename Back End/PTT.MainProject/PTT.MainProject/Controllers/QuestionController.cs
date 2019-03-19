@@ -412,7 +412,7 @@ namespace PTT.MainProject.Controllers
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType. ));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
             QuestionEntity question = null;
