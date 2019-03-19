@@ -28,6 +28,12 @@ namespace PPT.Database.Services
             }
         }
 
+        public void DeleteQuestion(int questionId)
+        {
+            _context.ExamQuestions.Remove(_context.ExamQuestions.FirstOrDefault(c => c.QuestionId == questionId));
+            _context.Questions.Remove(_context.Questions.FirstOrDefault(c => c.QuestionId == questionId));
+        }
+
         public QuestionEntity getQuestionInformation(int questionId)
         {
             return _context.Questions.FirstOrDefault(q => q.QuestionId == questionId);
