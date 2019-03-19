@@ -755,11 +755,11 @@ namespace PTT.MainProject.Controllers
 
             if (question == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                return Json(MessageResult.GetMessage(MessageType.QUESTION_NOT_FOUND));
             }
 
             //Map data enter from the form to question entity
-            Mapper.Map(part7, question);
+            Mapper.Map(part7, question); 
 
             if (!_questionRepository.Save())
             {
@@ -767,6 +767,48 @@ namespace PTT.MainProject.Controllers
             }
 
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+        [HttpDelete("{examId}/deletequestion/{questionId}")]
+        public JsonResult DeleteQuestion(int examId, int questionId)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.QUESTION_NOT_FOUND));
+            }
+
+            _questionRepository.DeleteQuestion(question.QuestionId);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_DELETED));
         }
 
 

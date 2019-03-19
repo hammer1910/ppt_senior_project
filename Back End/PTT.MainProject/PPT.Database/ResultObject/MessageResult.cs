@@ -167,6 +167,31 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 27,
                     MessageReturn = Constants.examDeleted
+                },
+                new MessageResult()
+                {
+                    MessageId = 28,
+                    MessageReturn = Constants.notInformationQuestion
+                },
+                new MessageResult()
+                {
+                    MessageId = 29,
+                    MessageReturn = Constants.createdQuestion
+                },
+                new MessageResult()
+                {
+                    MessageId = 30,
+                    MessageReturn = Constants.questionUpdated
+                },
+                new MessageResult()
+                {
+                    MessageId = 31,
+                    MessageReturn = Constants.questionDeleted
+                },
+                new MessageResult()
+                {
+                    MessageId = 32,
+                    MessageReturn = Constants.questionNotFound
                 }
             };
 
