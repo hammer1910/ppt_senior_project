@@ -61,7 +61,7 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.ExamController.UpdateAccount(System.Int32,PPT.Database.Models.ExamForCreationDto)">
+        <member name="M:PTT.MainProject.Controllers.ExamController.UpdateInformationExam(System.Int32,PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Update information group function
             </summary>
@@ -185,6 +185,22 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartOneForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part1">The question information from body</param>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.PartTwoForCreationDto)">
+            <summary>
+            Update information group function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+            <param name="part2">The question information from body</param>
         </member>
     </members>
 </doc>

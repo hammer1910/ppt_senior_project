@@ -91,7 +91,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="exam">The exam information from body</param>
         [HttpPut("updateinformationexam/{examId}")]
-        public JsonResult UpdateAccount(int examId, [FromBody] ExamForCreationDto exam)
+        public JsonResult UpdateInformationExam(int examId, [FromBody] ExamForCreationDto exam)
         {
             //Check id group exist in the database
             if (!_examRepository.ExamExist(examId))

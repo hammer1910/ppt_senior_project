@@ -388,5 +388,113 @@ namespace PTT.MainProject.Controllers
 
             return Json(questionListResult);
         }
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part1">The question information from body</param>
+        [HttpPut("{examId}/updatepartone/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartOneForCreationDto part1)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part1 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part1, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
+
+        /// <summary>
+        /// Update information group function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// <param name="part2">The question information from body</param>
+        [HttpPut("{examId}/updateparttwo/{questionId}")]
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartTwoForCreationDto part2)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Check value enter from the form 
+            if (part2 == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if (examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                }
+            }
+
+            if (question == null)
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            //Map data enter from the form to question entity
+            Mapper.Map(part2, question);
+
+            if (!_questionRepository.Save())
+            {
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+            }
+
+            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+        }
     }
 }

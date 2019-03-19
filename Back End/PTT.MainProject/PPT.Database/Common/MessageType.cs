@@ -34,6 +34,7 @@ namespace PPT.Database.Common
         EXAM_UPDATED = 26,
         EXAM_DELETED = 27,
         NOT_INFORMATION_QUESTION = 28,
-        CREATED_QUESTION = 29
+        CREATED_QUESTION = 29,
+        QUESTION_UPDATED = 30
     }
 }
