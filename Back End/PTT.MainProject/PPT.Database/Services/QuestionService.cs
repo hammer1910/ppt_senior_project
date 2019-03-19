@@ -3,6 +3,7 @@ using PPT.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace PPT.Database.Services
 {
@@ -25,6 +26,11 @@ namespace PPT.Database.Services
                 examQuestion.QuestionId = questionEntity.QuestionId;
                 _context.ExamQuestions.Add(examQuestion);
             }
+        }
+
+        public QuestionEntity getQuestionInformation(int questionId)
+        {
+            return _context.Questions.FirstOrDefault(q => q.QuestionId == questionId);
         }
 
         public bool Save()

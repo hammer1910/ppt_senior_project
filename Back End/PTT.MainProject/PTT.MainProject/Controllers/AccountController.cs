@@ -18,7 +18,6 @@ namespace PTT.MainProject.Controllers
     [Route("api/exam")]
     public class AccountController : Controller
     {
-        public static AccountEntity _account = new AccountEntity(); // Create new account to stored user data when they signed in successful
         private IAccountRepository _accountRepository;
 
         public AccountController(IAccountRepository accountRepository)
@@ -51,11 +50,8 @@ namespace PTT.MainProject.Controllers
 
             //This is get list role of account entity
             IEnumerable<AccountRoleEntity> listRole = _accountRepository.GetAccountRoles(accountEntity.AccountId);
-            //set data for that account that declare in  line 20
-            _account = accountEntity;
-            //This is set data for login result            
-                       
 
+            //This is set data for login result            
             LoginResult result = new LoginResult();
              
 

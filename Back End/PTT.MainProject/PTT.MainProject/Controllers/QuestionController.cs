@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PPT.Database.Common;
+using PPT.Database.Entities;
 using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
@@ -16,11 +17,13 @@ namespace PTT.MainProject.Controllers
     {
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
+        private IExamQuestionRepository _examQuestionRepository;
 
-        public QuestionController(IExamRepository examRepository, IQuestionRepository questionRepository)
+        public QuestionController(IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
         {
             _examRepository = examRepository;
             _questionRepository = questionRepository;
+            _examQuestionRepository = examQuestionRepository;
         }
 
         /// <summary>
@@ -34,36 +37,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part1 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partOneExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part1);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partOneExam,examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -77,36 +75,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part2 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partTwoExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part2);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partTwoExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -120,36 +113,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part3 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partThreeExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part3);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partThreeExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -163,36 +151,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part4 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partFourExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part4);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partFourExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -206,36 +189,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part5 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partFiveExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part5);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partFiveExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -249,36 +227,31 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part6 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partSixExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part6);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partSixExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
-
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
         }
 
         /// <summary>
@@ -292,36 +265,128 @@ namespace PTT.MainProject.Controllers
             //Check value enter from the form 
             if (part7 == null)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
-            }
-            if (examId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
 
             if (!_examRepository.ExamExist(examId))
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             if (!ModelState.IsValid)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            //Map data enter from the form to exam entity
+            //Map data enter from the form to question entity
             var partSevenExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(part7);
 
-            //This is query insert exam
+            //This is query insert question
             _questionRepository.CreatePart(partSevenExam, examId);
 
             if (!_questionRepository.Save())
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
             }
 
+            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
+        }
 
-            return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+        /// <summary>
+        /// Get all questions of the exam function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        [HttpGet("{examId}/getListQuestion")]
+        public JsonResult GetListQuestion(int examId)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+            }
+
+            //This is get all questions of the exam by id exam
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                // Get all informations of the question by questionId and save it in the list
+                QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
+                listQuestionEntities.Add(questionEntity);
+            }
+
+            List<QuestionListResult> questionLists = new List<QuestionListResult>();
+            foreach (var item in listQuestionEntities)
+            {
+                QuestionListResult q = new QuestionListResult();
+                q.questionId = item.QuestionId;
+                q.part = item.Part;
+                q.image = item.Image;
+                q.fileMp3 = item.FileMp3;
+                q.questionName = item.QuestionName;
+                q.A = item.A;
+                q.B = item.B;
+                q.C = item.C;
+                q.D = item.D;
+                q.correctAnswer = item.CorrectAnswer;
+                q.team = item.Team;
+                questionLists.Add(q);
+            }
+
+            return Json(questionLists);
+        }
+
+        /// <summary>
+        /// Get all informations of the question function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        [HttpGet("{examId}/getQuestionInformation/{questionId}")]
+        public JsonResult GetInformationGroup(int examId,int questionId)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+            }
+            QuestionEntity question = null;
+            //This is get all information of the exam by examId
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            QuestionListResult questionListResult = new QuestionListResult();
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                if(examQuestion.QuestionId == questionId)
+                {
+                    question = _questionRepository.getQuestionInformation(questionId);
+                    break;
+                }
+            }
+
+            questionListResult.questionId = question.QuestionId;
+            questionListResult.part = question.Part;
+            questionListResult.image = question.Image;
+            questionListResult.fileMp3 = question.FileMp3;
+            questionListResult.questionName = question.QuestionName;
+            questionListResult.A = question.A;
+            questionListResult.B = question.B;
+            questionListResult.C = question.C;
+            questionListResult.D = question.D;
+            questionListResult.correctAnswer = question.CorrectAnswer;
+            questionListResult.team = question.Team;
+
+            return Json(questionListResult);
         }
     }
 }

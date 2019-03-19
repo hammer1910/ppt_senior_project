@@ -33,5 +33,7 @@ namespace PPT.Database.Common
         public static string notInformationExam = "You haven't enter information for exam.";
         public static string examUpdated = "You updated the exam successfully.";
         public static string examDeleted = "You deleted the exam successfully!";
+        public static string notInformationQuestion = "You haven't enter information for question.";
+        public static string createdQuestion = "You created question successfully!";
     }
 }

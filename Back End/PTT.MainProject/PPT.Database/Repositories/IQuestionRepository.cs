@@ -9,5 +9,6 @@ namespace PPT.Database.Repositories
     {
         void CreatePart(QuestionEntity questionEntity, int examId);
         bool Save();
+        QuestionEntity getQuestionInformation(int questionId);
     }
 }
