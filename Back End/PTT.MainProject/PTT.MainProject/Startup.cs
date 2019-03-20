@@ -95,13 +95,13 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartOneForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartTwoForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartThreeForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartFourForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartFiveForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartSixForCreationDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.PartSevenForCreationDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartOneDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartTwoDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartThreeAndFourDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartThreeAndFourDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartFiveDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartSixDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionPartSevenDto, PPT.Database.Entities.QuestionEntity>();
             });
            
             app.UseSession();
