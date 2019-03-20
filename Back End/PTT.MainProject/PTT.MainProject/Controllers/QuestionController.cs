@@ -32,7 +32,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part1">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>  
         [HttpPost("{examId}/createpartone")]
-        public JsonResult CreatePartOne(int examId, [FromBody] PartOneForCreationDto part1)
+        public JsonResult CreatePartOne(int examId, [FromBody] QuestionPartOneDto part1)
         {
             //Check value enter from the form 
             if (part1 == null)
@@ -70,7 +70,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part2">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>
         [HttpPost("{examId}/createparttwo")]
-        public JsonResult CreatePartTwo(int examId, [FromBody] PartTwoForCreationDto part2)
+        public JsonResult CreatePartTwo(int examId, [FromBody] QuestionPartTwoDto part2)
         {
             //Check value enter from the form 
             if (part2 == null)
@@ -108,7 +108,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part3">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>  
         [HttpPost("{examId}/createpartthree")]
-        public JsonResult CreatePartThree(int examId, [FromBody] PartThreeForCreationDto part3)
+        public JsonResult CreatePartThree(int examId, [FromBody] QuestionPartThreeAndFourDto part3)
         {
             //Check value enter from the form 
             if (part3 == null)
@@ -146,7 +146,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part4">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>
         [HttpPost("{examId}/createpartfour")]
-        public JsonResult CreatePartFour(int examId, [FromBody] PartFourForCreationDto part4)
+        public JsonResult CreatePartFour(int examId, [FromBody] QuestionPartThreeAndFourDto part4)
         {
             //Check value enter from the form 
             if (part4 == null)
@@ -184,7 +184,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part5">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param> 
         [HttpPost("{examId}/createpartfive")]
-        public JsonResult CreatePartFive(int examId, [FromBody] PartFiveForCreationDto part5)
+        public JsonResult CreatePartFive(int examId, [FromBody] QuestionPartFiveDto part5)
         {
             //Check value enter from the form 
             if (part5 == null)
@@ -222,7 +222,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part6">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param> 
         [HttpPost("{examId}/createpartsix")]
-        public JsonResult CreatePartSix(int examId, [FromBody] PartSixForCreationDto part6)
+        public JsonResult CreatePartSix(int examId, [FromBody] QuestionPartSixDto part6)
         {
             //Check value enter from the form 
             if (part6 == null)
@@ -260,7 +260,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="part7">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param> 
         [HttpPost("{examId}/createpartseven")]
-        public JsonResult CreatePartSeven(int examId, [FromBody] PartSevenForCreationDto part7)
+        public JsonResult CreatePartSeven(int examId, [FromBody] QuestionPartSevenDto part7)
         {
             //Check value enter from the form 
             if (part7 == null)
@@ -396,7 +396,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part1">The question information from body</param>
         [HttpPut("{examId}/updatepartone/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartOneForCreationDto part1)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartOneDto part1)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -450,7 +450,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part2">The question information from body</param>
         [HttpPut("{examId}/updateparttwo/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartTwoForCreationDto part2)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartTwoDto part2)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -504,7 +504,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part3">The question information from body</param>
         [HttpPut("{examId}/updatepartthree/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartThreeForCreationDto part3)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartThreeAndFourDto part3)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -559,7 +559,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part4">The question information from body</param>
         [HttpPut("{examId}/updatepartfour/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartFourForCreationDto part4)
+        public JsonResult UpdateInformationQuestionFour(int examId, int questionId, [FromBody] QuestionPartThreeAndFourDto part4)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -613,7 +613,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part5">The question information from body</param>
         [HttpPut("{examId}/updatepartfive/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartFiveForCreationDto part5)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartFiveDto part5)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -668,7 +668,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part6">The question information from body</param>
         [HttpPut("{examId}/updatepartsix/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartSixForCreationDto part6)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartSixDto part6)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -722,7 +722,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="part7">The question information from body</param>
         [HttpPut("{examId}/updatepartseven/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] PartSevenForCreationDto part7)
+        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionPartSevenDto part7)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
