@@ -263,13 +263,10 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
         }
 
-        //This is get list member of group function
-
         /// <summary>
         /// Get list member of group function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
-
         [HttpGet("getlistmember/{groupId}")]
         public JsonResult GetMemberList(int groupId)
         {

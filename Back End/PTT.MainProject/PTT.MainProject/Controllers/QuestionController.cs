@@ -343,7 +343,7 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
-        /// Get all questions of the exam function
+        /// Get all questions by part of the exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="part">Get part parameter on the url</param> 
@@ -606,7 +606,6 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
 
-
         /// <summary>
         /// Update information group function
         /// </summary>
@@ -715,7 +714,6 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
 
-
         /// <summary>
         /// Update information group function
         /// </summary>
@@ -823,6 +821,13 @@ namespace PTT.MainProject.Controllers
 
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
+
+        /// <summary>
+        /// Delete question by owner function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// </param> 
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {
