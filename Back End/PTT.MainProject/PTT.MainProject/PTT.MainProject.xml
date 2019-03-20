@@ -179,6 +179,13 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
         </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String)">
+            <summary>
+            Get all questions of the exam function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="part">Get part parameter on the url</param> 
+        </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetInformationGroup(System.Int32,System.Int32)">
             <summary>
             Get all informations of the question function
