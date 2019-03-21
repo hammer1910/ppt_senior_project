@@ -343,6 +343,61 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
+        /// Get all questions by part of the exam function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="part">Get part parameter on the url</param> 
+        [HttpGet("{examId}/getListQuestionByPart/{part}")]
+        public JsonResult GetListQuestionByPart(int examId, string part)
+        {
+            //Check id exam exist in the database
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+            }
+
+            //This is get all questions of the exam by id exam
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                // Get all informations of the question by questionId and save it in the list
+                QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
+                listQuestionEntities.Add(questionEntity);
+            }
+
+            List<QuestionListResult> questionLists = new List<QuestionListResult>();
+            foreach (var item in listQuestionEntities)
+            {
+                QuestionListResult q = new QuestionListResult();
+                if (item.Part.Equals(part))
+                {
+                    q.questionId = item.QuestionId;
+                    q.part = item.Part;
+                    q.image = item.Image;
+                    q.fileMp3 = item.FileMp3;
+                    q.questionName = item.QuestionName;
+                    q.A = item.A;
+                    q.B = item.B;
+                    q.C = item.C;
+                    q.D = item.D;
+                    q.correctAnswer = item.CorrectAnswer;
+                    q.team = item.Team;
+                    questionLists.Add(q);
+                }
+                
+            }
+
+            return Json(questionLists);
+        }
+
+        /// <summary>
         /// Get all informations of the question function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
@@ -551,7 +606,6 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
 
-
         /// <summary>
         /// Update information group function
         /// </summary>
@@ -660,7 +714,6 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
 
-
         /// <summary>
         /// Update information group function
         /// </summary>
@@ -768,6 +821,13 @@ namespace PTT.MainProject.Controllers
 
             return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
         }
+
+        /// <summary>
+        /// Delete question by owner function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="questionId">Get id question on the url</param>
+        /// </param> 
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {
