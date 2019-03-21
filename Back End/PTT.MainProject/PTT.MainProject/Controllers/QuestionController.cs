@@ -296,8 +296,8 @@ namespace PTT.MainProject.Controllers
         /// Get all questions of the exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
-        [HttpGet("{examId}/getListQuestion")]
-        public JsonResult GetListQuestion(int examId)
+        [HttpGet("{examId}/getListQuestion/{page}")]
+        public JsonResult GetListQuestion(int examId, int page)
         {
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
@@ -338,8 +338,8 @@ namespace PTT.MainProject.Controllers
                 q.team = item.Team;
                 questionLists.Add(q);
             }
-
-            return Json(questionLists);
+            List<QuestionListResult> pagging = Pagging.GetQuestions(page, questionLists);
+            return Json(pagging);
         }
 
         /// <summary>
