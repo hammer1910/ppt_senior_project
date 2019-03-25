@@ -78,13 +78,14 @@ namespace PPT.Database.Migrations
                     b.Property<string>("AnswerKey")
                         .HasMaxLength(10);
 
-                    b.Property<int>("ExamId");
+                    b.Property<int>("ExamQuestionId");
 
                     b.HasKey("AnswerUserId");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("ExamId");
+                    b.HasIndex("ExamQuestionId")
+                        .IsUnique();
 
                     b.ToTable("AnswerUsers");
                 });
@@ -310,9 +311,9 @@ namespace PPT.Database.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PPT.Database.Entities.ExamEntity", "Exam")
-                        .WithMany("AnswerUsers")
-                        .HasForeignKey("ExamId")
+                    b.HasOne("PPT.Database.Entities.ExamQuestionEntity", "ExamQuestion")
+                        .WithOne("AnswerUser")
+                        .HasForeignKey("PPT.Database.Entities.AnswerUserEntity", "ExamQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

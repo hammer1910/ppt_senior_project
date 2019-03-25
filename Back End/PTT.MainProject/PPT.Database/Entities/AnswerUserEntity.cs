@@ -19,8 +19,7 @@ namespace PPT.Database.Entities
         public AccountEntity Account { set; get; }
         public int AccountId { get; set; }
 
-        [ForeignKey("ExamId")]
-        public ExamEntity Exam { set; get; }
-        public int ExamId { get; set; }
+        public int ExamQuestionId { get; set; }
+        public ExamQuestionEntity ExamQuestion { get; set; }
     }
 }

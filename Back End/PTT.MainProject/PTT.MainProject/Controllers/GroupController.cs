@@ -135,6 +135,7 @@ namespace PTT.MainProject.Controllers
         /// Update information group function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
+        /// <param name="group">The group information from body</param> 
         [HttpPut("updateinformationgroup/{groupId}")]
         public JsonResult UpdateAccount(int groupId, [FromBody] GroupForUpdateDto group)
         {

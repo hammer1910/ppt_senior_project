@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PPT.Database.Migrations
 {
-    public partial class NewDB : Migration
+    public partial class CreateDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,6 +55,7 @@ namespace PPT.Database.Migrations
                     B = table.Column<string>(maxLength: 255, nullable: true),
                     C = table.Column<string>(maxLength: 255, nullable: true),
                     D = table.Column<string>(maxLength: 255, nullable: true),
+                    CorrectAnswer = table.Column<string>(maxLength: 10, nullable: true),
                     Team = table.Column<string>(maxLength: 20, nullable: true)
                 },
                 constraints: table =>
@@ -73,6 +74,26 @@ namespace PPT.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.RoleId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AnswerUsers",
+                columns: table => new
+                {
+                    AnswerUserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AnswerKey = table.Column<string>(maxLength: 10, nullable: true),
+                    AccountId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswerUsers", x => x.AnswerUserId);
+                    table.ForeignKey(
+                        name: "FK_AnswerUsers_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,39 +224,11 @@ namespace PPT.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AnswerUsers",
-                columns: table => new
-                {
-                    AnswerUserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AnswerKey = table.Column<string>(maxLength: 10, nullable: true),
-                    AccountId = table.Column<int>(nullable: false),
-                    ExamId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnswerUsers", x => x.AnswerUserId);
-                    table.ForeignKey(
-                        name: "FK_AnswerUsers_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AnswerUsers_Exams_ExamId",
-                        column: x => x.ExamId,
-                        principalTable: "Exams",
-                        principalColumn: "ExamId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ExamQuestions",
                 columns: table => new
                 {
                     ExamQuestionId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CorrectAnswer = table.Column<string>(maxLength: 10, nullable: true),
                     QuestionId = table.Column<int>(nullable: false),
                     ExamId = table.Column<int>(nullable: false)
                 },
@@ -305,11 +298,6 @@ namespace PPT.Database.Migrations
                 name: "IX_AnswerUsers_AccountId",
                 table: "AnswerUsers",
                 column: "AccountId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AnswerUsers_ExamId",
-                table: "AnswerUsers",
-                column: "ExamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExamQuestions_ExamId",

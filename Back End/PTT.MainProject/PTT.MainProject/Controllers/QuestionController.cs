@@ -296,6 +296,7 @@ namespace PTT.MainProject.Controllers
         /// Get all questions of the exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="page">Get page parameter on the url</param> 
         [HttpGet("{examId}/getListQuestion/{page}")]
         public JsonResult GetListQuestion(int examId, int page)
         {
@@ -827,7 +828,6 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="questionId">Get id question on the url</param>
-        /// </param> 
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {

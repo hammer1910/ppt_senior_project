@@ -99,6 +99,7 @@
             Update information group function
             </summary>
             <param name="groupId">Get id group on the url</param> 
+            <param name="group">The group information from body</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteGroup(System.Int32)">
             <summary>
@@ -178,6 +179,7 @@
             Get all questions of the exam function
             </summary>
             <param name="examId">Get id exam on the url</param> 
+            <param name="page">Get page parameter on the url</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String)">
             <summary>
@@ -249,6 +251,12 @@
             <param name="questionId">Get id question on the url</param>
             <param name="part7">The question information from body</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)" -->
+        <member name="M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)">
+            <summary>
+            Delete question by owner function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+        </member>
     </members>
 </doc>
