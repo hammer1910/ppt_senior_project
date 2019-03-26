@@ -64,21 +64,3 @@ D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\D
 D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CopyComplete
 D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.dll
 D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.pdb
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csprojAssemblyReference.cache
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CoreCompileInputs.cache
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorAssemblyInfo.cache
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorAssemblyInfo.cs
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.AssemblyInfoInputs.cache
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.AssemblyInfo.cs
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.deps.json
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.runtimeconfig.json
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.runtimeconfig.dev.json
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.dll
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.pdb
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.xml
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PPT.Database.dll
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PPT.Database.pdb
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorTargetAssemblyInfo.cache
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CopyComplete
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.dll
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.pdb
