@@ -63,6 +63,7 @@ namespace PTT.MainProject
             services.AddScoped<IExamRepository, ExamService>();
             services.AddScoped<IQuestionRepository, QuestionService>();
             services.AddScoped<IExamQuestionRepository, ExamQuestionService>();
+            services.AddScoped<IAnswerUserRepository, AnswerUserService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -102,6 +103,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.QuestionPartFiveDto, PPT.Database.Entities.QuestionEntity>();
                 cfg.CreateMap<PPT.Database.Models.QuestionPartSixDto, PPT.Database.Entities.QuestionEntity>();
                 cfg.CreateMap<PPT.Database.Models.QuestionPartSevenDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.AnswerUserDto, PPT.Database.Entities.AnswerUserEntity>();
             });
            
             app.UseSession();

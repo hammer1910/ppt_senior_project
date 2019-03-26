@@ -48,6 +48,14 @@
             </summary>
             <param name="id">Get id account on the url</param>
         </member>
+        <member name="M:PTT.MainProject.Controllers.AnswerUserController.CreateAnswerUser(System.Int32,System.Int32,System.Collections.Generic.List{PPT.Database.Models.AnswerUserDto})">
+            <summary>
+            Add answer of the user function
+            </summary>
+            <param name="answers">The information answer of user from body</param> 
+            <param name="accountId">Get id account on the url</param>
+            <param name="examId">Get id exam on the url</param> 
+        </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto,System.Int32)">
             <summary>
             Create exam function

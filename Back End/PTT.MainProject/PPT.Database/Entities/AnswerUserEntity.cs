@@ -19,7 +19,7 @@ namespace PPT.Database.Entities
         public AccountEntity Account { set; get; }
         public int AccountId { get; set; }
 
-        public int ExamQuestionId { get; set; }
-        public ExamQuestionEntity ExamQuestion { get; set; }
+        public int QuestionId { get; set; }
+        public QuestionEntity Question { get; set; }
     }
 }

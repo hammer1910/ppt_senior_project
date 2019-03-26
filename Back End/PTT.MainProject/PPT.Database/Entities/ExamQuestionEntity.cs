@@ -19,7 +19,5 @@ namespace PPT.Database.Entities
         [ForeignKey("ExamId")]
         public ExamEntity Exam { set; get; }
         public int ExamId { get; set; }
-
-        public AnswerUserEntity AnswerUser { get; set; }
     }
 }

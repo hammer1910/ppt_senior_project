@@ -192,6 +192,11 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 32,
                     MessageReturn = Constants.questionNotFound
+                },
+                new MessageResult()
+                {
+                    MessageId = 33,
+                    MessageReturn = Constants.createdAnswerUser
                 }
             };
 

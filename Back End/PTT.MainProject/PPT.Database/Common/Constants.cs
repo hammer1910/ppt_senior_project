@@ -38,5 +38,6 @@ namespace PPT.Database.Common
         public static string questionUpdated = "You updated the question successfully.";
         public static string questionDeleted = "You deleted the question successfully!";
         public static string questionNotFound = "Your question information was not found.";
+        public static string createdAnswerUser = "You added answer of user successfully!";
     }
 }
