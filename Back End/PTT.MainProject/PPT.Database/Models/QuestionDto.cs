@@ -6,7 +6,6 @@ namespace PPT.Database.Models
 {
     public class QuestionDto
     {
-        public int questionId { get; set; }
         public string part { get; set; }      
         public string A { get; set; }
         public string B { get; set; }
