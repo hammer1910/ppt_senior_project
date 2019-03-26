@@ -5,6 +5,7 @@ using PPT.Database.Entities;
 using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
+using PPT.Database.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,15 +16,19 @@ namespace PTT.MainProject.Controllers
     [Route("api/exam")]
     public class QuestionController : Controller
     {
+        private IAccountRepository _accountRepository;
+        private IAnswerUserRepository _answerUserRepository;
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
         private IExamQuestionRepository _examQuestionRepository;
 
-        public QuestionController(IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
+        public QuestionController(IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
         {
+            _accountRepository = accountRepository;
             _examRepository = examRepository;
             _questionRepository = questionRepository;
             _examQuestionRepository = examQuestionRepository;
+            _answerUserRepository = answerUserRepository;
         }
 
         /// <summary>
@@ -295,11 +300,17 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Get all questions of the exam function
         /// </summary>
+        /// <param name="accountId">Get id account on the url</param>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="page">Get page parameter on the url</param> 
-        [HttpGet("{examId}/getListQuestion/{page}")]
-        public JsonResult GetListQuestion(int examId, int page)
+        [HttpGet("{accountId}/{examId}/getListQuestion/{page}")]
+        public JsonResult GetListQuestion(int accountId, int examId, int page)
         {
+            if (!_accountRepository.AccountExists(accountId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+            }
+
             //Check id exam exist in the database
             if (!_examRepository.ExamExist(examId))
             {
@@ -313,6 +324,7 @@ namespace PTT.MainProject.Controllers
 
             //This is get all questions of the exam by id exam
             List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+            List<AnswerUserEntity> answerUsers = _answerUserRepository.GetAnswerUserEntities(accountId);
 
             List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
             foreach (var examQuestion in examQuestionEntity)
@@ -337,6 +349,13 @@ namespace PTT.MainProject.Controllers
                 q.D = item.D;
                 q.correctAnswer = item.CorrectAnswer;
                 q.team = item.Team;
+                foreach (var answer in answerUsers)
+                {
+                    if(q.questionId == answer.QuestionId)
+                    {
+                        q.answerUser = answer.AnswerKey;
+                    }
+                }
                 questionLists.Add(q);
             }
             List<QuestionListResult> pagging = Pagging.GetQuestions(page, questionLists);
