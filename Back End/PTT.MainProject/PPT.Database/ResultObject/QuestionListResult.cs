@@ -17,5 +17,6 @@ namespace PPT.Database.ResultObject
         public string D { get; set; }
         public string correctAnswer { get; set; }
         public string team { get; set; }
+        public string answerUser { get; set; }
     }
 }
