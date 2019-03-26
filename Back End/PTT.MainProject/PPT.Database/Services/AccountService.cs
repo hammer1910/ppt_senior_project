@@ -75,5 +75,10 @@ namespace PPT.Database.Services
         {
             _context.Accounts.Remove(account);
         }
+
+        public List<AccountEntity> GetAllAccounts()
+        {
+            return _context.Accounts.ToList();
+        }
     }
 }

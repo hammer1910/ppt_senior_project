@@ -325,5 +325,35 @@ namespace PTT.MainProject.Controllers
             return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
         }
 
+        /// <summary>
+        /// Get all accounts of the database function
+        /// </summary>
+        [HttpGet("getallaccounts")]
+        public JsonResult GetAllAccounts()
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+            }
+
+            //This is get all information of account
+            List<AccountEntity> listAccounts = _accountRepository.GetAllAccounts();
+
+            List<LoginResult> listAccount = new List<LoginResult>();
+
+            foreach (var item in listAccounts)
+            {
+                LoginResult account = new LoginResult();
+                account.email = item.Email;
+                account.firstName = item.FirstName;
+                account.lastName = item.LastName;
+                account.phoneNumber = item.Phone;
+                account.address = item.Address;
+
+                listAccount.Add(account);
+            }
+
+            return Json(listAccount);
+        }
     }
 }

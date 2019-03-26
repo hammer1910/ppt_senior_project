@@ -16,6 +16,5 @@ namespace PPT.Database.ResultObject
         public string phoneNumber { get; set; }
         public List<string> Roles { get; set; }
         public byte[] Session { get; set; }
-
     }
 }

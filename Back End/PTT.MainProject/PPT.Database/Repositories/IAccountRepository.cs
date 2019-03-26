@@ -17,6 +17,6 @@ namespace PPT.Database.Services
         AccountEntity GetAccountByEmail(string email);
         AccountEntity GetAccountById(int id);
         void DeleteAccount(AccountEntity account);
-        
+        List<AccountEntity> GetAllAccounts();
     }
 }
