@@ -342,6 +342,8 @@ namespace PTT.MainProject.Controllers
             return Json(pagging);
         }
 
+
+
         /// <summary>
         /// Get all questions by part of the exam function
         /// </summary>

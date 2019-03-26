@@ -43,6 +43,9 @@ namespace PPT.Database.Entities
         [MaxLength(20)]
         public string Team { get; set; }
 
+
+        public virtual AnswerUserEntity AnswerUser { get; set; }
+    
         public ICollection<ExamQuestionEntity> ExamQuestions { get; set; } = new List<ExamQuestionEntity>();
     }
 }

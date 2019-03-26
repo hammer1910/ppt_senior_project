@@ -20,7 +20,7 @@ namespace PPT.Database.Entities
         public GroupEntity Group { set; get; }
         public int GroupId { get; set; }
 
-        public ICollection<AnswerUserEntity> AnswerUsers { get; set; } = new List<AnswerUserEntity>();
+       
         public ICollection<ExamQuestionEntity> ExamQuestions { get; set; } = new List<ExamQuestionEntity>();
         public ICollection<HistoryEntity> Histories { get; set; } = new List<HistoryEntity>();
     }
