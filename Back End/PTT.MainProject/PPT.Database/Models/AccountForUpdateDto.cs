@@ -10,9 +10,6 @@ namespace PPT.Database.Models
         [MaxLength(255)]
         public string Email { get; set; }
 
-        [MaxLength(255)]
-        public string Password { get; set; }
-
         [MaxLength(30)]
         public string FirstName { get; set; }
 

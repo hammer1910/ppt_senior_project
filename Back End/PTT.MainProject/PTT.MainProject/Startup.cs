@@ -43,7 +43,7 @@ namespace PTT.MainProject
                 //The generated Swagger JSON file will have these properties.
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "Swagger XML Api Demo",
+                    Title = "Pass Toeic Together Api",
                     Version = "v1",
                 });
                 
@@ -63,6 +63,7 @@ namespace PTT.MainProject
             services.AddScoped<IExamRepository, ExamService>();
             services.AddScoped<IQuestionRepository, QuestionService>();
             services.AddScoped<IExamQuestionRepository, ExamQuestionService>();
+            services.AddScoped<IAnswerUserRepository, AnswerUserService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -102,6 +103,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.QuestionPartFiveDto, PPT.Database.Entities.QuestionEntity>();
                 cfg.CreateMap<PPT.Database.Models.QuestionPartSixDto, PPT.Database.Entities.QuestionEntity>();
                 cfg.CreateMap<PPT.Database.Models.QuestionPartSevenDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.AnswerUserDto, PPT.Database.Entities.AnswerUserEntity>();
             });
            
             app.UseSession();
@@ -116,7 +118,7 @@ namespace PTT.MainProject
             //This line enables Swagger UI, which provides us with a nice, simple UI with which we can view our API calls.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger XML Api Demo v1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pass Toeic Together Api");
             });
 
         }

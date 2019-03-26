@@ -10,8 +10,8 @@ using PPT.Database.Entities;
 namespace PPT.Database.Migrations
 {
     [DbContext(typeof(ExamContext))]
-    [Migration("20190227101645_NewDB")]
-    partial class NewDB
+    [Migration("20190325064005_Create Database")]
+    partial class CreateDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,13 +80,9 @@ namespace PPT.Database.Migrations
                     b.Property<string>("AnswerKey")
                         .HasMaxLength(10);
 
-                    b.Property<int>("ExamId");
-
                     b.HasKey("AnswerUserId");
 
                     b.HasIndex("AccountId");
-
-                    b.HasIndex("ExamId");
 
                     b.ToTable("AnswerUsers");
                 });
@@ -115,9 +111,6 @@ namespace PPT.Database.Migrations
                     b.Property<int>("ExamQuestionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CorrectAnswer")
-                        .HasMaxLength(10);
 
                     b.Property<int>("ExamId");
 
@@ -255,6 +248,9 @@ namespace PPT.Database.Migrations
                     b.Property<string>("C")
                         .HasMaxLength(255);
 
+                    b.Property<string>("CorrectAnswer")
+                        .HasMaxLength(10);
+
                     b.Property<string>("D")
                         .HasMaxLength(255);
 
@@ -310,11 +306,6 @@ namespace PPT.Database.Migrations
                     b.HasOne("PPT.Database.Entities.AccountEntity", "Account")
                         .WithMany("AnswerUsers")
                         .HasForeignKey("AccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("PPT.Database.Entities.ExamEntity", "Exam")
-                        .WithMany("AnswerUsers")
-                        .HasForeignKey("ExamId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

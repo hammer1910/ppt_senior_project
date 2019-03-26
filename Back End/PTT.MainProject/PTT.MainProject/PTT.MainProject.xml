@@ -48,6 +48,14 @@
             </summary>
             <param name="id">Get id account on the url</param>
         </member>
+        <member name="M:PTT.MainProject.Controllers.AnswerUserController.CreateAnswerUser(System.Int32,System.Int32,System.Collections.Generic.List{PPT.Database.Models.AnswerUserDto})">
+            <summary>
+            Add answer of the user function
+            </summary>
+            <param name="answers">The information answer of user from body</param> 
+            <param name="accountId">Get id account on the url</param>
+            <param name="examId">Get id exam on the url</param> 
+        </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto,System.Int32)">
             <summary>
             Create exam function
@@ -99,6 +107,7 @@
             Update information group function
             </summary>
             <param name="groupId">Get id group on the url</param> 
+            <param name="group">The group information from body</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteGroup(System.Int32)">
             <summary>
@@ -178,6 +187,7 @@
             Get all questions of the exam function
             </summary>
             <param name="examId">Get id exam on the url</param> 
+            <param name="page">Get page parameter on the url</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String)">
             <summary>
@@ -249,6 +259,12 @@
             <param name="questionId">Get id question on the url</param>
             <param name="part7">The question information from body</param>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)" -->
+        <member name="M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)">
+            <summary>
+            Delete question by owner function
+            </summary>
+            <param name="examId">Get id exam on the url</param> 
+            <param name="questionId">Get id question on the url</param>
+        </member>
     </members>
 </doc>

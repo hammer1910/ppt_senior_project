@@ -37,6 +37,7 @@ namespace PPT.Database.Common
         CREATED_QUESTION = 29,
         QUESTION_UPDATED = 30,
         QUESTION_DELETED = 31,
-        QUESTION_NOT_FOUND = 32
+        QUESTION_NOT_FOUND = 32,
+        CREATED_ANSWER_USER = 33
     }
 }

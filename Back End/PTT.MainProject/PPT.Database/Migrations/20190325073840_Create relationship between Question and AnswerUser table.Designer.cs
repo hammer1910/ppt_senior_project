@@ -10,8 +10,8 @@ using PPT.Database.Entities;
 namespace PPT.Database.Migrations
 {
     [DbContext(typeof(ExamContext))]
-    [Migration("20190313064521_Add Correct-Answer")]
-    partial class AddCorrectAnswer
+    [Migration("20190325073840_Create relationship between Question and AnswerUser table")]
+    partial class CreaterelationshipbetweenQuestionandAnswerUsertable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,13 +80,14 @@ namespace PPT.Database.Migrations
                     b.Property<string>("AnswerKey")
                         .HasMaxLength(10);
 
-                    b.Property<int>("ExamId");
+                    b.Property<int>("QuestionId");
 
                     b.HasKey("AnswerUserId");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("ExamId");
+                    b.HasIndex("QuestionId")
+                        .IsUnique();
 
                     b.ToTable("AnswerUsers");
                 });
@@ -312,9 +313,9 @@ namespace PPT.Database.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PPT.Database.Entities.ExamEntity", "Exam")
-                        .WithMany("AnswerUsers")
-                        .HasForeignKey("ExamId")
+                    b.HasOne("PPT.Database.Entities.QuestionEntity", "Question")
+                        .WithOne("AnswerUser")
+                        .HasForeignKey("PPT.Database.Entities.AnswerUserEntity", "QuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

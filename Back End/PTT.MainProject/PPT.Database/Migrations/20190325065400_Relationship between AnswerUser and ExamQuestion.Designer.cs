@@ -10,8 +10,8 @@ using PPT.Database.Entities;
 namespace PPT.Database.Migrations
 {
     [DbContext(typeof(ExamContext))]
-    [Migration("20190304073719_Delete Code and Vertified")]
-    partial class DeleteCodeandVertified
+    [Migration("20190325065400_Relationship between AnswerUser and ExamQuestion")]
+    partial class RelationshipbetweenAnswerUserandExamQuestion
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,13 +80,14 @@ namespace PPT.Database.Migrations
                     b.Property<string>("AnswerKey")
                         .HasMaxLength(10);
 
-                    b.Property<int>("ExamId");
+                    b.Property<int>("ExamQuestionId");
 
                     b.HasKey("AnswerUserId");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("ExamId");
+                    b.HasIndex("ExamQuestionId")
+                        .IsUnique();
 
                     b.ToTable("AnswerUsers");
                 });
@@ -115,9 +116,6 @@ namespace PPT.Database.Migrations
                     b.Property<int>("ExamQuestionId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CorrectAnswer")
-                        .HasMaxLength(10);
 
                     b.Property<int>("ExamId");
 
@@ -255,6 +253,9 @@ namespace PPT.Database.Migrations
                     b.Property<string>("C")
                         .HasMaxLength(255);
 
+                    b.Property<string>("CorrectAnswer")
+                        .HasMaxLength(10);
+
                     b.Property<string>("D")
                         .HasMaxLength(255);
 
@@ -312,9 +313,9 @@ namespace PPT.Database.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PPT.Database.Entities.ExamEntity", "Exam")
-                        .WithMany("AnswerUsers")
-                        .HasForeignKey("ExamId")
+                    b.HasOne("PPT.Database.Entities.ExamQuestionEntity", "ExamQuestion")
+                        .WithOne("AnswerUser")
+                        .HasForeignKey("PPT.Database.Entities.AnswerUserEntity", "ExamQuestionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
