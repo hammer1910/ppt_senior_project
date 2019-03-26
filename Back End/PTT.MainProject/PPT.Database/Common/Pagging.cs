@@ -13,10 +13,25 @@ namespace PPT.Database.Common
         {
             List<QuestionListResult> questionsList = new List<QuestionListResult>();
             int start = (page - 1) * 5;
-            for (int i = start; i < start + 5; i++)
+            int total = start + 5;
+            int s = total - questionEntities.Count;
+            int d = total - s;
+            if (total > questionEntities.Count)
             {
-                questionsList.Add(questionEntities[i]);
+                for(int i = start; i < d; i++)
+                {
+                    questionsList.Add(questionEntities[i]);
+                }
             }
+            else
+            {
+                for (int i = start; i < start + 5; i++)
+                {
+                    questionsList.Add(questionEntities[i]);
+                }
+
+            }
+            
             return questionsList;
         }
     }

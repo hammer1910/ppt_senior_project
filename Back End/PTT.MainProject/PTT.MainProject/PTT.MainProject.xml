@@ -187,7 +187,7 @@
             <param name="part7">The information of question from body</param> 
             <param name="examId">Get id exam on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestion(System.Int32,System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestion(System.Int32,System.Int32,System.Int32)">
             <summary>
             Get all questions of the exam function
             </summary>
