@@ -41,6 +41,7 @@ namespace PTT.MainProject.Controllers
         [HttpPost("{accountId}/{examId}/createansweruser")]
         public JsonResult CreateAnswerUser(int accountId, int examId, [FromBody] List<AnswerUserDto> answers)
         {
+
             //Check value enter from the form 
             if (answers == null)
             {
@@ -76,6 +77,7 @@ namespace PTT.MainProject.Controllers
                         //This is query insert question
                         _answerUserRepository.CreateAnswerUser(answerUser);
                     }
+                    
                 }
             }
 

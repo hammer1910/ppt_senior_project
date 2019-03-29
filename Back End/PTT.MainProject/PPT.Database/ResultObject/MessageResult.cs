@@ -197,6 +197,11 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 33,
                     MessageReturn = Constants.createdAnswerUser
+                },
+                new MessageResult()
+                {
+                    MessageId = 34,
+                    MessageReturn = Constants.questionIdWrong
                 }
             };
 

@@ -96,13 +96,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.GroupForCreationDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.GroupForUpdateDto, PPT.Database.Entities.GroupEntity>();
                 cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartOneDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartTwoDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartThreeAndFourDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartThreeAndFourDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartFiveDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartSixDto, PPT.Database.Entities.QuestionEntity>();
-                cfg.CreateMap<PPT.Database.Models.QuestionPartSevenDto, PPT.Database.Entities.QuestionEntity>();
+                cfg.CreateMap<PPT.Database.Models.QuestionDto, PPT.Database.Entities.QuestionEntity>();;
                 cfg.CreateMap<PPT.Database.Models.AnswerUserDto, PPT.Database.Entities.AnswerUserEntity>();
             });
            
