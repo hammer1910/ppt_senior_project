@@ -7,6 +7,7 @@ using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
 
 using PPT.Database.Services;
+using PTT.MainProject.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,25 +20,30 @@ namespace PTT.MainProject.Controllers
     {
         private IGroupRepository _groupRepository;
         private IAccountRepository _accountRepository;
+        private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
+
         public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository )
         {
             _groupRepository = groupRepository;
             _accountRepository = accountRepository;
+            Log4Net.InitLog();
         }
 
         /// <summary>
         /// Create group function
         /// </summary>
         /// <param name="group">The group information from body</param> 
-        /// <param name="accountId">Get id account on the url</param> 
         [HttpPost("group/create")]
         public JsonResult CreationGroup([FromBody] GroupForCreationDto group)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 AccountEntity account = _accountRepository.GetAccountById(group.accountId); //get account from AccountController stored data user logged in
                 if (group == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationGroup));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
                 }
 
@@ -46,6 +52,7 @@ namespace PTT.MainProject.Controllers
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -56,6 +63,7 @@ namespace PTT.MainProject.Controllers
 
                 if (!_groupRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
@@ -66,7 +74,8 @@ namespace PTT.MainProject.Controllers
             }
             catch (Exception ex)
             {
-                return Json(ex);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }            
         }
 
@@ -77,40 +86,56 @@ namespace PTT.MainProject.Controllers
         /// <param name="groupId">Get id group on the url</param> 
         [HttpPost("group/addmembers/{groupId}")]
         public JsonResult AddMember([FromBody] AccountEntity account, int groupId)
-        {        
-            if (account == null)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
-            }
-            
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
-            // get group by group Id in line 52
-            GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
-            if (groupEntity == null)
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
+                if (account == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notEnterEmail));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
+                }
 
-            // get account by email. Email was input from the form
-            AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
-            if(accountEntity == null)
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                // get group by group Id in line 52
+                GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
+                if (groupEntity == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                // get account by email. Email was input from the form
+                AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
+                if (accountEntity == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+                }
+
+                //This is query add member into this group
+                _groupRepository.AddMemberIntoGroup(groupEntity, accountEntity);
+
+                if (!_groupRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.memberAdded));
+                return Json(MessageResult.GetMessage(MessageType.MEMBER_ADDED));
+            }
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            //This is query add member into this group
-            _groupRepository.AddMemberIntoGroup(groupEntity, accountEntity);
-
-            if (!_groupRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.MEMBER_ADDED));
         }
 
         /// <summary>
@@ -120,65 +145,92 @@ namespace PTT.MainProject.Controllers
         [HttpGet("getinformationgroup/{groupId}")]
         public JsonResult GetInformationGroup(int groupId)
         {
-            //Check id group exist in the database
-            if (!_groupRepository.GroupExist(groupId))
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
+                //Check id group exist in the database
+                if (!_groupRepository.GroupExist(groupId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
 
-            if (!ModelState.IsValid)
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all information of group by Id
+                GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
+
+                return Json(groupEntity);
+            }
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            //This is get all information of group by Id
-            GroupEntity groupEntity = _groupRepository.GetGroupById(groupId);
-
-            return Json(groupEntity);
         }
 
         /// <summary>
         /// Update information group function
         /// </summary>
-        /// <param name="groupId">Get id group on the url</param> 
         /// <param name="group">The group information from body</param> 
         [HttpPut("updateinformationgroup")]
         public JsonResult UpdateAccount( [FromBody] GroupForUpdateDto group)
         {
-            //Check id group exist in the database
-            if (!_groupRepository.GroupExist(group.groupId))
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
+                //Check id group exist in the database
+                if (!_groupRepository.GroupExist(group.groupId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
 
-            //Check value enter from the form 
-            if (group == null)
+                //Check value enter from the form 
+                if (group == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationGroup));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all information of group
+                var groupEntity = _groupRepository.GetGroupById(group.groupId);
+
+                if (groupEntity == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                //Map data enter from the form to group entity
+                Mapper.Map(group, groupEntity);
+
+                if (!_groupRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupUpdated));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_UPDATED));
+            }
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-
-            //This is get all information of group
-            var groupEntity = _groupRepository.GetGroupById(group.groupId);
-
-            if (groupEntity == null)
-            {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
-
-            //Map data enter from the form to group entity
-            Mapper.Map(group, groupEntity);
-
-            if (!_groupRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.GROUP_UPDATED));
         }
 
         /// <summary>
@@ -188,29 +240,43 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("deletegroup/{groupId}")]
         public JsonResult DeleteGroup(int groupId)
         {
-            //Check id group exist in the database
-            if (!_groupRepository.GroupExist(groupId))
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                //Check id group exist in the database
+                if (!_groupRepository.GroupExist(groupId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                //This is get all information of group by Id
+                var groupEntity = _groupRepository.GetGroupById(groupId);
+
+                if (groupEntity == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                //This is query to delete group
+                _groupRepository.DeleteGroup(groupEntity);
+
+                if (!_groupRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupDeleted));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_DELETED));
             }
-
-            //This is get all information of group by Id
-            var groupEntity = _groupRepository.GetGroupById(groupId);
-
-            if (groupEntity == null)
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            //This is query to delete group
-            _groupRepository.DeleteGroup(groupEntity);
-
-            if (!_groupRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.GROUP_DELETED));
         }
 
         /// <summary>
@@ -220,54 +286,80 @@ namespace PTT.MainProject.Controllers
         [HttpGet("getlistgroup/{ownerId}")]
         public JsonResult GetGroupList(int ownerId)
         {
-            //Check value enter id account
-            if (ownerId == 0)
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
-            }
-            
-            //get group list by owner Id
-            List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
+                //Check value enter id account
+                if (ownerId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
+                    return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                }
 
-            if (groupEntities == null)
+                //get group list by owner Id
+                List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
+
+                if (groupEntities == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                // Create new list result to get data
+                List<GroupListResult> groupListResult = new List<GroupListResult>();
+
+                //
+                foreach (var groupOwner in groupEntities)
+                {
+                    GroupListResult groupList = new GroupListResult();
+                    groupList.groupId = groupOwner.GroupId;
+                    groupList.groupOwnerId = groupOwner.GroupOwnerId;
+                    groupList.ownerGroupId = groupOwner.AccountId;
+                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
+                    groupList.groupName = group.Name;
+                    groupList.description = group.Description;
+                    groupListResult.Add(groupList);
+                }
+
+                return Json(groupListResult);
+            }
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            // Create new list result to get data
-            List<GroupListResult> groupListResult = new List<GroupListResult>();
-
-            //
-            foreach (var groupOwner in groupEntities)
-            {
-                GroupListResult groupList = new GroupListResult();
-                groupList.groupId = groupOwner.GroupId;
-                groupList.groupOwnerId = groupOwner.GroupOwnerId;
-                groupList.ownerGroupId = groupOwner.AccountId;             
-                GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
-                groupList.groupName = group.Name;
-                groupList.description = group.Description;
-                groupListResult.Add(groupList);
-            }
-
-            return Json(groupListResult);
         }
 
         [HttpDelete("{groupId}/outgroup/{accountId}")]
         public JsonResult DeleteGroup(int groupId, int accountId)
         {
-            if (groupId == 0 || accountId == 0)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-            _groupRepository.OutGroup(groupId, accountId);
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
-            if (!_groupRepository.Save())
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
+                if (groupId == 0 || accountId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
 
-            return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
+                _groupRepository.OutGroup(groupId, accountId);
+
+                if (!_groupRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountDeleted));
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
         }
 
         /// <summary>
@@ -277,36 +369,48 @@ namespace PTT.MainProject.Controllers
         [HttpGet("getlistmember/{groupId}")]
         public JsonResult GetMemberList(int groupId)
         {
-            //Check value enter id group
-            if (groupId == 0)
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                //Check value enter id group
+                if (groupId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
+                    return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                }
+
+                List<GroupMemberEntity> memberEntities = _groupRepository.GetMemberListByGroupId(groupId);
+
+                if (memberEntities == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
+                }
+
+                List<MemberListResult> memberListResult = new List<MemberListResult>();
+
+                foreach (var members in memberEntities)
+                {
+                    MemberListResult memberList = new MemberListResult();
+                    memberList.groupMemberId = members.GroupMemberId;
+                    memberList.groupId = members.GroupId;
+                    memberList.accountId = members.AccountId;
+                    AccountEntity accountEntity = _accountRepository.GetAccountById(members.AccountId);
+                    memberList.email = accountEntity.Email;
+                    memberList.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+                    memberList.address = accountEntity.Address;
+                    memberList.phoneNumber = accountEntity.Phone;
+                    memberListResult.Add(memberList);
+                }
+
+                return Json(memberListResult);
             }
-
-            List<GroupMemberEntity> memberEntities = _groupRepository.GetMemberListByGroupId(groupId);
-
-            if (memberEntities == null)
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            List<MemberListResult> memberListResult = new List<MemberListResult>();
-
-            foreach (var members in memberEntities)
-            {
-                MemberListResult memberList = new MemberListResult();
-                memberList.groupMemberId = members.GroupMemberId;
-                memberList.groupId = members.GroupId;
-                memberList.accountId = members.AccountId;
-                AccountEntity accountEntity = _accountRepository.GetAccountById(members.AccountId);
-                memberList.email = accountEntity.Email;
-                memberList.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
-                memberList.address = accountEntity.Address;
-                memberList.phoneNumber = accountEntity.Phone;
-                memberListResult.Add(memberList);
-            }
-
-            return Json(memberListResult);
         }
 
         /// <summary>
@@ -316,29 +420,43 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("deletemember/{accountId}")]
         public JsonResult DeleteMember(int accountId)
         {
-            //Check id group exist in the database
-            if (!_accountRepository.AccountExists(accountId))
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+                //Check id group exist in the database
+                if (!_accountRepository.AccountExists(accountId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+                }
+
+                //This is get all member of group by id acount
+                var memberEntity = _groupRepository.GetMemberByAccountId(accountId);
+
+                if (memberEntity == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationMember));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
+                }
+
+                //This is query to delete member
+                _groupRepository.DeleteMember(memberEntity);
+
+                if (!_groupRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.memberDeleted));
+                return Json(MessageResult.GetMessage(MessageType.MEMBER_DELETED));
             }
-
-            //This is get all member of group by id acount
-            var memberEntity = _groupRepository.GetMemberByAccountId(accountId);
-
-            if (memberEntity == null)
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
-
-            //This is query to delete member
-            _groupRepository.DeleteMember(memberEntity);
-
-            if (!_groupRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.MEMBER_DELETED));
         }
     }
 }

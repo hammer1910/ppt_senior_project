@@ -6,6 +6,7 @@ using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
 using PPT.Database.Services;
+using PTT.MainProject.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace PTT.MainProject.Controllers
         private IExamQuestionRepository _examQuestionRepository;
         private IAnswerUserRepository _answerUserRepository;
         private IAccountRepository _accountRepository;
+        private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
         public AnswerUserController(IExamRepository examRepository, IQuestionRepository questionRepository, 
             IExamQuestionRepository examQuestionRepository, IAnswerUserRepository answerUserRepository, IAccountRepository accountRepository)
@@ -30,6 +32,7 @@ namespace PTT.MainProject.Controllers
             _examQuestionRepository = examQuestionRepository;
             _answerUserRepository = answerUserRepository;
             _accountRepository = accountRepository;
+            Log4Net.InitLog();
         }
 
         /// <summary>
@@ -39,28 +42,35 @@ namespace PTT.MainProject.Controllers
         [HttpPost("createansweruser")]
         public JsonResult CreateAnswerUser( [FromBody] AnswerUserModel answerUserModel)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check value enter from the form 
                 if (answerUserModel == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
 
                 if (!_accountRepository.AccountExists(answerUserModel.accountId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 if (!_examRepository.ExamExist(answerUserModel.examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
+
                 List<AnswerUserDto> answersFromForm = answerUserModel.listAnswerUser;
 
                 List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(answerUserModel.examId);
@@ -145,14 +155,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_answerUserRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdAnswerUser));
                 return Json(MessageResult.GetMessage(MessageType.CREATED_ANSWER_USER));
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -165,20 +178,25 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{accountId}/{examId}/getanswerkeyandcorrectanswer")]
         public JsonResult GetAnswerKeyAndCorrectAnswer(int examId, int accountId)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (!_accountRepository.AccountExists(accountId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 if (!_examRepository.ExamExist(examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -213,7 +231,8 @@ namespace PTT.MainProject.Controllers
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
            
         }

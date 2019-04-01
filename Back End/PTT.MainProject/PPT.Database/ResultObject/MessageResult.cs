@@ -20,6 +20,13 @@ namespace PPT.Database.ResultObject
             this.IsSuccessful = false;
         }
 
+        public static MessageResult ShowServerError(string message)
+        {
+            MessageResult messageResult = new MessageResult();
+            messageResult.MessageReturnFalse = message;
+            messageResult.IsSuccessful = false;
+            return messageResult;
+        }
 
         public static MessageResult GetMessage(MessageType messageType)
         {

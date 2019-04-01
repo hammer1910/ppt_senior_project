@@ -32,7 +32,6 @@
             <summary>
             Update information account function
             </summary>
-            <param name="id">Get id account on the url</param>
             <param name="account">The account information from body</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccountPatch(PPT.Database.Models.ChangingPassword)">
@@ -82,7 +81,6 @@
             <summary>
             Update information group function
             </summary>
-            <param name="examId">Get id exam on the url</param> 
             <param name="exam">The exam information from body</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.DeleteGroup(System.Int32)">
@@ -96,7 +94,6 @@
             Create group function
             </summary>
             <param name="group">The group information from body</param> 
-            <param name="accountId">Get id account on the url</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Entities.AccountEntity,System.Int32)">
             <summary>
@@ -115,7 +112,6 @@
             <summary>
             Update information group function
             </summary>
-            <param name="groupId">Get id group on the url</param> 
             <param name="group">The group information from body</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteGroup(System.Int32)">
@@ -146,8 +142,7 @@
             <summary>
             Create exam function
             </summary>
-            <param name="question">The information of question from body</param> 
-            <param name="examId">Get id exam on the url</param>  
+            <param name="question">The information of question from body</param>  
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestion(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -175,8 +170,6 @@
             <summary>
             Update information group function
             </summary>
-            <param name="examId">Get id exam on the url</param> 
-            <param name="questionId">Get id question on the url</param>
             <param name="question">The question information from body</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)">

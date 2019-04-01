@@ -12,6 +12,7 @@ using PPT.Database.Models;
 using AutoMapper;
 using PPT.Database.ResultObject;
 using Microsoft.AspNetCore.Http;
+using PTT.MainProject.Log;
 
 namespace PTT.MainProject.Controllers
 {
@@ -19,10 +20,12 @@ namespace PTT.MainProject.Controllers
     public class AccountController : Controller
     {
         private IAccountRepository _accountRepository;
+        private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
         public AccountController(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
+            Log4Net.InitLog();
         }
 
         /// <summary>
@@ -32,10 +35,13 @@ namespace PTT.MainProject.Controllers
         [HttpPost("login")]
         public JsonResult Login([FromBody] AccountEntity account)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (account == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notEnterEmail));
                     return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
                 }
 
@@ -47,6 +53,7 @@ namespace PTT.MainProject.Controllers
 
                 if (accountEntity == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
                 }
 
@@ -88,7 +95,8 @@ namespace PTT.MainProject.Controllers
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
                    
 
@@ -101,22 +109,27 @@ namespace PTT.MainProject.Controllers
         [HttpGet("forgotpassword")]
         public JsonResult ForgotPassword([FromBody] AccountEntity account)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
-            {
+            {               
                 //Check value enter from the form 
                 if (account == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notEnterEmail));
                     return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
                 }
 
                 //Check email enter from the form not exist in the database
                 if (_accountRepository.EmailExist(account.Email))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailNotExist));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_NOT_EXIST));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -133,14 +146,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_accountRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.sendPassword));
                 return Json(MessageResult.GetMessage(MessageType.SEND_PASSWORD));
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -152,22 +168,27 @@ namespace PTT.MainProject.Controllers
         [HttpPost("register")]
         public JsonResult CreatePointOfInterest([FromBody] AccountForCreationDto account)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check value enter from the form 
                 if (account == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
                 //Check email enter from the form exist in the database
                 if (!_accountRepository.EmailExist(account.Email))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailExist));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_EXIST));
                 }
 
@@ -185,15 +206,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_accountRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
-                return Json(MessageResult.GetMessage(MessageType.REGISTER_SUCCESS)); //For example here. It should be the list of MessageResult. More details. 1=You registered the account successfully!; 2=.... Understand?
-
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.registerSuccess));
+                return Json(MessageResult.GetMessage(MessageType.REGISTER_SUCCESS));
             }
             catch (Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
         }
 
@@ -204,16 +227,20 @@ namespace PTT.MainProject.Controllers
         [HttpGet("getinformationaccount/{id}")]
         public JsonResult GetInformationAccount(int id)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(id))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -224,7 +251,8 @@ namespace PTT.MainProject.Controllers
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
            
         }
@@ -232,27 +260,31 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Update information account function
         /// </summary>
-        /// <param name="id">Get id account on the url</param>
         /// <param name="account">The account information from body</param>
         [HttpPut("updateinformationaccount")]
         public JsonResult UpdateAccount( [FromBody] AccountForUpdateDto account)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(account.accountId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 //Check value enter from the form 
                 if (account == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -261,7 +293,8 @@ namespace PTT.MainProject.Controllers
 
                 if (accountEntity == null)
                 {
-                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 //Map data enter from the form to account entity
@@ -269,14 +302,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_accountRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountUpdated));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -289,22 +325,27 @@ namespace PTT.MainProject.Controllers
         [HttpPost("updatepasswordaccount")]
         public JsonResult UpdateAccountPatch([FromBody] ChangingPassword account)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(account.accountId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 //Check value enter from the form 
                 if (account == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -315,12 +356,14 @@ namespace PTT.MainProject.Controllers
 
                 if (accountEntity == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
                 }
 
                 //This is check old password
                 if (accountEntity.Password != oldPass)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.oldPasswordNotTrue));
                     return Json(MessageResult.GetMessage(MessageType.OLD_PASSWORD_NOT_TRUE));
                 }
 
@@ -329,14 +372,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_accountRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountUpdated));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -348,11 +394,14 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("deleteaccount/{id}")]
         public JsonResult DeleteAccount(int id)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(id))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
@@ -361,6 +410,7 @@ namespace PTT.MainProject.Controllers
 
                 if (accountEntity == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
                 }
 
@@ -369,14 +419,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_accountRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountDeleted));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -387,10 +440,13 @@ namespace PTT.MainProject.Controllers
         [HttpGet("getallaccounts")]
         public JsonResult GetAllAccounts()
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -415,7 +471,8 @@ namespace PTT.MainProject.Controllers
             }
             catch(Exception ex)
             {
-                return Json(ex.Message);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }

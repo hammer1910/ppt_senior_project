@@ -6,6 +6,7 @@ using PPT.Database.Models;
 using PPT.Database.Repositories;
 using PPT.Database.ResultObject;
 using PPT.Database.Services;
+using PTT.MainProject.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace PTT.MainProject.Controllers
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
         private IExamQuestionRepository _examQuestionRepository;
+        private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
         public QuestionController(IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
         {
@@ -29,30 +31,35 @@ namespace PTT.MainProject.Controllers
             _questionRepository = questionRepository;
             _examQuestionRepository = examQuestionRepository;
             _answerUserRepository = answerUserRepository;
+            Log4Net.InitLog();
         }
 
         /// <summary>
         /// Create exam function
         /// </summary>
-        /// <param name="question">The information of question from body</param> 
-        /// <param name="examId">Get id exam on the url</param>  
+        /// <param name="question">The information of question from body</param>  
         [HttpPost("createquestion")]
         public JsonResult CreateQuestion([FromBody] QuestionDto question)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (question == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
 
                 if (!_examRepository.ExamExist(question.examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -64,20 +71,18 @@ namespace PTT.MainProject.Controllers
 
                 if (!_questionRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdQuestion));
                 return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
             }
             catch(Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
-            }
-            //Check value enter from the form 
-            
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }            
         }
 
         /// <summary>
@@ -89,21 +94,26 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{accountId}/{examId}/getListQuestion/{page}")]
         public JsonResult GetListQuestion(int accountId, int examId, int page)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (!_accountRepository.AccountExists(accountId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
                 //Check id exam exist in the database
                 if (!_examRepository.ExamExist(examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
                     return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -143,15 +153,15 @@ namespace PTT.MainProject.Controllers
                     }
                     questionLists.Add(q);
                 }
+
                 List<QuestionListResult> pagging = Pagging.GetQuestions(page, questionLists);
+
                 return Json(pagging);
             }
             catch(Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -164,15 +174,19 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{examId}/getListQuestionByPart/{part}")]
         public JsonResult GetListQuestionByPart(int examId, string part)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 if (!_examRepository.ExamExist(examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
                     return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
@@ -213,13 +227,9 @@ namespace PTT.MainProject.Controllers
             }
             catch(Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
-            } 
-            //Check id exam exist in the database
-            
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }            
         }
 
         /// <summary>
@@ -230,16 +240,20 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{examId}/getQuestionInformation/{questionId}")]
         public JsonResult GetInformationGroup(int examId,int questionId)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id exam exist in the database
                 if (!_examRepository.ExamExist(examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
                     return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
                 QuestionEntity question = null;
@@ -272,10 +286,8 @@ namespace PTT.MainProject.Controllers
             }
             catch (Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -283,28 +295,31 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Update information group function
         /// </summary>
-        /// <param name="examId">Get id exam on the url</param> 
-        /// <param name="questionId">Get id question on the url</param>
         /// <param name="question">The question information from body</param>
         [HttpPut("updatequestion")]
         public JsonResult UpdateInformationQuestion([FromBody] QuestionDto question)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id exam exist in the database
                 if (!_examRepository.ExamExist(question.examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
                 //Check value enter from the form 
                 if (question == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
@@ -322,6 +337,7 @@ namespace PTT.MainProject.Controllers
 
                 if (questionEntity == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
@@ -330,17 +346,17 @@ namespace PTT.MainProject.Controllers
 
                 if (!_questionRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.questionUpdated));
                 return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
             }
             catch(Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
             
         }
@@ -353,18 +369,20 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
             try
             {
                 //Check id exam exist in the database
                 if (!_examRepository.ExamExist(examId))
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                     return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
 
-
-
                 if (!ModelState.IsValid)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
@@ -382,6 +400,7 @@ namespace PTT.MainProject.Controllers
 
                 if (question == null)
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.questionNotFound));
                     return Json(MessageResult.GetMessage(MessageType.QUESTION_NOT_FOUND));
                 }
 
@@ -389,21 +408,19 @@ namespace PTT.MainProject.Controllers
 
                 if (!_questionRepository.Save())
                 {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.questionDeleted));
                 return Json(MessageResult.GetMessage(MessageType.QUESTION_DELETED));
             }
             catch(Exception ex)
             {
-                MessageResult messageResult = new MessageResult();
-                messageResult.MessageReturnFalse = ex.Message;
-                messageResult.IsSuccessful = false;
-                return Json(messageResult);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
             }
            
         }
-
-
     }
 }
