@@ -66,7 +66,7 @@ namespace PTT.MainProject.Controllers
             var a = HttpContext.Session.Get("accountId");
             result.Session = a;
             var listRoles = new List<string>();
-
+            
             List<RoleEntity> roles = new List<RoleEntity>();
 
             //Browser the elements of list role

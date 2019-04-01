@@ -274,13 +274,13 @@ namespace PTT.MainProject.Controllers
                 }
             }
 
-            if (question == null)
+            if (questionEntity == null)
             {
                 return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
             }
 
             //Map data enter from the form to question entity
-            Mapper.Map(question, question);
+            Mapper.Map(question, questionEntity);
 
             if (!_questionRepository.Save())
             {

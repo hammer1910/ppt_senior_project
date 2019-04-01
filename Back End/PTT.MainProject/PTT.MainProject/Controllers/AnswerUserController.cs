@@ -35,15 +35,15 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Add answer of the user function
         /// </summary>
-        /// <param name="answers">The information answer of user from body</param> 
+        /// <param name="answersFromForm">The information answer of user from body</param> 
         /// <param name="accountId">Get id account on the url</param>
         /// <param name="examId">Get id exam on the url</param> 
         [HttpPost("{accountId}/{examId}/createansweruser")]
-        public JsonResult CreateAnswerUser(int accountId, int examId, [FromBody] List<AnswerUserDto> answers)
+        public JsonResult CreateAnswerUser(int accountId, int examId, [FromBody] List<AnswerUserDto> answersFromForm)
         {
 
             //Check value enter from the form 
-            if (answers == null)
+            if (answersFromForm == null)
             {
                 return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
             }
@@ -63,21 +63,83 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
             }
 
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);                    
 
-            foreach (var examQuestion in examQuestionEntity)
+            List<AnswerUserEntity> answerUsersFromDB = _answerUserRepository.GetAnswerUserEntities(accountId);
+
+            List<AnswerUserDto> newAccountAnswer = new List<AnswerUserDto>();
+
+            List<AnswerUserDto> oldAccountUser = new List<AnswerUserDto>();
+
+            // divide between old and new answer
+            foreach (var answer in answersFromForm)
             {
-                foreach (var answer in answers)
+                foreach (var item in answerUsersFromDB)
                 {
-                    if (examQuestion.QuestionId == answer.questionId)
+                    if(answer.questionId == item.QuestionId)
                     {
-                        answer.accountId = accountId;
-                        //Map data enter from the form to question entity
-                        var answerUser = Mapper.Map<PPT.Database.Entities.AnswerUserEntity>(answer);
-                        //This is query insert question
-                        _answerUserRepository.CreateAnswerUser(answerUser);
+                        oldAccountUser.Add(answer);
+                    }                   
+                }
+            } 
+
+            if (oldAccountUser != null)
+            {
+                // remove old answer
+                for (int i = 0; i < answersFromForm.Count; i++)
+                {
+                    foreach (var item in oldAccountUser)
+                    {
+                        if (item == answersFromForm[i])
+                        {
+                            answersFromForm.Remove(answersFromForm[i]);
+                        }
                     }
-                    
+                }
+                newAccountAnswer = answersFromForm;
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    foreach (var answer in newAccountAnswer)
+                    {
+                        if (examQuestion.QuestionId == answer.questionId)
+                        {
+                            answer.accountId = accountId;
+                            //Map data enter from the form to question entity
+                            var answerUser = Mapper.Map<PPT.Database.Entities.AnswerUserEntity>(answer);
+                            //This is query insert question
+                            _answerUserRepository.CreateAnswerUser(answerUser);
+                        }
+
+                    }
+                }
+
+                foreach (var answer in oldAccountUser)
+                {
+                    foreach (var answerU in answerUsersFromDB)
+                    {
+                        if (answerU.QuestionId == answer.questionId)
+                        {
+                            answerU.AnswerKey = answer.answerKey;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    foreach (var answer in newAccountAnswer)
+                    {
+                        if (examQuestion.QuestionId == answer.questionId)
+                        {
+                            answer.accountId = accountId;
+                            //Map data enter from the form to question entity
+                            var answerUser = Mapper.Map<PPT.Database.Entities.AnswerUserEntity>(answer);
+                            //This is query insert question
+                            _answerUserRepository.CreateAnswerUser(answerUser);
+                        }
+
+                    }
                 }
             }
 
@@ -88,6 +150,58 @@ namespace PTT.MainProject.Controllers
 
             return Json(MessageResult.GetMessage(MessageType.CREATED_ANSWER_USER));
         }
-        
+
+        /// <summary>
+        /// Get all informations of the question function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="accountId">Get id account on the url</param>
+        [HttpGet("{accountId}/{examId}/getanswerkeyandcorrectanswer")]
+        public JsonResult GetAnswerKeyAndCorrectAnswer(int examId, int accountId)
+        {
+            if (!_accountRepository.AccountExists(accountId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+            }
+
+            if (!_examRepository.ExamExist(examId))
+            {
+                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+            }
+
+            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+            List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
+            foreach (var examQuestion in examQuestionEntity)
+            {
+                // Get all informations of the question by questionId and save it in the list
+                QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
+                listQuestionEntities.Add(questionEntity);
+            }
+
+            List<AnswerUserEntity> answerUserEntities = _answerUserRepository.GetAnswerUserEntities(accountId);
+
+            List<AnswerUserResult> answerUserResults = new List<AnswerUserResult>();
+            foreach (var examQuestion in listQuestionEntities)
+            {
+                foreach (var item in answerUserEntities)
+                {
+                    if(item.QuestionId == examQuestion.QuestionId)
+                    {
+                        AnswerUserResult answerUser = new AnswerUserResult();
+                        answerUser.answerKey = item.AnswerKey;
+                        answerUser.correctAnswer = examQuestion.CorrectAnswer;
+                        answerUserResults.Add(answerUser);
+                    }
+                }
+            }
+
+            return Json(answerUserResults);
+        }
     }
 }

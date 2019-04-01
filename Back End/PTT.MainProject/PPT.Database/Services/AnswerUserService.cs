@@ -21,9 +21,19 @@ namespace PPT.Database.Services
             _context.AnswerUsers.Add(answerUserEntity);
         }
 
+        public AnswerUserEntity GetAnswerUserByQuestionId(int questionId)
+        {
+            return _context.AnswerUsers.Where(a => a.QuestionId == questionId).FirstOrDefault();
+        }
+
         public List<AnswerUserEntity> GetAnswerUserEntities(int accountId)
         {
             return _context.AnswerUsers.Where(c => c.AccountId == accountId).ToList();
+        }
+
+        public List<AnswerUserEntity> GetAnswerUsers()
+        {
+            return _context.AnswerUsers.ToList();
         }
 
         public bool Save()

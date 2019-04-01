@@ -12,7 +12,6 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnswerUserId { get; set; }
 
-        [MaxLength(10)]
         public string AnswerKey { get; set; }
 
         [ForeignKey("AccountId")]
@@ -20,6 +19,6 @@ namespace PPT.Database.Entities
         public int AccountId { get; set; }
 
         public int QuestionId { get; set; }
-        public QuestionEntity Question { get; set; }
+        public QuestionEntity Question { get; set; }      
     }
 }

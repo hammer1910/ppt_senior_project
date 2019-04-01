@@ -10,5 +10,7 @@ namespace PPT.Database.Repositories
         void CreateAnswerUser(AnswerUserEntity answerUserEntity);
         bool Save();
         List<AnswerUserEntity> GetAnswerUserEntities(int accountId);
+        AnswerUserEntity GetAnswerUserByQuestionId(int questionId);
+        List<AnswerUserEntity> GetAnswerUsers();
     }
 }
