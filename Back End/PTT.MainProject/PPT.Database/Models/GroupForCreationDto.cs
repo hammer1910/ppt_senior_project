@@ -6,8 +6,8 @@ using System.Text;
 namespace PPT.Database.Models
 {
     public class GroupForCreationDto
-    {       
-
+    {
+        public int accountId;
         [MaxLength(200)]
         public string Name { get; set; }
 

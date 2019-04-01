@@ -6,8 +6,7 @@ namespace PPT.Database.Models
 {
     public class AnswerUserDto
     {
-        public string answerKey { get; set; }
-        public int accountId { get; set; }
+        public string answerKey { get; set; }        
         public int questionId { get; set; }
     }
 }

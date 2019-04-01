@@ -30,38 +30,44 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="group">The group information from body</param> 
         /// <param name="accountId">Get id account on the url</param> 
-        [HttpPost("{accountId}/group/create")]
-        public JsonResult CreationGroup([FromBody] GroupForCreationDto group, int accountId)
+        [HttpPost("group/create")]
+        public JsonResult CreationGroup([FromBody] GroupForCreationDto group)
         {
-            AccountEntity account = _accountRepository.GetAccountById(accountId); //get account from AccountController stored data user logged in
-            if (group == null)
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                AccountEntity account = _accountRepository.GetAccountById(group.accountId); //get account from AccountController stored data user logged in
+                if (group == null)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_GROUP));
+                }
+
+                //This is get current day
+                group.CreatedDate = DateTime.Now;
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                var finalGroup = Mapper.Map<PPT.Database.Entities.GroupEntity>(group);
+
+                //This is query insert account
+                _groupRepository.CreationGroup(finalGroup, account);
+
+                if (!_groupRepository.Save())
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                GroupListResult groupListResult = new GroupListResult();
+                groupListResult.groupId = finalGroup.GroupId;
+
+                return Json(groupListResult);
             }
-            
-
-            //This is get current day
-            group.CreatedDate = DateTime.Now;
-
-            if (!ModelState.IsValid)
+            catch (Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-
-            var finalGroup = Mapper.Map<PPT.Database.Entities.GroupEntity>(group);
-
-            //This is query insert account
-            _groupRepository.CreationGroup(finalGroup,account);
-
-            if (!_groupRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            GroupListResult groupListResult = new GroupListResult();
-            groupListResult.groupId = finalGroup.GroupId;
-
-            return Json(groupListResult);
+                return Json(ex);
+            }            
         }
 
         /// <summary>
@@ -136,11 +142,11 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
         /// <param name="group">The group information from body</param> 
-        [HttpPut("updateinformationgroup/{groupId}")]
-        public JsonResult UpdateAccount(int groupId, [FromBody] GroupForUpdateDto group)
+        [HttpPut("updateinformationgroup")]
+        public JsonResult UpdateAccount( [FromBody] GroupForUpdateDto group)
         {
             //Check id group exist in the database
-            if (!_groupRepository.GroupExist(groupId))
+            if (!_groupRepository.GroupExist(group.groupId))
             {
                 return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
             }
@@ -157,7 +163,7 @@ namespace PTT.MainProject.Controllers
             }
 
             //This is get all information of group
-            var groupEntity = _groupRepository.GetGroupById(groupId);
+            var groupEntity = _groupRepository.GetGroupById(group.groupId);
 
             if (groupEntity == null)
             {

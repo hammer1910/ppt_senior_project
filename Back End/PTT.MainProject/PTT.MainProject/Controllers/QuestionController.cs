@@ -36,37 +36,48 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="question">The information of question from body</param> 
         /// <param name="examId">Get id exam on the url</param>  
-        [HttpPost("{examId}/createquestion")]
-        public JsonResult CreateQuestion(int examId, [FromBody] QuestionDto question)
+        [HttpPost("createquestion")]
+        public JsonResult CreateQuestion([FromBody] QuestionDto question)
         {
+            try
+            {
+                if (question == null)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+                }
+
+                if (!_examRepository.ExamExist(question.examId))
+                {
+                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //Map data enter from the form to question entity
+                var partOneExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
+
+                //This is query insert question
+                _questionRepository.CreatePart(partOneExam, question.examId);
+
+                if (!_questionRepository.Save())
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
+            }
+            catch(Exception ex)
+            {
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
+            }
             //Check value enter from the form 
-            if (question == null)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
-            }
-
-            if (!_examRepository.ExamExist(examId))
-            {
-                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-
-            //Map data enter from the form to question entity
-            var partOneExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
-
-            //This is query insert question
-            _questionRepository.CreatePart(partOneExam,examId);
-
-            if (!_questionRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
+            
         }
 
         /// <summary>
@@ -78,98 +89,40 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{accountId}/{examId}/getListQuestion/{page}")]
         public JsonResult GetListQuestion(int accountId, int examId, int page)
         {
-            if (!_accountRepository.AccountExists(accountId))
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
-            }
-
-            //Check id exam exist in the database
-            if (!_examRepository.ExamExist(examId))
-            {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-
-            //This is get all questions of the exam by id exam
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
-            List<AnswerUserEntity> answerUsers = _answerUserRepository.GetAnswerUserEntities(accountId);
-
-            List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
-            foreach (var examQuestion in examQuestionEntity)
-            {
-                // Get all informations of the question by questionId and save it in the list
-                QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
-                listQuestionEntities.Add(questionEntity);
-            }
-
-            List<QuestionListResult> questionLists = new List<QuestionListResult>();
-            foreach (var item in listQuestionEntities)
-            {
-                QuestionListResult q = new QuestionListResult();
-                q.questionId = item.QuestionId;
-                q.part = item.Part;
-                q.image = item.Image;
-                q.fileMp3 = item.FileMp3;
-                q.questionName = item.QuestionName;
-                q.A = item.A;
-                q.B = item.B;
-                q.C = item.C;
-                q.D = item.D;
-                q.correctAnswer = item.CorrectAnswer;
-                q.team = item.Team;
-                foreach (var answer in answerUsers)
+                if (!_accountRepository.AccountExists(accountId))
                 {
-                    if(q.questionId == answer.QuestionId)
-                    {
-                        q.answerUser = answer.AnswerKey;
-                    }
+                    return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
-                questionLists.Add(q);
-            }
-            List<QuestionListResult> pagging = Pagging.GetQuestions(page, questionLists);
-            return Json(pagging);
-        }
 
-        /// <summary>
-        /// Get all questions by part of the exam function
-        /// </summary>
-        /// <param name="examId">Get id exam on the url</param> 
-        /// <param name="part">Get part parameter on the url</param> 
-        [HttpGet("{examId}/getListQuestionByPart/{part}")]
-        public JsonResult GetListQuestionByPart(int examId, string part)
-        {
-            //Check id exam exist in the database
-            if (!_examRepository.ExamExist(examId))
-            {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-
-            //This is get all questions of the exam by id exam
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
-
-            List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
-            foreach (var examQuestion in examQuestionEntity)
-            {
-                // Get all informations of the question by questionId and save it in the list
-                QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
-                listQuestionEntities.Add(questionEntity);
-            }
-
-            List<QuestionListResult> questionLists = new List<QuestionListResult>();
-            foreach (var item in listQuestionEntities)
-            {
-                QuestionListResult q = new QuestionListResult();
-                if (item.Part.Equals(part))
+                //Check id exam exist in the database
+                if (!_examRepository.ExamExist(examId))
                 {
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all questions of the exam by id exam
+                List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+                List<AnswerUserEntity> answerUsers = _answerUserRepository.GetAnswerUserEntities(accountId);
+
+                List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    // Get all informations of the question by questionId and save it in the list
+                    QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
+                    listQuestionEntities.Add(questionEntity);
+                }
+
+                List<QuestionListResult> questionLists = new List<QuestionListResult>();
+                foreach (var item in listQuestionEntities)
+                {
+                    QuestionListResult q = new QuestionListResult();
                     q.questionId = item.QuestionId;
                     q.part = item.Part;
                     q.image = item.Image;
@@ -181,12 +134,92 @@ namespace PTT.MainProject.Controllers
                     q.D = item.D;
                     q.correctAnswer = item.CorrectAnswer;
                     q.team = item.Team;
+                    foreach (var answer in answerUsers)
+                    {
+                        if (q.questionId == answer.QuestionId)
+                        {
+                            q.answerUser = answer.AnswerKey;
+                        }
+                    }
                     questionLists.Add(q);
                 }
-                
+                List<QuestionListResult> pagging = Pagging.GetQuestions(page, questionLists);
+                return Json(pagging);
             }
+            catch(Exception ex)
+            {
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
+            }
+            
+        }
 
-            return Json(questionLists);
+        /// <summary>
+        /// Get all questions by part of the exam function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="part">Get part parameter on the url</param> 
+        [HttpGet("{examId}/getListQuestionByPart/{part}")]
+        public JsonResult GetListQuestionByPart(int examId, string part)
+        {
+            try
+            {
+                if (!_examRepository.ExamExist(examId))
+                {
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all questions of the exam by id exam
+                List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+                List<QuestionEntity> listQuestionEntities = new List<QuestionEntity>();
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    // Get all informations of the question by questionId and save it in the list
+                    QuestionEntity questionEntity = _questionRepository.getQuestionInformation(examQuestion.QuestionId);
+                    listQuestionEntities.Add(questionEntity);
+                }
+
+                List<QuestionListResult> questionLists = new List<QuestionListResult>();
+                foreach (var item in listQuestionEntities)
+                {
+                    QuestionListResult q = new QuestionListResult();
+                    if (item.Part.Equals(part))
+                    {
+                        q.questionId = item.QuestionId;
+                        q.part = item.Part;
+                        q.image = item.Image;
+                        q.fileMp3 = item.FileMp3;
+                        q.questionName = item.QuestionName;
+                        q.A = item.A;
+                        q.B = item.B;
+                        q.C = item.C;
+                        q.D = item.D;
+                        q.correctAnswer = item.CorrectAnswer;
+                        q.team = item.Team;
+                        questionLists.Add(q);
+                    }
+
+                }
+
+                return Json(questionLists);
+            }
+            catch(Exception ex)
+            {
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
+            } 
+            //Check id exam exist in the database
+            
         }
 
         /// <summary>
@@ -197,43 +230,54 @@ namespace PTT.MainProject.Controllers
         [HttpGet("{examId}/getQuestionInformation/{questionId}")]
         public JsonResult GetInformationGroup(int examId,int questionId)
         {
-            //Check id exam exist in the database
-            if (!_examRepository.ExamExist(examId))
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-            }
-            QuestionEntity question = null;
-            //This is get all information of the exam by examId
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
-
-            QuestionListResult questionListResult = new QuestionListResult();
-            foreach (var examQuestion in examQuestionEntity)
-            {
-                if(examQuestion.QuestionId == questionId)
+                //Check id exam exist in the database
+                if (!_examRepository.ExamExist(examId))
                 {
-                    question = _questionRepository.getQuestionInformation(questionId);
-                    break;
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
                 }
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+                QuestionEntity question = null;
+                //This is get all information of the exam by examId
+                List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+                QuestionListResult questionListResult = new QuestionListResult();
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    if (examQuestion.QuestionId == questionId)
+                    {
+                        question = _questionRepository.getQuestionInformation(questionId);
+                        break;
+                    }
+                }
+
+                questionListResult.questionId = question.QuestionId;
+                questionListResult.part = question.Part;
+                questionListResult.image = question.Image;
+                questionListResult.fileMp3 = question.FileMp3;
+                questionListResult.questionName = question.QuestionName;
+                questionListResult.A = question.A;
+                questionListResult.B = question.B;
+                questionListResult.C = question.C;
+                questionListResult.D = question.D;
+                questionListResult.correctAnswer = question.CorrectAnswer;
+                questionListResult.team = question.Team;
+
+                return Json(questionListResult);
             }
-
-            questionListResult.questionId = question.QuestionId;
-            questionListResult.part = question.Part;
-            questionListResult.image = question.Image;
-            questionListResult.fileMp3 = question.FileMp3;
-            questionListResult.questionName = question.QuestionName;
-            questionListResult.A = question.A;
-            questionListResult.B = question.B;
-            questionListResult.C = question.C;
-            questionListResult.D = question.D;
-            questionListResult.correctAnswer = question.CorrectAnswer;
-            questionListResult.team = question.Team;
-
-            return Json(questionListResult);
+            catch (Exception ex)
+            {
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
+            }
+            
         }
 
         /// <summary>
@@ -242,52 +286,63 @@ namespace PTT.MainProject.Controllers
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="questionId">Get id question on the url</param>
         /// <param name="question">The question information from body</param>
-        [HttpPut("{examId}/updatequestion/{questionId}")]
-        public JsonResult UpdateInformationQuestion(int examId, int questionId, [FromBody] QuestionDto question)
+        [HttpPut("updatequestion")]
+        public JsonResult UpdateInformationQuestion([FromBody] QuestionDto question)
         {
-            //Check id exam exist in the database
-            if (!_examRepository.ExamExist(examId))
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
-            }
-
-            //Check value enter from the form 
-            if (question == null)
-            {
-                return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            QuestionEntity questionEntity = null;
-            //This is get all information of the exam by examId
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
-
-            foreach (var examQuestion in examQuestionEntity)
-            {
-                if (examQuestion.QuestionId == questionId)
+                //Check id exam exist in the database
+                if (!_examRepository.ExamExist(question.examId))
                 {
-                    questionEntity = _questionRepository.getQuestionInformation(questionId);
+                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
-            }
 
-            if (questionEntity == null)
+                //Check value enter from the form 
+                if (question == null)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                QuestionEntity questionEntity = null;
+                //This is get all information of the exam by examId
+                List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(question.examId);
+
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    if (examQuestion.QuestionId == question.questionId)
+                    {
+                        questionEntity = _questionRepository.getQuestionInformation(question.questionId);
+                    }
+                }
+
+                if (questionEntity == null)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                }
+
+                //Map data enter from the form to question entity
+                Mapper.Map(question, questionEntity);
+
+                if (!_questionRepository.Save())
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+            }
+            catch(Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
             }
-
-            //Map data enter from the form to question entity
-            Mapper.Map(question, questionEntity);
-
-            if (!_questionRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.QUESTION_UPDATED));
+            
         }
 
         /// <summary>
@@ -298,44 +353,55 @@ namespace PTT.MainProject.Controllers
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {
-            //Check id exam exist in the database
-            if (!_examRepository.ExamExist(examId))
+            try
             {
-                return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
-            }
-
-            
-
-            if (!ModelState.IsValid)
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            QuestionEntity question = null;
-            //This is get all information of the exam by examId
-            List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
-
-            foreach (var examQuestion in examQuestionEntity)
-            {
-                if (examQuestion.QuestionId == questionId)
+                //Check id exam exist in the database
+                if (!_examRepository.ExamExist(examId))
                 {
-                    question = _questionRepository.getQuestionInformation(questionId);
+                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                 }
-            }
 
-            if (question == null)
+
+
+                if (!ModelState.IsValid)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                QuestionEntity question = null;
+                //This is get all information of the exam by examId
+                List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(examId);
+
+                foreach (var examQuestion in examQuestionEntity)
+                {
+                    if (examQuestion.QuestionId == questionId)
+                    {
+                        question = _questionRepository.getQuestionInformation(questionId);
+                    }
+                }
+
+                if (question == null)
+                {
+                    return Json(MessageResult.GetMessage(MessageType.QUESTION_NOT_FOUND));
+                }
+
+                _questionRepository.DeleteQuestion(question.QuestionId);
+
+                if (!_questionRepository.Save())
+                {
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                return Json(MessageResult.GetMessage(MessageType.QUESTION_DELETED));
+            }
+            catch(Exception ex)
             {
-                return Json(MessageResult.GetMessage(MessageType.QUESTION_NOT_FOUND));
+                MessageResult messageResult = new MessageResult();
+                messageResult.MessageReturnFalse = ex.Message;
+                messageResult.IsSuccessful = false;
+                return Json(messageResult);
             }
-
-            _questionRepository.DeleteQuestion(question.QuestionId);
-
-            if (!_questionRepository.Save())
-            {
-                return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-            }
-
-            return Json(MessageResult.GetMessage(MessageType.QUESTION_DELETED));
+           
         }
 
 

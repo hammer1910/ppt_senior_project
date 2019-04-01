@@ -28,14 +28,14 @@
             </summary>
             <param name="id">Get id account on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccount(System.Int32,PPT.Database.Models.AccountForUpdateDto)">
+        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccount(PPT.Database.Models.AccountForUpdateDto)">
             <summary>
             Update information account function
             </summary>
             <param name="id">Get id account on the url</param>
             <param name="account">The account information from body</param>
         </member>
-        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccountPatch(System.Int32,PPT.Database.Models.ChangingPassword)">
+        <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccountPatch(PPT.Database.Models.ChangingPassword)">
             <summary>
             Change password account function
             </summary>
@@ -53,13 +53,11 @@
             Get all accounts of the database function
             </summary>
         </member>
-        <member name="M:PTT.MainProject.Controllers.AnswerUserController.CreateAnswerUser(System.Int32,System.Int32,System.Collections.Generic.List{PPT.Database.Models.AnswerUserDto})">
+        <member name="M:PTT.MainProject.Controllers.AnswerUserController.CreateAnswerUser(PPT.Database.Models.AnswerUserModel)">
             <summary>
             Add answer of the user function
             </summary>
-            <param name="answersFromForm">The information answer of user from body</param> 
-            <param name="accountId">Get id account on the url</param>
-            <param name="examId">Get id exam on the url</param> 
+            <param name="answerUserModel">The information answer of user from body</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetAnswerKeyAndCorrectAnswer(System.Int32,System.Int32)">
             <summary>
@@ -68,12 +66,11 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="accountId">Get id account on the url</param>
         </member>
-        <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto,System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Create exam function
             </summary>
-            <param name="exam">The account exam from body</param> 
-            <param name="groupId">Get id group on the url</param>  
+            <param name="exam">The account exam from body</param>        
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.GetInformationGroup(System.Int32)">
             <summary>
@@ -81,7 +78,7 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.ExamController.UpdateInformationExam(System.Int32,PPT.Database.Models.ExamForCreationDto)">
+        <member name="M:PTT.MainProject.Controllers.ExamController.UpdateInformationExam(PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Update information group function
             </summary>
@@ -94,7 +91,7 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto,System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto)">
             <summary>
             Create group function
             </summary>
@@ -114,7 +111,7 @@
             </summary>
             <param name="groupId">Get id group on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.UpdateAccount(System.Int32,PPT.Database.Models.GroupForUpdateDto)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.UpdateAccount(PPT.Database.Models.GroupForUpdateDto)">
             <summary>
             Update information group function
             </summary>
@@ -145,7 +142,7 @@
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(System.Int32,PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(PPT.Database.Models.QuestionDto)">
             <summary>
             Create exam function
             </summary>
@@ -174,7 +171,7 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(System.Int32,System.Int32,PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionDto)">
             <summary>
             Update information group function
             </summary>

@@ -7,6 +7,7 @@ namespace PPT.Database.Models
 {
     public class AccountForUpdateDto
     {
+        public int accountId;
         [MaxLength(255)]
         public string Email { get; set; }
 

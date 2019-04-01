@@ -6,10 +6,20 @@ using System.Text;
 
 namespace PPT.Database.ResultObject
 {
-    public class MessageResult : Constants
+    public class MessageResult 
     {
         public int MessageId { get; set; }
-        public string MessageReturn { get; set; }  
+        public string MessageReturnTrue { get; set; }
+        public string MessageReturnFalse { get; set; }
+        public bool IsSuccessful { get; set; }
+
+        public MessageResult()
+        {
+            this.MessageReturnTrue = "";
+            this.MessageReturnFalse = "";
+            this.IsSuccessful = false;
+        }
+
 
         public static MessageResult GetMessage(MessageType messageType)
         {
@@ -22,7 +32,9 @@ namespace PPT.Database.ResultObject
                 if (item.MessageId == (int)messageType)
                 {
                     messageResult.MessageId = item.MessageId;
-                    messageResult.MessageReturn = item.MessageReturn;
+                    messageResult.MessageReturnTrue = item.MessageReturnTrue;
+                    messageResult.MessageReturnFalse = item.MessageReturnFalse;
+                    messageResult.IsSuccessful = item.IsSuccessful;
                 }
             }
 
@@ -36,172 +48,206 @@ namespace PPT.Database.ResultObject
                 new MessageResult()
                 {
                     MessageId = 1,
-                    MessageReturn = Constants.registerSuccess
+                    MessageReturnTrue = Constants.registerSuccess,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 2,
-                    MessageReturn = Constants.badRequest
+                    MessageReturnFalse = Constants.badRequest,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 3,
-                    MessageReturn = Constants.notInformationAccount
+                    MessageReturnFalse = Constants.notInformationAccount,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 4,
-                    MessageReturn = Constants.notFound
+                    MessageReturnFalse = Constants.notFound,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 5,
-                    MessageReturn = Constants.emailExist
+                    MessageReturnFalse = Constants.emailExist,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 6,
-                    MessageReturn = Constants.notEnterEmail
+                    MessageReturnFalse = Constants.notEnterEmail,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 7,
-                    MessageReturn = Constants.sendPassword
+                    MessageReturnTrue = Constants.sendPassword,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 8,
-                    MessageReturn = Constants.emailNotExist
+                    MessageReturnFalse = Constants.emailNotExist,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 9,
-                    MessageReturn = Constants.accountNotFound
+                    MessageReturnFalse = Constants.accountNotFound,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 10,
-                    MessageReturn = Constants.accountUpdated
+                    MessageReturnTrue = Constants.accountUpdated,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 11,
-                    MessageReturn = Constants.emailAndPasswordWrong
+                    MessageReturnFalse = Constants.emailAndPasswordWrong,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 12,
-                    MessageReturn = Constants.oldPasswordNotTrue
+                    MessageReturnFalse = Constants.oldPasswordNotTrue,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 13,
-                    MessageReturn = Constants.accountDeleted
+                    MessageReturnTrue = Constants.accountDeleted,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 14,
-                    MessageReturn = Constants.notInformationGroup
+                    MessageReturnFalse = Constants.notInformationGroup,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 15,
-                    MessageReturn = Constants.groupCreated
+                    MessageReturnTrue = Constants.groupCreated,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 16,
-                    MessageReturn = Constants.groupNotFound
+                    MessageReturnFalse = Constants.groupNotFound,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 17,
-                    MessageReturn = Constants.memberAdded
+                    MessageReturnTrue = Constants.memberAdded,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 18,
-                    MessageReturn = Constants.groupUpdated
+                    MessageReturnTrue = Constants.groupUpdated,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 19,
-                    MessageReturn = Constants.groupDeleted
+                    MessageReturnTrue = Constants.groupDeleted,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 20,
-                    MessageReturn = Constants.notInformationMember
+                    MessageReturnFalse = Constants.notInformationMember,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 21,
-                    MessageReturn = Constants.memberDeleted
+                    MessageReturnTrue = Constants.memberDeleted,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 22,
-                    MessageReturn = Constants.createdExam
+                    MessageReturnTrue = Constants.createdExam,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 23,
-                    MessageReturn = Constants.failCreatedExam
+                    MessageReturnFalse = Constants.failCreatedExam,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 24,
-                    MessageReturn = Constants.examNotFound
+                    MessageReturnFalse = Constants.examNotFound,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 25,
-                    MessageReturn = Constants.notInformationExam
+                    MessageReturnFalse = Constants.notInformationExam,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 26,
-                    MessageReturn = Constants.examUpdated
+                    MessageReturnTrue = Constants.examUpdated,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 27,
-                    MessageReturn = Constants.examDeleted
+                    MessageReturnTrue = Constants.examDeleted,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 28,
-                    MessageReturn = Constants.notInformationQuestion
+                    MessageReturnFalse = Constants.notInformationQuestion,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 29,
-                    MessageReturn = Constants.createdQuestion
+                    MessageReturnTrue = Constants.createdQuestion,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 30,
-                    MessageReturn = Constants.questionUpdated
+                    MessageReturnTrue = Constants.questionUpdated,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 31,
-                    MessageReturn = Constants.questionDeleted
+                    MessageReturnTrue = Constants.questionDeleted,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 32,
-                    MessageReturn = Constants.questionNotFound
+                    MessageReturnFalse = Constants.questionNotFound,
+                    IsSuccessful = false
                 },
                 new MessageResult()
                 {
                     MessageId = 33,
-                    MessageReturn = Constants.createdAnswerUser
+                    MessageReturnTrue = Constants.createdAnswerUser,
+                    IsSuccessful = true
                 },
                 new MessageResult()
                 {
                     MessageId = 34,
-                    MessageReturn = Constants.questionIdWrong
+                    MessageReturnFalse = Constants.questionIdWrong,
+                    IsSuccessful = false
                 }
             };
 

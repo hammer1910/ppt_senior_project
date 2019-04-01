@@ -7,6 +7,7 @@ namespace PPT.Database.Models
 {
     public class GroupForUpdateDto
     {
+        public int groupId;
         [MaxLength(200)]
         public string Name { get; set; }
 
