@@ -19,6 +19,10 @@ namespace PTT.MainProject.Controllers
     [Route("api/exam")]
     public class AccountController : Controller
     {
+        public AccountController()
+        {
+
+        }
         private IAccountRepository _accountRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 

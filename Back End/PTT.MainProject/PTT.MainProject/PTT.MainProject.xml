@@ -138,7 +138,7 @@
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(System.Collections.Generic.List{PPT.Database.Models.QuestionDto})">
             <summary>
             Create exam function
             </summary>
@@ -166,7 +166,7 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionUpdate)">
             <summary>
             Update information group function
             </summary>

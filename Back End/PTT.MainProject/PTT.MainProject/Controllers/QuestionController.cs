@@ -39,35 +39,41 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="question">The information of question from body</param>  
         [HttpPost("createquestion")]
-        public JsonResult CreateQuestion([FromBody] QuestionDto question)
+        public JsonResult CreateQuestion([FromBody] List<QuestionDto> questions)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             try
             {
-                if (question == null)
+                if (questions == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
-
-                if (!_examRepository.ExamExist(question.examId))
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
-                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                foreach(var question in questions){
+                    if (!_examRepository.ExamExist(question.examId))
+                    {
+                        Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
+                        return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                    }
                 }
+                
 
                 if (!ModelState.IsValid)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
+                foreach (var question in questions)
+                {
+                    //Map data enter from the form to question entity
+                    var partExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
 
-                //Map data enter from the form to question entity
-                var partOneExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
+                    //This is query insert question
+                    _questionRepository.CreatePart(partExam, question.examId);
+                }
 
-                //This is query insert question
-                _questionRepository.CreatePart(partOneExam, question.examId);
+               
 
                 if (!_questionRepository.Save())
                 {
@@ -297,7 +303,7 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="question">The question information from body</param>
         [HttpPut("updatequestion")]
-        public JsonResult UpdateInformationQuestion([FromBody] QuestionDto question)
+        public JsonResult UpdateInformationQuestion([FromBody] QuestionUpdate question)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 

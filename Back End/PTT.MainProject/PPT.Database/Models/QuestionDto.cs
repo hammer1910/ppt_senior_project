@@ -5,8 +5,7 @@ using System.Text;
 namespace PPT.Database.Models
 {
     public class QuestionDto
-    {
-        public int questionId;
+    {        
         public int examId;
         public string part { get; set; }
         public string image { get; set; }
