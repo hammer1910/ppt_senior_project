@@ -95,7 +95,7 @@
             </summary>
             <param name="group">The group information from body</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Entities.AccountEntity,System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Models.AccountGroup,System.Int32)">
             <summary>
             Add members into group function
             </summary>

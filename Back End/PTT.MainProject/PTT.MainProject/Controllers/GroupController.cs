@@ -85,7 +85,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="account">The account information from body</param> 
         /// <param name="groupId">Get id group on the url</param> 
         [HttpPost("group/addmembers/{groupId}")]
-        public JsonResult AddMember([FromBody] AccountEntity account, int groupId)
+        public JsonResult AddMember([FromBody] AccountGroup account, int groupId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -112,7 +112,7 @@ namespace PTT.MainProject.Controllers
                 }
 
                 // get account by email. Email was input from the form
-                AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
+                AccountEntity accountEntity = _accountRepository.GetAccountById(account.accountID);
                 if (accountEntity == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));

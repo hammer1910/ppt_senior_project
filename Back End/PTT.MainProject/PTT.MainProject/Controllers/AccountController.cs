@@ -458,6 +458,7 @@ namespace PTT.MainProject.Controllers
                 foreach (var item in listAccounts)
                 {
                     LoginResult account = new LoginResult();
+                    account.accountId = item.AccountId;
                     account.email = item.Email;
                     account.firstName = item.FirstName;
                     account.lastName = item.LastName;
