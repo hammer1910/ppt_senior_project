@@ -18,11 +18,7 @@ namespace PTT.MainProject.Controllers
 {
     [Route("api/exam")]
     public class AccountController : Controller
-    {
-        public AccountController()
-        {
-
-        }
+    {        
         private IAccountRepository _accountRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
@@ -72,8 +68,7 @@ namespace PTT.MainProject.Controllers
                 result.accountId = accountEntity.AccountId;
                 result.email = accountEntity.Email;
                 result.password = accountEntity.Password;
-                result.firstName = accountEntity.FirstName;
-                result.lastName = accountEntity.LastName;
+                result.fullName = accountEntity.FullName;
                 result.phoneNumber = accountEntity.Phone;
                 result.address = accountEntity.Address;
                 var a = HttpContext.Session.Get("accountId");
@@ -324,7 +319,6 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Change password account function
         /// </summary>
-        /// <param name="id">Get id account on the url</param>
         /// <param name="account">The account information from body</param>
         [HttpPost("updatepasswordaccount")]
         public JsonResult UpdateAccountPatch([FromBody] ChangingPassword account)
@@ -462,9 +456,9 @@ namespace PTT.MainProject.Controllers
                 foreach (var item in listAccounts)
                 {
                     LoginResult account = new LoginResult();
+                    account.accountId = item.AccountId;
                     account.email = item.Email;
-                    account.firstName = item.FirstName;
-                    account.lastName = item.LastName;
+                    account.fullName = item.FullName;
                     account.phoneNumber = item.Phone;
                     account.address = item.Address;
 

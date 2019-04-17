@@ -20,12 +20,14 @@ namespace PTT.MainProject.Controllers
     {
         private IGroupRepository _groupRepository;
         private IAccountRepository _accountRepository;
+        private IGroupMemberRepository _groupMemberRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository )
+        public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository, IGroupMemberRepository groupMemberRepository)
         {
             _groupRepository = groupRepository;
             _accountRepository = accountRepository;
+            _groupMemberRepository = groupMemberRepository;
             Log4Net.InitLog();
         }
 
@@ -85,7 +87,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="account">The account information from body</param> 
         /// <param name="groupId">Get id group on the url</param> 
         [HttpPost("group/addmembers/{groupId}")]
-        public JsonResult AddMember([FromBody] AccountEntity account, int groupId)
+        public JsonResult AddMember([FromBody] AccountGroup account, int groupId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -112,7 +114,7 @@ namespace PTT.MainProject.Controllers
                 }
 
                 // get account by email. Email was input from the form
-                AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
+                AccountEntity accountEntity = _accountRepository.GetAccountById(account.accountID);
                 if (accountEntity == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
@@ -398,7 +400,7 @@ namespace PTT.MainProject.Controllers
                     memberList.accountId = members.AccountId;
                     AccountEntity accountEntity = _accountRepository.GetAccountById(members.AccountId);
                     memberList.email = accountEntity.Email;
-                    memberList.fullName = accountEntity.FirstName + " " + accountEntity.LastName;
+                    memberList.fullName = accountEntity.FullName;
                     memberList.address = accountEntity.Address;
                     memberList.phoneNumber = accountEntity.Phone;
                     memberListResult.Add(memberList);
@@ -451,6 +453,55 @@ namespace PTT.MainProject.Controllers
 
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.memberDeleted));
                 return Json(MessageResult.GetMessage(MessageType.MEMBER_DELETED));
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Search member by name function
+        /// </summary>
+        /// <param name="searchMember">The information of searching from body</param> 
+        [HttpGet("searchmember")]
+        public JsonResult SearchMemberInGroup([FromBody] SearchMemberDto searchMember)
+        {
+            //get method name
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            try
+            {
+                //Check value enter id group
+                if (searchMember.groupId == 0 || searchMember.name == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.valueIsNull));
+                    return Json(MessageResult.GetMessage(MessageType.VALUEISNULL));
+                }
+                
+                List<SearchResult> listResult = new List<SearchResult>();
+                //get all member with contain name from form body
+                List<AccountEntity> memberEntities = _groupMemberRepository.SearchMemberByName(searchMember.name, searchMember.groupId);
+                if (memberEntities != null)
+                {
+                    //add member into listResult
+                    foreach (var groupMember in memberEntities)
+                    {
+                        AccountEntity account = _accountRepository.GetAccountById(groupMember.AccountId);
+                        SearchResult result = new SearchResult();
+                        result.accountId = account.AccountId;
+                        result.fullName = account.FullName;
+                        listResult.Add(result);
+                    }
+                }
+                //list member with that name is null, it's will show message error
+                if (memberEntities.Count() < 1)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
+                }
+                
+                return Json(listResult);
             }
             catch (Exception ex)
             {

@@ -96,6 +96,12 @@ namespace PPT.Database.ResultObject
                 },
                 new MessageResult()
                 {
+                    MessageId = 36,
+                    MessageReturnTrue = Constants.valueIsNull,
+                    IsSuccessful = false
+                },
+                new MessageResult()
+                {
                     MessageId = 8,
                     MessageReturnFalse = Constants.emailNotExist,
                     IsSuccessful = false
@@ -254,6 +260,12 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 34,
                     MessageReturnFalse = Constants.questionIdWrong,
+                    IsSuccessful = false
+                },
+                new MessageResult()
+                {
+                    MessageId = 35,
+                    MessageReturnFalse = Constants.commentSuccess,
                     IsSuccessful = false
                 }
             };

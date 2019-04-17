@@ -24,5 +24,7 @@ namespace PPT.Database.Entities
         public DbSet<NotificationEntity> Notifications { get; set; }
         public DbSet<QuestionEntity> Questions { get; set; }
         public DbSet<RoleEntity> Roles { get; set; }
+        public DbSet<CommentEntity> Comments { get; set; }
+        public DbSet<AccountExamEntity> AccountExams { get; set; }
     }
 }

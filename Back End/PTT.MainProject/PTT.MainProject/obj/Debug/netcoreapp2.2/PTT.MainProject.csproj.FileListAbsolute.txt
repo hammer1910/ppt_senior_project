@@ -82,3 +82,4 @@ E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.Mai
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CopyComplete
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.dll
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.pdb
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\System.Data.Linq.dll

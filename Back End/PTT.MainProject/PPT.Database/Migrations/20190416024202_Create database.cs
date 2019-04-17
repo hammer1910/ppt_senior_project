@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PPT.Database.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class Createdatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -74,26 +74,6 @@ namespace PPT.Database.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.RoleId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AnswerUsers",
-                columns: table => new
-                {
-                    AnswerUserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AnswerKey = table.Column<string>(maxLength: 10, nullable: true),
-                    AccountId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AnswerUsers", x => x.AnswerUserId);
-                    table.ForeignKey(
-                        name: "FK_AnswerUsers_Accounts_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Accounts",
-                        principalColumn: "AccountId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -198,6 +178,33 @@ namespace PPT.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AnswerUsers",
+                columns: table => new
+                {
+                    AnswerUserId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AnswerKey = table.Column<string>(nullable: true),
+                    AccountId = table.Column<int>(nullable: false),
+                    QuestionId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AnswerUsers", x => x.AnswerUserId);
+                    table.ForeignKey(
+                        name: "FK_AnswerUsers_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AnswerUsers_Questions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "Questions",
+                        principalColumn: "QuestionId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AccountRoles",
                 columns: table => new
                 {
@@ -255,8 +262,6 @@ namespace PPT.Database.Migrations
                 {
                     HistoryId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false),
                     GroupId = table.Column<int>(nullable: true),
                     AccountId = table.Column<int>(nullable: false),
                     ExamId = table.Column<int>(nullable: false)
@@ -284,6 +289,27 @@ namespace PPT.Database.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    CommentId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Content = table.Column<string>(maxLength: 255, nullable: true),
+                    DateTimeComment = table.Column<DateTime>(nullable: false),
+                    GroupMemberId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.CommentId);
+                    table.ForeignKey(
+                        name: "FK_Comments_GroupMembers_GroupMemberId",
+                        column: x => x.GroupMemberId,
+                        principalTable: "GroupMembers",
+                        principalColumn: "GroupMemberId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AccountRoles_AccountId",
                 table: "AccountRoles",
@@ -298,6 +324,17 @@ namespace PPT.Database.Migrations
                 name: "IX_AnswerUsers_AccountId",
                 table: "AnswerUsers",
                 column: "AccountId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AnswerUsers_QuestionId",
+                table: "AnswerUsers",
+                column: "QuestionId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_GroupMemberId",
+                table: "Comments",
+                column: "GroupMemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExamQuestions_ExamId",
@@ -369,10 +406,10 @@ namespace PPT.Database.Migrations
                 name: "AnswerUsers");
 
             migrationBuilder.DropTable(
-                name: "ExamQuestions");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "GroupMembers");
+                name: "ExamQuestions");
 
             migrationBuilder.DropTable(
                 name: "GroupOwners");
@@ -385,6 +422,9 @@ namespace PPT.Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "GroupMembers");
 
             migrationBuilder.DropTable(
                 name: "Questions");
