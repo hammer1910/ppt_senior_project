@@ -149,6 +149,12 @@
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.SearchMemberInGroup(PPT.Database.Models.SearchMemberDto)">
+            <summary>
+            Search member by name function
+            </summary>
+            <param name="searchMember">The information of searching from body</param> 
+        </member>
         <member name="M:PTT.MainProject.Controllers.HistoryController.GetInformationAccount(System.Int32)">
             <summary>
             Get information history function

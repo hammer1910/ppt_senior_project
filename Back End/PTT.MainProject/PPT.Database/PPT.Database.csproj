@@ -14,11 +14,12 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System.Data.Linq">
-      <HintPath>..\..\..\..\..\System.Data.Linq.dll</HintPath>
+      <HintPath>C:\Users\Hammer\Downloads\System.Data.Linq.dll</HintPath>
     </Reference>
   </ItemGroup>
 
