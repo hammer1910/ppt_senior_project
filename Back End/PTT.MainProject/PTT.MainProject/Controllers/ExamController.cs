@@ -17,10 +17,16 @@ namespace PTT.MainProject.Controllers
     public class ExamController : Controller
     {
         private IExamRepository _examRepository;
+        private IAccountExamRepository _accountExamRepository;
+        private IGroupMemberRepository _groupMemberRepository;
+        private IGroupRepository _groupRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public ExamController(IExamRepository examRepository)
+        public ExamController(IAccountExamRepository accountExamRepository,IExamRepository examRepository, IGroupMemberRepository groupMemberRepository, IGroupRepository groupRepository)
         {
+            _accountExamRepository = accountExamRepository;
+            _groupRepository = groupRepository;
+            _groupMemberRepository = groupMemberRepository;
             _examRepository = examRepository;
             Log4Net.InitLog();
         }
@@ -59,9 +65,22 @@ namespace PTT.MainProject.Controllers
                 if (!_examRepository.Save())
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
-
+                GroupEntity groupEntity = _groupRepository.GetGroupByExam(finalExam);
+                List<GroupMemberEntity> listGroupMembers = _groupMemberRepository.GetGroupMemberByGroupId(groupEntity.GroupId);
+                foreach (var item in listGroupMembers)
+                {
+                    AccountExamEntity accountExamEntity = new AccountExamEntity();
+                    accountExamEntity.Exam = finalExam;
+                    accountExamEntity.AccountId = item.AccountId;
+                    accountExamEntity.Account = item.Account;
+                    accountExamEntity.ExamId = finalExam.ExamId;
+                    accountExamEntity.IsStatus = "Do Exam";
+                    _accountExamRepository.CreateAccountExam(accountExamEntity);
+                    _accountExamRepository.Save();
+                }
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdExam));
                 return Json(MessageResult.GetMessage(MessageType.CREATED_EXAM));
             }
