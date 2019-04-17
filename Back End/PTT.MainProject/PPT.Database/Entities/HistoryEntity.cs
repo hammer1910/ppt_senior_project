@@ -12,10 +12,6 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int HistoryId { get; set; }
 
-        public DateTime StartTime { get; set; }
-
-        public DateTime EndTime { get; set; }
-
         [ForeignKey("GroupId")]
         public GroupEntity Group { set; get; }
         //public int GroupId { get; set; }
