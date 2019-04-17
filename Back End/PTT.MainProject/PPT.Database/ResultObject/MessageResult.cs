@@ -255,6 +255,12 @@ namespace PPT.Database.ResultObject
                     MessageId = 34,
                     MessageReturnFalse = Constants.questionIdWrong,
                     IsSuccessful = false
+                },
+                new MessageResult()
+                {
+                    MessageId = 35,
+                    MessageReturnFalse = Constants.commentSuccess,
+                    IsSuccessful = false
                 }
             };
 

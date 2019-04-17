@@ -65,6 +65,18 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="accountId">Get id account on the url</param>
         </member>
+        <member name="M:PTT.MainProject.Controllers.CommentController.CreatePointOfInterest(PPT.Database.Models.CommentDto)">
+            <summary>
+            Create comment function
+            </summary>
+            <param name="comment">The comment information from body</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.CommentController.GetInformationGroup(System.Int32)">
+            <summary>
+            Get information comment function
+            </summary>
+            <param name="examId">Get id exam on the url</param>        
+        </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Create exam function
@@ -138,7 +150,13 @@
             </summary>
             <param name="accountId">Get id account on the url</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.HistoryController.GetInformationAccount(System.Int32)">
+            <summary>
+            Get information history function
+            </summary>
+            <param name="accountId">Get id account on the url</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(System.Collections.Generic.List{PPT.Database.Models.QuestionDto})">
             <summary>
             Create exam function
             </summary>
@@ -166,7 +184,7 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionDto)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionUpdate)">
             <summary>
             Update information group function
             </summary>

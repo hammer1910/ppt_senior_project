@@ -22,16 +22,20 @@ namespace PTT.MainProject.Controllers
         private IExamQuestionRepository _examQuestionRepository;
         private IAnswerUserRepository _answerUserRepository;
         private IAccountRepository _accountRepository;
+        private IHistoryRepository _historyRepository;
+        private IGroupRepository _groupRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public AnswerUserController(IExamRepository examRepository, IQuestionRepository questionRepository, 
-            IExamQuestionRepository examQuestionRepository, IAnswerUserRepository answerUserRepository, IAccountRepository accountRepository)
+        public AnswerUserController(IExamRepository examRepository, IQuestionRepository questionRepository, IHistoryRepository historyRepository,
+            IExamQuestionRepository examQuestionRepository, IAnswerUserRepository answerUserRepository, IAccountRepository accountRepository, IGroupRepository groupRepository)
         {
             _examRepository = examRepository;
             _questionRepository = questionRepository;
             _examQuestionRepository = examQuestionRepository;
             _answerUserRepository = answerUserRepository;
             _accountRepository = accountRepository;
+            _historyRepository = historyRepository;
+            _groupRepository = groupRepository;
             Log4Net.InitLog();
         }
 
@@ -151,7 +155,21 @@ namespace PTT.MainProject.Controllers
 
                         }
                     }
-                }
+                }                
+                AccountEntity account = _accountRepository.GetAccountById(answerUserModel.accountId);
+                ExamEntity exam = _examRepository.GetExamById(answerUserModel.examId);
+                int groupId = exam.GroupId;
+                GroupEntity group = _groupRepository.GetGroupById(groupId);               
+
+                if (_historyRepository.CheckAccount(account.AccountId, exam.ExamId))
+                {
+                    HistoryEntity history = new HistoryEntity();
+                    history.AccountId = account.AccountId;
+                    history.ExamId = exam.ExamId;
+                    history.Group = group;
+                    _historyRepository.CreateHistory(history);
+                    _historyRepository.Save();
+                }             
 
                 if (!_answerUserRepository.Save())
                 {

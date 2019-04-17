@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTT.MainProject", "PTT.MainProject\PTT.MainProject.csproj", "{BD3AB954-84B6-4148-92E8-02A60EA5DE92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PTT.MainProject", "PTT.MainProject\PTT.MainProject.csproj", "{BD3AB954-84B6-4148-92E8-02A60EA5DE92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PPT.Database", "PPT.Database\PPT.Database.csproj", "{DDD4A497-56D5-461A-878B-24E40D1A0D08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PPT.Database", "PPT.Database\PPT.Database.csproj", "{DDD4A497-56D5-461A-878B-24E40D1A0D08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

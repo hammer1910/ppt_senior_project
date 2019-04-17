@@ -36,5 +36,7 @@ namespace PPT.Database.Entities
         public ICollection<AccountRoleEntity> AccountRoles { get; set; } = new List<AccountRoleEntity>();
         public ICollection<GroupOwnerEntity> GroupOwners { get; set; } = new List<GroupOwnerEntity>();
         public ICollection<AnswerUserEntity> AnswerUsers { get; set; } = new List<AnswerUserEntity>();
+        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
+        public ICollection<AccountExamEntity> AccountExams { get; set; } = new List<AccountExamEntity>();
     }
 }

@@ -10,8 +10,8 @@ using PPT.Database.Entities;
 namespace PPT.Database.Migrations
 {
     [DbContext(typeof(ExamContext))]
-    [Migration("20190325065400_Relationship between AnswerUser and ExamQuestion")]
-    partial class RelationshipbetweenAnswerUserandExamQuestion
+    [Migration("20190416080603_Add comment and account table")]
+    partial class Addcommentandaccounttable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -77,19 +77,46 @@ namespace PPT.Database.Migrations
 
                     b.Property<int>("AccountId");
 
-                    b.Property<string>("AnswerKey")
-                        .HasMaxLength(10);
+                    b.Property<string>("AnswerKey");
 
-                    b.Property<int>("ExamQuestionId");
+                    b.Property<int>("QuestionId");
 
                     b.HasKey("AnswerUserId");
 
                     b.HasIndex("AccountId");
 
-                    b.HasIndex("ExamQuestionId")
+                    b.HasIndex("QuestionId")
                         .IsUnique();
 
                     b.ToTable("AnswerUsers");
+                });
+
+            modelBuilder.Entity("PPT.Database.Entities.CommentEntity", b =>
+                {
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AccountId");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(255);
+
+                    b.Property<DateTime>("DateTimeComment");
+
+                    b.Property<int>("ExamId");
+
+                    b.Property<int>("GroupMemberId");
+
+                    b.HasKey("CommentId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("ExamId");
+
+                    b.HasIndex("GroupMemberId");
+
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("PPT.Database.Entities.ExamEntity", b =>
@@ -101,6 +128,9 @@ namespace PPT.Database.Migrations
                     b.Property<DateTime>("EndDate");
 
                     b.Property<int>("GroupId");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("StartDate");
 
@@ -195,13 +225,9 @@ namespace PPT.Database.Migrations
 
                     b.Property<int>("AccountId");
 
-                    b.Property<DateTime>("EndTime");
-
                     b.Property<int>("ExamId");
 
-                    b.Property<int?>("GroupId");
-
-                    b.Property<DateTime>("StartTime");
+                    b.Property<int>("GroupId");
 
                     b.HasKey("HistoryId");
 
@@ -313,9 +339,27 @@ namespace PPT.Database.Migrations
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("PPT.Database.Entities.ExamQuestionEntity", "ExamQuestion")
+                    b.HasOne("PPT.Database.Entities.QuestionEntity", "Question")
                         .WithOne("AnswerUser")
-                        .HasForeignKey("PPT.Database.Entities.AnswerUserEntity", "ExamQuestionId")
+                        .HasForeignKey("PPT.Database.Entities.AnswerUserEntity", "QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("PPT.Database.Entities.CommentEntity", b =>
+                {
+                    b.HasOne("PPT.Database.Entities.AccountEntity", "Account")
+                        .WithMany("Comments")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PPT.Database.Entities.ExamEntity", "Exam")
+                        .WithMany("Comments")
+                        .HasForeignKey("ExamId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PPT.Database.Entities.GroupMemberEntity", "GroupMember")
+                        .WithMany("Comments")
+                        .HasForeignKey("GroupMemberId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -380,7 +424,8 @@ namespace PPT.Database.Migrations
 
                     b.HasOne("PPT.Database.Entities.GroupEntity", "Group")
                         .WithMany("HistoryEntity")
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("PPT.Database.Entities.NotificationEntity", b =>

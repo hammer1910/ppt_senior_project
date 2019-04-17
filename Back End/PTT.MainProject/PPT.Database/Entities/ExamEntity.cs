@@ -12,6 +12,9 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ExamId { get; set; }
 
+        [MaxLength(255)]
+        public string Name { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
@@ -22,5 +25,7 @@ namespace PPT.Database.Entities
 
         public ICollection<ExamQuestionEntity> ExamQuestions { get; set; } = new List<ExamQuestionEntity>();
         public ICollection<HistoryEntity> Histories { get; set; } = new List<HistoryEntity>();
+        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
+        public ICollection<AccountExamEntity> AccountExams { get; set; } = new List<AccountExamEntity>();
     }
 }

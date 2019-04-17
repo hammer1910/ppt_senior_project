@@ -40,5 +40,6 @@ namespace PPT.Database.Common
         public static string questionNotFound = "Your question information was not found.";
         public static string createdAnswerUser = "You added answer of user successfully!";
         public static string questionIdWrong = "You entered the question id wrong!";
+        public static string commentSuccess = "You commented successfully!";
     }
 }

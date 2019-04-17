@@ -6,20 +6,27 @@ using System.Text;
 
 namespace PPT.Database.Entities
 {
-    public class GroupMemberEntity
+    public class CommentEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int CommentId { get; set; }
+
+        [MaxLength(255)]
+        public string Content { get; set; }
+
+        public DateTime DateTimeComment { get; set; }
+
+        [ForeignKey("GroupMemberId")]
+        public GroupMemberEntity GroupMember { set; get; }
         public int GroupMemberId { get; set; }
 
-        [ForeignKey("GroupId")]
-        public GroupEntity Group { set; get; }
-        public int GroupId { get; set; }
+        [ForeignKey("ExamId")]
+        public ExamEntity Exam { set; get; }
+        public int ExamId { get; set; }
 
         [ForeignKey("AccountId")]
         public AccountEntity Account { set; get; }
         public int AccountId { get; set; }
-
-        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
     }
 }

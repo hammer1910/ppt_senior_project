@@ -56,7 +56,7 @@ namespace PTT.MainProject
             });
 
 
-            var connectionString = @"Data Source=CPU051;Initial Catalog=pass_toeic_together_ptt;Persist Security Info=True;User ID=admin;Password=admin";
+            var connectionString = @"Data Source=CPU051;Initial Catalog=let_us_toeic;Persist Security Info=True;User ID=admin;Password=admin";
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
             services.AddScoped<IGroupRepository, GroupService>();
@@ -64,6 +64,9 @@ namespace PTT.MainProject
             services.AddScoped<IQuestionRepository, QuestionService>();
             services.AddScoped<IExamQuestionRepository, ExamQuestionService>();
             services.AddScoped<IAnswerUserRepository, AnswerUserService>();
+            services.AddScoped<IHistoryRepository, HistoryService>();
+            services.AddScoped<ICommentRepository, CommentService>();
+            services.AddScoped<IGroupMemberRepository, GroupMemberService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
@@ -98,6 +101,7 @@ namespace PTT.MainProject
                 cfg.CreateMap<PPT.Database.Models.ExamForCreationDto, PPT.Database.Entities.ExamEntity>();
                 cfg.CreateMap<PPT.Database.Models.QuestionDto, PPT.Database.Entities.QuestionEntity>();;
                 cfg.CreateMap<PPT.Database.Models.AnswerUserDto, PPT.Database.Entities.AnswerUserEntity>();
+                cfg.CreateMap<PPT.Database.Models.CommentDto, PPT.Database.Entities.CommentEntity>();
             });
            
             app.UseSession();
