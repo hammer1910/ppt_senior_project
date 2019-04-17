@@ -17,6 +17,7 @@ namespace PTT.MainProject.Controllers
     [Route("api/exam")]
     public class AnswerUserController : Controller
     {
+        private IAccountExamRepository _accountExamRepository;
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
         private IExamQuestionRepository _examQuestionRepository;
@@ -26,9 +27,10 @@ namespace PTT.MainProject.Controllers
         private IGroupRepository _groupRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public AnswerUserController(IExamRepository examRepository, IQuestionRepository questionRepository, IHistoryRepository historyRepository,
+        public AnswerUserController(IAccountExamRepository accountExamRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IHistoryRepository historyRepository,
             IExamQuestionRepository examQuestionRepository, IAnswerUserRepository answerUserRepository, IAccountRepository accountRepository, IGroupRepository groupRepository)
         {
+            _accountExamRepository = accountExamRepository;
             _examRepository = examRepository;
             _questionRepository = questionRepository;
             _examQuestionRepository = examQuestionRepository;
@@ -74,16 +76,18 @@ namespace PTT.MainProject.Controllers
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
-
+                //get list answer user from form
                 List<AnswerUserDto> answersFromForm = answerUserModel.listAnswerUser;
-
+                //get all list question from the examId
                 List<ExamQuestionEntity> examQuestionEntity = _examQuestionRepository.getListQuestions(answerUserModel.examId);
-
+                //get all answer user of this account
                 List<AnswerUserEntity> answerUsersFromDB = _answerUserRepository.GetAnswerUserEntities(answerUserModel.accountId);
 
+                //if this account haven't ever do the exam. newAccountAnswer will store it
                 List<AnswerUserDto> newAccountAnswer = new List<AnswerUserDto>();
-
+                //list answer of this account from DB
                 List<AnswerUserDto> oldAccountUser = new List<AnswerUserDto>();
+               
 
                 // divide between old and new answer
                 foreach (var answer in answersFromForm)
@@ -96,8 +100,9 @@ namespace PTT.MainProject.Controllers
                         }
                     }
                 }
-
-                if (oldAccountUser != null)
+                newAccountAnswer = answersFromForm;
+                //this function will show that account did this exam so they just update their answer or not.
+                if (oldAccountUser.Count() > 0)
                 {
                     // remove old answer
                     for (int i = 0; i < answersFromForm.Count; i++)
@@ -112,7 +117,7 @@ namespace PTT.MainProject.Controllers
                     }
                     newAccountAnswer = answersFromForm;
                     foreach (var examQuestion in examQuestionEntity)
-                    {
+                    {                    
                         foreach (var answer in newAccountAnswer)
                         {
                             if (examQuestion.QuestionId == answer.questionId)
@@ -122,11 +127,12 @@ namespace PTT.MainProject.Controllers
                                 answerUser.AccountId = answerUserModel.accountId;
                                 //This is query insert question
                                 _answerUserRepository.CreateAnswerUser(answerUser);
+                                
                             }
 
                         }
                     }
-
+                    
                     foreach (var answer in oldAccountUser)
                     {
                         foreach (var answerU in answerUsersFromDB)
@@ -138,6 +144,8 @@ namespace PTT.MainProject.Controllers
                         }
                     }
                 }
+                //this function shows that user haven't ever done this exam. This is the first time they do it.
+                
                 else
                 {
                     foreach (var examQuestion in examQuestionEntity)
@@ -151,14 +159,28 @@ namespace PTT.MainProject.Controllers
                                 answerUser.AccountId = answerUserModel.accountId;
                                 //This is query insert question
                                 _answerUserRepository.CreateAnswerUser(answerUser);
+                                AccountExamEntity accountExamEntity = _accountExamRepository.GetByAccountIdAndExamId(answerUser.AccountId, examQuestion.ExamId);
+                                
+                                accountExamEntity.IsStatus = "Continue Do Exam";
+                                _accountExamRepository.Save();
                             }
 
                         }
                     }
-                }                
+                }
+                AccountExamEntity finishExam = _accountExamRepository.GetByAccountIdAndExamId(answerUserModel.accountId, answerUserModel.examId);
+                if (answerUserModel.status != null)
+                {
+                    finishExam.IsStatus = "Finish";
+                    _accountExamRepository.Save();
+                }
+                
+                //get account by Id
                 AccountEntity account = _accountRepository.GetAccountById(answerUserModel.accountId);
+                //get exam by Id
                 ExamEntity exam = _examRepository.GetExamById(answerUserModel.examId);
                 int groupId = exam.GroupId;
+                //get group by Id
                 GroupEntity group = _groupRepository.GetGroupById(groupId);               
 
                 if (_historyRepository.CheckAccount(account.AccountId, exam.ExamId))
@@ -254,5 +276,7 @@ namespace PTT.MainProject.Controllers
             }
            
         }
+
+
     }
 }
