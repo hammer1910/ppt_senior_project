@@ -87,6 +87,11 @@ namespace PPT.Database.Services
         {
             _context.GroupMembers.Remove(member);
         }
-        
+
+        public GroupEntity GetGroupByExam(ExamEntity examEntity)
+        {
+            int groupId = examEntity.GroupId;
+            return GetGroupById(groupId);
+        }
     }
 }
