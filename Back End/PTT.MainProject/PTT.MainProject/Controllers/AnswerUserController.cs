@@ -96,8 +96,8 @@ namespace PTT.MainProject.Controllers
                         }
                     }
                 }
-
-                if (oldAccountUser != null)
+                newAccountAnswer = answersFromForm;
+                if (oldAccountUser.Count() > 0)
                 {
                     // remove old answer
                     for (int i = 0; i < answersFromForm.Count; i++)
@@ -110,7 +110,7 @@ namespace PTT.MainProject.Controllers
                             }
                         }
                     }
-                    newAccountAnswer = answersFromForm;
+                    
                     foreach (var examQuestion in examQuestionEntity)
                     {
                         foreach (var answer in newAccountAnswer)
@@ -140,8 +140,10 @@ namespace PTT.MainProject.Controllers
                 }
                 else
                 {
+                    //1 -> 14
                     foreach (var examQuestion in examQuestionEntity)
                     {
+                        //1 -> 2
                         foreach (var answer in newAccountAnswer)
                         {
                             if (examQuestion.QuestionId == answer.questionId)
@@ -193,8 +195,9 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="accountId">Get id account on the url</param>
-        [HttpGet("{accountId}/{examId}/getanswerkeyandcorrectanswer")]
-        public JsonResult GetAnswerKeyAndCorrectAnswer(int examId, int accountId)
+        /// <param name="anotherAccountId">Get another id account on the url</param>
+        [HttpGet("{accountId}/{examId}/getanswerkeyandcorrectanswer/{anotherAccountId}")]
+        public JsonResult GetAnswerKeyAndCorrectAnswer(int examId, int accountId, int anotherAccountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -231,19 +234,45 @@ namespace PTT.MainProject.Controllers
                 List<AnswerUserEntity> answerUserEntities = _answerUserRepository.GetAnswerUserEntities(accountId);
 
                 List<AnswerUserResult> answerUserResults = new List<AnswerUserResult>();
-                foreach (var examQuestion in listQuestionEntities)
-                {
-                    foreach (var item in answerUserEntities)
+
+                if (anotherAccountId <=0 )
+                {                    
+                    foreach (var examQuestion in listQuestionEntities)
                     {
-                        if (item.QuestionId == examQuestion.QuestionId)
+                        foreach (var item in answerUserEntities)
                         {
-                            AnswerUserResult answerUser = new AnswerUserResult();
-                            answerUser.answerKey = item.AnswerKey;
-                            answerUser.correctAnswer = examQuestion.CorrectAnswer;
-                            answerUserResults.Add(answerUser);
+                            if (item.QuestionId == examQuestion.QuestionId)
+                            {
+                                AnswerUserResult answerUser = new AnswerUserResult();
+                                answerUser.answerUser = item.AnswerKey;
+                                answerUser.finalAnswer = examQuestion.CorrectAnswer;
+                                answerUserResults.Add(answerUser);
+                            }
                         }
                     }
                 }
+                else if (anotherAccountId > 0)
+                {
+                    List<AnswerUserEntity> anotherAccount = _answerUserRepository.GetAnswerUserEntities(anotherAccountId);
+                    foreach (var examQuestion in listQuestionEntities)
+                    {
+                        foreach (var item in answerUserEntities)
+                        {
+                            foreach (var another in anotherAccount)
+                            {
+                                if (item.QuestionId == examQuestion.QuestionId && another.QuestionId == examQuestion.QuestionId)
+                                {
+                                    AnswerUserResult answerUser = new AnswerUserResult();
+                                    answerUser.answerUser = item.AnswerKey;
+                                    answerUser.finalAnswer = examQuestion.CorrectAnswer;
+                                    answerUser.answerAnother = another.AnswerKey;
+                                    answerUserResults.Add(answerUser);
+                                }
+                            }
+                        }
+                        
+                    }
+                }                
 
                 return Json(answerUserResults);
             }

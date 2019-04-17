@@ -31,7 +31,8 @@
           "Microsoft.NETCore.App": "2.2.0",
           "PPT.Database": "1.0.0",
           "Swashbuckle.AspNetCore": "4.0.1",
-          "log4net": "2.0.8"
+          "log4net": "2.0.8",
+          "System.Data.Linq": "4.0.0.0"
         },
         "runtime": {
           "PTT.MainProject.dll": {}
@@ -664,6 +665,7 @@
           "Microsoft.AspNetCore.Session": "2.2.0",
           "Microsoft.EntityFrameworkCore.SqlServer": "2.2.0",
           "Swashbuckle.AspNetCore": "4.0.1",
+          "System.Linq": "4.3.0",
           "log4net": "2.0.8"
         },
         "runtime": {
@@ -671,6 +673,17 @@
         },
         "compile": {
           "PPT.Database.dll": {}
+        }
+      },
+      "System.Data.Linq/4.0.0.0": {
+        "runtime": {
+          "System.Data.Linq.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.6.1038.0"
+          }
+        },
+        "compile": {
+          "System.Data.Linq.dll": {}
         }
       },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -3835,6 +3848,11 @@
     },
     "PPT.Database/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "System.Data.Linq/4.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     },

@@ -44,6 +44,6 @@ namespace PPT.Database.Entities
         public string Team { get; set; }
 
         public ICollection<ExamQuestionEntity> ExamQuestions { get; set; } = new List<ExamQuestionEntity>();
-        public AnswerUserEntity AnswerUser { get; set; }
+        public ICollection<AnswerUserEntity> AnswerUsers { get; set; } = new List<AnswerUserEntity>();
     }
 }

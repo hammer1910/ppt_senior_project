@@ -57,12 +57,13 @@
             </summary>
             <param name="answerUserModel">The information answer of user from body</param> 
         </member>
-        <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetAnswerKeyAndCorrectAnswer(System.Int32,System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetAnswerKeyAndCorrectAnswer(System.Int32,System.Int32,System.Int32)">
             <summary>
             Get all informations of the question function
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="accountId">Get id account on the url</param>
+            <param name="anotherAccountId">Get another id account on the url</param>
         </member>
         <member name="M:PTT.MainProject.Controllers.CommentController.CreatePointOfInterest(PPT.Database.Models.CommentDto)">
             <summary>

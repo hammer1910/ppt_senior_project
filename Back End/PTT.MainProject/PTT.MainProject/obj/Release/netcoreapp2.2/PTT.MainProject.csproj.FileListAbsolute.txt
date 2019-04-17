@@ -48,3 +48,4 @@ E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.Mai
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.xml
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\netcoreapp2.2\PPT.Database.dll
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\netcoreapp2.2\PPT.Database.pdb
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\netcoreapp2.2\System.Data.Linq.dll
