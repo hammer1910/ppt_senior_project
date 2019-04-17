@@ -213,7 +213,7 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
-        /// Get all informations of the question function
+        /// The compare function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="accountId">Get id account on the url</param>

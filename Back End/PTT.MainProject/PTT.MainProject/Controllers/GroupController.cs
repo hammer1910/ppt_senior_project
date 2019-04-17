@@ -21,13 +21,18 @@ namespace PTT.MainProject.Controllers
         private IGroupRepository _groupRepository;
         private IAccountRepository _accountRepository;
         private IGroupMemberRepository _groupMemberRepository;
+        private IExamRepository _examRepository;
+        private IAccountExamRepository _accountExamRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository, IGroupMemberRepository groupMemberRepository)
+        public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository, IGroupMemberRepository groupMemberRepository, 
+            IExamRepository examRepository, IAccountExamRepository accountExamRepository)
         {
             _groupRepository = groupRepository;
             _accountRepository = accountRepository;
             _groupMemberRepository = groupMemberRepository;
+            _examRepository = examRepository;
+            _accountExamRepository = accountExamRepository;
             Log4Net.InitLog();
         }
 
@@ -502,6 +507,57 @@ namespace PTT.MainProject.Controllers
                 }
                 
                 return Json(listResult);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Get list exam of group function
+        /// </summary>
+        /// <param name="accountId">Get id account on the url</param> 
+        /// <param name="groupId">Get id group on the url</param> 
+        [HttpGet("getlistexam/{accountId}/{groupId}")]
+        public JsonResult GetListExam(int accountId, int groupId)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                //Check value enter id group
+                if (accountId == 0 || groupId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
+                    return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                }
+
+                List<AccountExamEntity> listAccountExams = _accountExamRepository.GetAccountExamByAccountId(accountId);
+
+                if (listAccountExams == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
+                    return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
+                }
+
+                List<ExamResult> examResults = new List<ExamResult>();
+
+                foreach (var accountExam in listAccountExams)
+                {
+                    ExamEntity examEntity = _examRepository.GetExamById(accountExam.ExamId);
+                    if (examEntity.GroupId == groupId)
+                    {
+                        ExamResult result = new ExamResult();
+                        result.name = examEntity.Name;
+                        result.status = accountExam.IsStatus;
+
+                        examResults.Add(result);
+                    }
+                }
+
+                return Json(examResults);
             }
             catch (Exception ex)
             {

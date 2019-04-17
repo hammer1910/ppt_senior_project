@@ -20,12 +20,17 @@ namespace PPT.Database.Services
             _context.AccountExams.Add(accountExamEntity);
         }
 
+        public List<AccountExamEntity> GetAccountExamByAccountId(int accountId)
+        {
+            return _context.AccountExams.Where(c => c.AccountId == accountId).ToList();
+        }
+
         public AccountExamEntity GetByAccountIdAndExamId(int accountId, int examId)
         {
             return _context.AccountExams.FirstOrDefault(c => c.AccountId == accountId && c.ExamId == examId);
         }
 
-        public List<AccountExamEntity> getListAccountExamByExamId(int examId)
+        public List<AccountExamEntity> GetListAccountExamByExamId(int examId)
         {
             return _context.AccountExams.Where(c => c.ExamId == examId).ToList();
         }

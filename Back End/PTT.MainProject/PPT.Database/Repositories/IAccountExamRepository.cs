@@ -9,7 +9,8 @@ namespace PPT.Database.Repositories
     {
         void CreateAccountExam(AccountExamEntity accountExamEntity);
         bool Save();
-        List<AccountExamEntity> getListAccountExamByExamId(int examId);
+        List<AccountExamEntity> GetListAccountExamByExamId(int examId);
         AccountExamEntity GetByAccountIdAndExamId(int accountId, int examId);
+        List<AccountExamEntity> GetAccountExamByAccountId(int accountId);
     }
 }

@@ -31,9 +31,10 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Login function
         /// </summary>
-        /// <param name="account">The account information from body</param>        
+        /// <param name="account">The account information from body</param>  
+        /// <response code="400">Bad Request</response>
         [HttpPost("login")]
-        public JsonResult Login([FromBody] AccountEntity account)
+        public JsonResult Login([FromBody] AccountDto account)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -46,10 +47,10 @@ namespace PTT.MainProject.Controllers
                 }
 
                 //This is hash password
-                string hastPwd = PasswordUtil.CreateMD5(account.Password);
+                string hastPwd = PasswordUtil.CreateMD5(account.password);
 
                 //Query account following email and password
-                AccountEntity accountEntity = _accountRepository.LoginAccount(account.Email, hastPwd);
+                AccountEntity accountEntity = _accountRepository.LoginAccount(account.email, hastPwd);
 
                 if (accountEntity == null)
                 {
@@ -64,7 +65,7 @@ namespace PTT.MainProject.Controllers
                 LoginResult result = new LoginResult();
 
 
-                HttpContext.Session.SetInt32("accountId", account.AccountId);
+                HttpContext.Session.SetInt32("accountId", account.accountId);
                 result.accountId = accountEntity.AccountId;
                 result.email = accountEntity.Email;
                 result.password = accountEntity.Password;

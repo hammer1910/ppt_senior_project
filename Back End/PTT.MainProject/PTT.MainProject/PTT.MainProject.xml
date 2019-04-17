@@ -4,11 +4,12 @@
         <name>PTT.MainProject</name>
     </assembly>
     <members>
-        <member name="M:PTT.MainProject.Controllers.AccountController.Login(PPT.Database.Entities.AccountEntity)">
+        <member name="M:PTT.MainProject.Controllers.AccountController.Login(PPT.Database.Models.AccountDto)">
             <summary>
             Login function
             </summary>
-            <param name="account">The account information from body</param>        
+            <param name="account">The account information from body</param>  
+            <response code="400">Bad Request</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.ForgotPassword(PPT.Database.Entities.AccountEntity)">
             <summary>
@@ -59,7 +60,7 @@
         </member>
         <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetAnswerKeyAndCorrectAnswer(System.Int32,System.Int32,System.Int32)">
             <summary>
-            Get all informations of the question function
+            The compare function
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="accountId">Get id account on the url</param>
@@ -155,6 +156,13 @@
             Search member by name function
             </summary>
             <param name="searchMember">The information of searching from body</param> 
+        </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetListExam(System.Int32,System.Int32)">
+            <summary>
+            Get list exam of group function
+            </summary>
+            <param name="accountId">Get id account on the url</param> 
+            <param name="groupId">Get id group on the url</param> 
         </member>
         <member name="M:PTT.MainProject.Controllers.HistoryController.GetInformationAccount(System.Int32)">
             <summary>
