@@ -19,13 +19,14 @@ namespace PTT.MainProject.Controllers
     public class GroupController : Controller
     {
         private IGroupRepository _groupRepository;
+        private IGroupOwnerRepository _groupOwnerRepository;
         private IAccountRepository _accountRepository;
         private IGroupMemberRepository _groupMemberRepository;
         private IExamRepository _examRepository;
         private IAccountExamRepository _accountExamRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public GroupController(IGroupRepository groupRepository, IAccountRepository accountRepository, IGroupMemberRepository groupMemberRepository, 
+        public GroupController(IGroupOwnerRepository groupOwnerRepository,IGroupRepository groupRepository, IAccountRepository accountRepository, IGroupMemberRepository groupMemberRepository, 
             IExamRepository examRepository, IAccountExamRepository accountExamRepository)
         {
             _groupRepository = groupRepository;
@@ -33,6 +34,7 @@ namespace PTT.MainProject.Controllers
             _groupMemberRepository = groupMemberRepository;
             _examRepository = examRepository;
             _accountExamRepository = accountExamRepository;
+            _groupOwnerRepository = groupOwnerRepository;
             Log4Net.InitLog();
         }
 
@@ -40,6 +42,7 @@ namespace PTT.MainProject.Controllers
         /// Create group function
         /// </summary>
         /// <param name="group">The group information from body</param> 
+        /// <response code="200">You created the group successfully!</response>
         [HttpPost("group/create")]
         public JsonResult CreationGroup([FromBody] GroupForCreationDto group)
         {
@@ -74,10 +77,8 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
-                GroupListResult groupListResult = new GroupListResult();
-                groupListResult.groupId = finalGroup.GroupId;
-
-                return Json(groupListResult);
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupCreated));
+                return Json(MessageResult.GetMessage(MessageType.GROUP_CREATED));
             }
             catch (Exception ex)
             {
@@ -91,6 +92,7 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="account">The account information from body</param> 
         /// <param name="groupId">Get id group on the url</param> 
+        /// <response code="200">You add member into the group successfully!</response>
         [HttpPost("group/addmembers/{groupId}")]
         public JsonResult AddMember([FromBody] AccountGroup account, int groupId)
         {
@@ -149,6 +151,14 @@ namespace PTT.MainProject.Controllers
         /// Get information group function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
+        /// <response code="200">
+        /// {
+        ///  "groupId": 11,
+        ///  "name": "Philip English",
+        ///  "description": "Examination 1",
+        ///  "createdDate": "2019-04-21T16:44:17.965718",
+        ///  }
+        /// </response>
         [HttpGet("getinformationgroup/{groupId}")]
         public JsonResult GetInformationGroup(int groupId)
         {
@@ -185,6 +195,7 @@ namespace PTT.MainProject.Controllers
         /// Update information group function
         /// </summary>
         /// <param name="group">The group information from body</param> 
+        /// <response code="200">You updated the group successfully!</response>
         [HttpPut("updateinformationgroup")]
         public JsonResult UpdateAccount( [FromBody] GroupForUpdateDto group)
         {
@@ -244,6 +255,7 @@ namespace PTT.MainProject.Controllers
         /// Delete group by owner function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
+        /// <response code="200">You deleted the group successfully!</response>
         [HttpDelete("deletegroup/{groupId}")]
         public JsonResult DeleteGroup(int groupId)
         {
@@ -289,23 +301,43 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Get list group function
         /// </summary>
-        /// <param name="ownerId">Get id owner on the url</param> 
-        [HttpGet("getlistgroup/{ownerId}")]
-        public JsonResult GetGroupList(int ownerId)
+        /// <param name="accountId">Get id owner on the url</param> 
+        /// <response code="200">
+        /// [
+        /// {
+        ///   "groupOwnerId": 18,
+        ///   "ownerGroupId": 11,
+        ///   "groupId": 14,
+        ///   "groupName": "Canh",
+        ///   "description": "123"
+        /// },
+        /// {
+        ///  "groupOwnerId": 19,
+        ///  "ownerGroupId": 11,
+        ///  "groupId": 15,
+        ///  "groupName": "Canh",
+        ///  "description": "123"
+        /// }
+        /// ]
+        /// </response>
+        [HttpGet("getlistgroup/{accountId}")]
+        public JsonResult GetGroupList(int accountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             try
             {
                 //Check value enter id account
-                if (ownerId == 0)
+                if (accountId == 0)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
                 }
 
                 //get group list by owner Id
-                List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(ownerId);
+                List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(accountId);
+
+                List<GroupMemberEntity> groupMembers = _groupMemberRepository.GetGroupMemberByAccountId(accountId);
 
                 if (groupEntities == null)
                 {
@@ -329,38 +361,19 @@ namespace PTT.MainProject.Controllers
                     groupListResult.Add(groupList);
                 }
 
+                foreach (var groupMember in groupMembers)
+                {
+                    GroupListResult groupList = new GroupListResult();
+                    groupList.groupId = groupMember.GroupId;
+                    groupList.groupOwnerId = groupMember.GroupMemberId;
+                    groupList.ownerGroupId = groupMember.AccountId;
+                    GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
+                    groupList.groupName = group.Name;
+                    groupList.description = group.Description;
+                    groupListResult.Add(groupList);
+                }
+
                 return Json(groupListResult);
-            }
-            catch (Exception ex)
-            {
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
-                return Json(MessageResult.ShowServerError(ex.Message));
-            }
-        }
-
-        [HttpDelete("{groupId}/outgroup/{accountId}")]
-        public JsonResult DeleteGroup(int groupId, int accountId)
-        {
-            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-
-            try
-            {
-                if (groupId == 0 || accountId == 0)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-                }
-
-                _groupRepository.OutGroup(groupId, accountId);
-
-                if (!_groupRepository.Save())
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
-                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-                }
-
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountDeleted));
-                return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
             }
             catch (Exception ex)
             {
@@ -373,6 +386,28 @@ namespace PTT.MainProject.Controllers
         /// Get list member of group function
         /// </summary>
         /// <param name="groupId">Get id group on the url</param> 
+        /// <response code="200">
+        /// [
+        ///  {
+        ///    "groupMemberId": 9,
+        ///    "groupId": 2,
+        ///    "accountId": 9,
+        ///    "email": "vuong113@gmail.com",
+        ///    "fullName": "Nguyễn Văn Té",
+        ///    "address": "Đà Nẵng",
+        ///    "phoneNumber": "03259689"
+        ///  },
+        ///  {
+        ///    "groupMemberId": 1032,
+        ///    "groupId": 2,
+        ///    "accountId": 11,
+        ///    "email": "canhtruong@gmail.com",
+        ///    "fullName": "Trương Văn Cảnh",
+        ///    "address": "Huế",
+        ///    "phoneNumber": "08996556322"
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("getlistmember/{groupId}")]
         public JsonResult GetMemberList(int groupId)
         {
@@ -424,6 +459,7 @@ namespace PTT.MainProject.Controllers
         /// Delete member by owner function
         /// </summary>
         /// <param name="accountId">Get id account on the url</param> 
+        /// <response code="200">You deleted the member successfully!</response>
         [HttpDelete("deletemember/{accountId}")]
         public JsonResult DeleteMember(int accountId)
         {
@@ -469,16 +505,25 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Search member by name function
         /// </summary>
-        /// <param name="searchMember">The information of searching from body</param> 
-        [HttpGet("searchmember")]
-        public JsonResult SearchMemberInGroup([FromBody] SearchMemberDto searchMember)
+        /// <param name="groupId">Get id group on the url</param> 
+        /// <param name="name">Get account name on the url</param>
+        /// <response code="200">
+        /// [
+        ///  {
+        ///    "accountId": 9,
+        ///    "fullName": "Nguyễn Văn Hòa"
+        ///  }
+        /// ]
+        /// </response>
+        [HttpGet("searchmember/{groupId}/{name}")]
+        public JsonResult SearchMemberInGroup(int groupId, string name)
         {
             //get method name
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 //Check value enter id group
-                if (searchMember.groupId == 0 || searchMember.name == null)
+                if (groupId == 0 || name == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.valueIsNull));
                     return Json(MessageResult.GetMessage(MessageType.VALUEISNULL));
@@ -486,7 +531,7 @@ namespace PTT.MainProject.Controllers
                 
                 List<SearchResult> listResult = new List<SearchResult>();
                 //get all member with contain name from form body
-                List<AccountEntity> memberEntities = _groupMemberRepository.SearchMemberByName(searchMember.name, searchMember.groupId);
+                List<AccountEntity> memberEntities = _groupMemberRepository.SearchMemberByName(name, groupId);
                 if (memberEntities != null)
                 {
                     //add member into listResult
@@ -500,7 +545,7 @@ namespace PTT.MainProject.Controllers
                     }
                 }
                 //list member with that name is null, it's will show message error
-                if (memberEntities.Count() < 1)
+                else
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
@@ -519,7 +564,26 @@ namespace PTT.MainProject.Controllers
         /// Get list exam of group function
         /// </summary>
         /// <param name="accountId">Get id account on the url</param> 
-        /// <param name="groupId">Get id group on the url</param> 
+        /// <param name="groupId">Get id group on the url</param>
+        /// <response code="200">
+        /// {
+        ///  "ownerId": 9,
+        ///  "examResults": [
+        ///   {
+        ///    "ownerId": 9,
+        ///    "examId": 11,
+        ///    "name": "Exam 1",
+        ///    "status": "Finish"
+        ///   },
+        ///   {
+        ///    "ownerId": 9,
+        ///    "examId": 25,
+        ///    "name": "vuong 123123",
+        ///    "status": "Do Exam"
+        ///   }
+        ///   ]
+        ///  }
+        /// </response>
         [HttpGet("getlistexam/{accountId}/{groupId}")]
         public JsonResult GetListExam(int accountId, int groupId)
         {
@@ -543,21 +607,25 @@ namespace PTT.MainProject.Controllers
                 }
 
                 List<ExamResult> examResults = new List<ExamResult>();
-
+                GroupOwnerEntity ownerEntity = _groupOwnerRepository.GetGroupOwnerByGroupId(groupId);
                 foreach (var accountExam in listAccountExams)
                 {
                     ExamEntity examEntity = _examRepository.GetExamById(accountExam.ExamId);
                     if (examEntity.GroupId == groupId)
                     {
                         ExamResult result = new ExamResult();
+                        result.examId = accountExam.ExamId;
                         result.name = examEntity.Name;
                         result.status = accountExam.IsStatus;
-
+                        result.ownerId = ownerEntity.AccountId;
                         examResults.Add(result);
                     }
                 }
-
-                return Json(examResults);
+               
+                ExamResultHasOwner examResultHasOwner = new ExamResultHasOwner();
+                examResultHasOwner.ownerId = ownerEntity.AccountId;
+                examResultHasOwner.examResults = examResults;
+                return Json(examResultHasOwner);
             }
             catch (Exception ex)
             {

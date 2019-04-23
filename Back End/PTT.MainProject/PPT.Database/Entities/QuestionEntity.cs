@@ -12,6 +12,8 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int QuestionId { get; set; }
 
+        public int QuestionNumber { get; set; }
+
         [MaxLength(10)]
         public string Part { get; set; }
 

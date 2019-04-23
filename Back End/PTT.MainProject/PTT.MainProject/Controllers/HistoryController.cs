@@ -36,6 +36,18 @@ namespace PTT.MainProject.Controllers
         /// Get information history function
         /// </summary>
         /// <param name="accountId">Get id account on the url</param> 
+        /// <response code="200">
+        /// [
+        ///  {
+        ///    "nameExam": "Exam 1",
+        ///    "nameGroup": "English 2"
+        ///  },
+        ///  {
+        ///    "nameExam": "Exam 1",
+        ///    "nameGroup": "English 2"
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("getinformationhistory/{accountId}")]
         public JsonResult GetInformationAccount(int accountId)
         {

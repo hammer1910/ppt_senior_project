@@ -37,7 +37,8 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Create exam function
         /// </summary>
-        /// <param name="question">The information of question from body</param>  
+        /// <param name="questions">The information of question from body</param>  
+        /// <response code="200">You created question successfully!</response>
         [HttpPost("createquestion")]
         public JsonResult CreateQuestion([FromBody] List<QuestionDto> questions)
         {
@@ -97,6 +98,40 @@ namespace PTT.MainProject.Controllers
         /// <param name="accountId">Get id account on the url</param>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="page">Get page parameter on the url</param> 
+        /// <response code="200">
+        /// [
+        ///  {
+        ///   "questionId": 25,
+        ///   "questionNumber": 1,
+        ///   "part": "1",
+        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
+        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "questionName": null,
+        ///   "a": null,
+        ///   "b": null,
+        ///   "c": null,
+        ///   "d": null,
+        ///   "correctAnswer": "C",
+        ///   "team": null,
+        ///   "answerUser": null
+        ///  },
+        ///  {
+        ///   "questionId": 26,
+        ///   "questionNumber": 2,
+        ///   "part": "1",
+        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "questionName": null,
+        ///   "a": null,
+        ///   "b": null,
+        ///   "c": null,
+        ///   "d": null,
+        ///   "correctAnswer": "aaa",
+        ///   "team": null,
+        ///   "answerUser": null
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("{accountId}/{examId}/getListQuestion/{page}")]
         public JsonResult GetListQuestion(int accountId, int examId, int page)
         {
@@ -169,7 +204,7 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
@@ -177,6 +212,40 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="part">Get part parameter on the url</param> 
+        /// <response code="200">
+        /// [
+        ///  {
+        ///   "questionId": 25,
+        ///   "questionNumber": 1,
+        ///   "part": "1",
+        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
+        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "questionName": null,
+        ///   "a": null,
+        ///   "b": null,
+        ///   "c": null,
+        ///   "d": null,
+        ///   "correctAnswer": "C",
+        ///   "team": null,
+        ///   "answerUser": null
+        ///  },
+        ///  {
+        ///   "questionId": 26,
+        ///   "questionNumber": 2,
+        ///   "part": "1",
+        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "questionName": null,
+        ///   "a": null,
+        ///   "b": null,
+        ///   "c": null,
+        ///   "d": null,
+        ///   "correctAnswer": "aaa",
+        ///   "team": null,
+        ///   "answerUser": null
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("{examId}/getListQuestionByPart/{part}")]
         public JsonResult GetListQuestionByPart(int examId, string part)
         {
@@ -214,6 +283,7 @@ namespace PTT.MainProject.Controllers
                     if (item.Part.Equals(part))
                     {
                         q.questionId = item.QuestionId;
+                        q.questionNumber = item.QuestionNumber;
                         q.part = item.Part;
                         q.image = item.Image;
                         q.fileMp3 = item.FileMp3;
@@ -235,7 +305,7 @@ namespace PTT.MainProject.Controllers
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
-            }            
+            }
         }
 
         /// <summary>
@@ -243,6 +313,23 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="questionId">Get id question on the url</param>
+        /// <response code="200">
+        /// {
+        ///  "questionId": 26,
+        ///  "questionNumber": 2,
+        ///  "part": "1",
+        ///  "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+        ///  "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///  "questionName": null,
+        ///  "a": null,
+        ///  "b": null,
+        ///  "c": null,
+        ///  "d": null,
+        ///  "correctAnswer": "aaa",
+        ///  "team": null,
+        ///  "answerUser": null
+        /// }
+        /// </response>
         [HttpGet("{examId}/getQuestionInformation/{questionId}")]
         public JsonResult GetInformationGroup(int examId,int questionId)
         {
@@ -277,6 +364,7 @@ namespace PTT.MainProject.Controllers
                 }
 
                 questionListResult.questionId = question.QuestionId;
+                questionListResult.questionNumber = question.QuestionNumber;
                 questionListResult.part = question.Part;
                 questionListResult.image = question.Image;
                 questionListResult.fileMp3 = question.FileMp3;
@@ -302,6 +390,7 @@ namespace PTT.MainProject.Controllers
         /// Update information group function
         /// </summary>
         /// <param name="question">The question information from body</param>
+        /// <response code="200">You updated the question successfully!</response>
         [HttpPut("updatequestion")]
         public JsonResult UpdateInformationQuestion([FromBody] QuestionUpdate question)
         {
@@ -372,6 +461,7 @@ namespace PTT.MainProject.Controllers
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="questionId">Get id question on the url</param>
+        /// <response code="200">You deleted the question successfully!</response>
         [HttpDelete("{examId}/deletequestion/{questionId}")]
         public JsonResult DeleteQuestion(int examId, int questionId)
         {

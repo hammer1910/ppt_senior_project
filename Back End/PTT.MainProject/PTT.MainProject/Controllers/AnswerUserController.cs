@@ -45,6 +45,7 @@ namespace PTT.MainProject.Controllers
         /// Add answer of the user function
         /// </summary>
         /// <param name="answerUserModel">The information answer of user from body</param> 
+        /// <response code="200">You added answer of user successfully!</response>
         [HttpPost("createansweruser")]
         public JsonResult CreateAnswerUser( [FromBody] AnswerUserModel answerUserModel)
         {

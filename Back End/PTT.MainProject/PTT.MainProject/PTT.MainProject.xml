@@ -9,54 +9,99 @@
             Login function
             </summary>
             <param name="account">The account information from body</param>  
-            <response code="400">Bad Request</response>
+            <response code="200">
+            "accountId": 9,
+            "email": "vuong113@gmail.com",
+            "password": "E10ADC3949BA59ABBE56E057F20F883E",
+            "fullName": "Nguyễn Văn Té",
+            "address": "Đà Nẵng",
+            "phoneNumber": "03259689",
+            "roles": [
+            "user"
+            ],
+            "session": "AAAAAA=="
+            </response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.AccountController.ForgotPassword(PPT.Database.Entities.AccountEntity)">
+        <member name="M:PTT.MainProject.Controllers.AccountController.ForgotPassword(System.String)">
             <summary>
             Forgot password function
             </summary>
-            <param name="account">The account information from body</param> 
+            <param name="email">Get email of the account on the url</param> 
+            <response code="200">Your password have send on your email account.</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.CreatePointOfInterest(PPT.Database.Models.AccountForCreationDto)">
             <summary>
             Register user function
             </summary>
             <param name="account">The account information from body</param> 
+            <response code="200">You registered the account successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.GetInformationAccount(System.Int32)">
             <summary>
             Get information account function
             </summary>
             <param name="id">Get id account on the url</param> 
+            <response code="200">
+            "accountId": 9,
+            "email": "vuong113@gmail.com",
+            "password": "FE9FC8835E5637C2812035D7623B843B",
+            "fullName": "Nguyễn Văn Té",
+            "phone": "03259689",
+            "address": "Đà Nẵng"
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccount(PPT.Database.Models.AccountForUpdateDto)">
             <summary>
             Update information account function
             </summary>
             <param name="account">The account information from body</param>
+            <response code="200">Your account information updated successfully.</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.UpdateAccountPatch(PPT.Database.Models.ChangingPassword)">
             <summary>
             Change password account function
             </summary>
             <param name="account">The account information from body</param>
+            <response code="200">Your account information updated successfully.</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.DeleteAccount(System.Int32)">
             <summary>
             Delete account function
             </summary>
             <param name="id">Get id account on the url</param>
+            <response code="200">You deleted the account successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AccountController.GetAllAccounts">
             <summary>
             Get all accounts of the database function
             </summary>
+            <response code="200">
+            [
+            {
+             "accountId": 9,
+             "email": "vuong113@gmail.com",
+             "password": null,
+             "fullName": "Nguyễn Văn Té",
+             "address": "Đà Nẵng",
+             "phoneNumber": "03259689",
+            },
+            {
+             "accountId": 11,
+             "email": "canhtruong@gmail.com",
+             "password": null,
+             "fullName": "Trương Văn Cảnh",
+             "address": "Huế",
+            "phoneNumber": "08996556322",
+            }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AnswerUserController.CreateAnswerUser(PPT.Database.Models.AnswerUserModel)">
             <summary>
             Add answer of the user function
             </summary>
             <param name="answerUserModel">The information answer of user from body</param> 
+            <response code="200">You added answer of user successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetAnswerKeyAndCorrectAnswer(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -71,42 +116,68 @@
             Create comment function
             </summary>
             <param name="comment">The comment information from body</param> 
+            <response code="200">You commented successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.CommentController.GetInformationGroup(System.Int32)">
             <summary>
             Get information comment function
             </summary>
-            <param name="examId">Get id exam on the url</param>        
+            <param name="examId">Get id exam on the url</param>       
+            <response code="200">
+            [
+             {
+               "name": "Trương Văn Cảnh",
+               "content": "Exam is very good",
+               "dateTime": "2019-04-22T16:26:37.3356622"
+             },
+             {
+               "name": "Nguyễn Văn Té",
+               "content": "Exam is very useful",
+               "dateTime": "2019-04-22T16:24:41.556793"
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.CreateExam(PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Create exam function
             </summary>
-            <param name="exam">The account exam from body</param>        
+            <param name="exam">The account exam from body</param>       
+            <response code="200">You created exam successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.GetInformationGroup(System.Int32)">
             <summary>
             Get information exam function
             </summary>
             <param name="examId">Get id exam on the url</param> 
+            <response code="200">
+            "examId": 10,
+            "name": "Exam 1",
+            "startDate": "2019-04-18T03:59:30.586",
+            "endDate": "2019-04-18T03:59:30.586",
+            "groupId": 2
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.UpdateInformationExam(PPT.Database.Models.ExamForCreationDto)">
             <summary>
             Update information group function
             </summary>
             <param name="exam">The exam information from body</param>
+            <response code="200">You updated the exam successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.ExamController.DeleteGroup(System.Int32)">
             <summary>
             Delete exam by owner function
             </summary>
             <param name="examId">Get id exam on the url</param> 
+            <response code="200">You deleted the exam successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.CreationGroup(PPT.Database.Models.GroupForCreationDto)">
             <summary>
             Create group function
             </summary>
             <param name="group">The group information from body</param> 
+            <response code="200">You created the group successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.AddMember(PPT.Database.Models.AccountGroup,System.Int32)">
             <summary>
@@ -114,67 +185,160 @@
             </summary>
             <param name="account">The account information from body</param> 
             <param name="groupId">Get id group on the url</param> 
+            <response code="200">You add member into the group successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetInformationGroup(System.Int32)">
             <summary>
             Get information group function
             </summary>
             <param name="groupId">Get id group on the url</param> 
+            <response code="200">
+            {
+             "groupId": 11,
+             "name": "Philip English",
+             "description": "Examination 1",
+             "createdDate": "2019-04-21T16:44:17.965718",
+             }
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.UpdateAccount(PPT.Database.Models.GroupForUpdateDto)">
             <summary>
             Update information group function
             </summary>
             <param name="group">The group information from body</param> 
+            <response code="200">You updated the group successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteGroup(System.Int32)">
             <summary>
             Delete group by owner function
             </summary>
             <param name="groupId">Get id group on the url</param> 
+            <response code="200">You deleted the group successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetGroupList(System.Int32)">
             <summary>
             Get list group function
             </summary>
-            <param name="ownerId">Get id owner on the url</param> 
+            <param name="accountId">Get id owner on the url</param> 
+            <response code="200">
+            [
+            {
+              "groupOwnerId": 18,
+              "ownerGroupId": 11,
+              "groupId": 14,
+              "groupName": "Canh",
+              "description": "123"
+            },
+            {
+             "groupOwnerId": 19,
+             "ownerGroupId": 11,
+             "groupId": 15,
+             "groupName": "Canh",
+             "description": "123"
+            }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetMemberList(System.Int32)">
             <summary>
             Get list member of group function
             </summary>
             <param name="groupId">Get id group on the url</param> 
+            <response code="200">
+            [
+             {
+               "groupMemberId": 9,
+               "groupId": 2,
+               "accountId": 9,
+               "email": "vuong113@gmail.com",
+               "fullName": "Nguyễn Văn Té",
+               "address": "Đà Nẵng",
+               "phoneNumber": "03259689"
+             },
+             {
+               "groupMemberId": 1032,
+               "groupId": 2,
+               "accountId": 11,
+               "email": "canhtruong@gmail.com",
+               "fullName": "Trương Văn Cảnh",
+               "address": "Huế",
+               "phoneNumber": "08996556322"
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32)">
             <summary>
             Delete member by owner function
             </summary>
             <param name="accountId">Get id account on the url</param> 
+            <response code="200">You deleted the member successfully!</response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.SearchMemberInGroup(PPT.Database.Models.SearchMemberDto)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.SearchMemberInGroup(System.Int32,System.String)">
             <summary>
             Search member by name function
             </summary>
-            <param name="searchMember">The information of searching from body</param> 
+            <param name="groupId">Get id group on the url</param> 
+            <param name="name">Get account name on the url</param>
+            <response code="200">
+            [
+             {
+               "accountId": 9,
+               "fullName": "Nguyễn Văn Hòa"
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetListExam(System.Int32,System.Int32)">
             <summary>
             Get list exam of group function
             </summary>
             <param name="accountId">Get id account on the url</param> 
-            <param name="groupId">Get id group on the url</param> 
+            <param name="groupId">Get id group on the url</param>
+            <response code="200">
+            {
+             "ownerId": 9,
+             "examResults": [
+              {
+               "ownerId": 9,
+               "examId": 11,
+               "name": "Exam 1",
+               "status": "Finish"
+              },
+              {
+               "ownerId": 9,
+               "examId": 25,
+               "name": "vuong 123123",
+               "status": "Do Exam"
+              }
+              ]
+             }
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.HistoryController.GetInformationAccount(System.Int32)">
             <summary>
             Get information history function
             </summary>
             <param name="accountId">Get id account on the url</param> 
+            <response code="200">
+            [
+             {
+               "nameExam": "Exam 1",
+               "nameGroup": "English 2"
+             },
+             {
+               "nameExam": "Exam 1",
+               "nameGroup": "English 2"
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.CreateQuestion(System.Collections.Generic.List{PPT.Database.Models.QuestionDto})">
             <summary>
             Create exam function
             </summary>
-            <param name="question">The information of question from body</param>  
+            <param name="questions">The information of question from body</param>  
+            <response code="200">You created question successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestion(System.Int32,System.Int32,System.Int32)">
             <summary>
@@ -183,6 +347,40 @@
             <param name="accountId">Get id account on the url</param>
             <param name="examId">Get id exam on the url</param> 
             <param name="page">Get page parameter on the url</param> 
+            <response code="200">
+            [
+             {
+              "questionId": 25,
+              "questionNumber": 1,
+              "part": "1",
+              "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
+              "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+              "questionName": null,
+              "a": null,
+              "b": null,
+              "c": null,
+              "d": null,
+              "correctAnswer": "C",
+              "team": null,
+              "answerUser": null
+             },
+             {
+              "questionId": 26,
+              "questionNumber": 2,
+              "part": "1",
+              "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+              "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+              "questionName": null,
+              "a": null,
+              "b": null,
+              "c": null,
+              "d": null,
+              "correctAnswer": "aaa",
+              "team": null,
+              "answerUser": null
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String)">
             <summary>
@@ -190,6 +388,40 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="part">Get part parameter on the url</param> 
+            <response code="200">
+            [
+             {
+              "questionId": 25,
+              "questionNumber": 1,
+              "part": "1",
+              "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
+              "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+              "questionName": null,
+              "a": null,
+              "b": null,
+              "c": null,
+              "d": null,
+              "correctAnswer": "C",
+              "team": null,
+              "answerUser": null
+             },
+             {
+              "questionId": 26,
+              "questionNumber": 2,
+              "part": "1",
+              "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+              "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+              "questionName": null,
+              "a": null,
+              "b": null,
+              "c": null,
+              "d": null,
+              "correctAnswer": "aaa",
+              "team": null,
+              "answerUser": null
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.GetInformationGroup(System.Int32,System.Int32)">
             <summary>
@@ -197,12 +429,30 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
+            <response code="200">
+            {
+             "questionId": 26,
+             "questionNumber": 2,
+             "part": "1",
+             "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
+             "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+             "questionName": null,
+             "a": null,
+             "b": null,
+             "c": null,
+             "d": null,
+             "correctAnswer": "aaa",
+             "team": null,
+             "answerUser": null
+            }
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.UpdateInformationQuestion(PPT.Database.Models.QuestionUpdate)">
             <summary>
             Update information group function
             </summary>
             <param name="question">The question information from body</param>
+            <response code="200">You updated the question successfully!</response>
         </member>
         <member name="M:PTT.MainProject.Controllers.QuestionController.DeleteQuestion(System.Int32,System.Int32)">
             <summary>
@@ -210,6 +460,7 @@
             </summary>
             <param name="examId">Get id exam on the url</param> 
             <param name="questionId">Get id question on the url</param>
+            <response code="200">You deleted the question successfully!</response>
         </member>
     </members>
 </doc>

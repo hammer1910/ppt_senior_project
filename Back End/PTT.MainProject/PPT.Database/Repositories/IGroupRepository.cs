@@ -21,5 +21,6 @@ namespace PPT.Database.Repositories
         GroupMemberEntity GetMemberByAccountId(int accountId);
         void DeleteMember(GroupMemberEntity member);
         GroupEntity GetGroupByExam(ExamEntity examEntity);
+        
     }
 }

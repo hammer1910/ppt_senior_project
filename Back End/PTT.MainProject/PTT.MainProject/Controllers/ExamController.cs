@@ -19,22 +19,25 @@ namespace PTT.MainProject.Controllers
         private IExamRepository _examRepository;
         private IAccountExamRepository _accountExamRepository;
         private IGroupMemberRepository _groupMemberRepository;
+        private IGroupOwnerRepository _groupOwnerRepository;
         private IGroupRepository _groupRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public ExamController(IAccountExamRepository accountExamRepository,IExamRepository examRepository, IGroupMemberRepository groupMemberRepository, IGroupRepository groupRepository)
+        public ExamController(IAccountExamRepository accountExamRepository,IExamRepository examRepository, IGroupMemberRepository groupMemberRepository, IGroupRepository groupRepository, IGroupOwnerRepository groupOwnerRepository)
         {
             _accountExamRepository = accountExamRepository;
             _groupRepository = groupRepository;
             _groupMemberRepository = groupMemberRepository;
             _examRepository = examRepository;
+            _groupOwnerRepository = groupOwnerRepository;
             Log4Net.InitLog();
         }
 
         /// <summary>
         /// Create exam function
         /// </summary>
-        /// <param name="exam">The account exam from body</param>        
+        /// <param name="exam">The account exam from body</param>       
+        /// <response code="200">You created exam successfully!</response>
         [HttpPost("createexam")]
         public JsonResult CreateExam([FromBody] ExamForCreationDto exam)
         {
@@ -55,7 +58,7 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
-
+                GroupOwnerEntity groupOwner = _groupOwnerRepository.GetGroupOwnerByGroupId(exam.GroupId);
                 //Map data enter from the form to exam entity
                 var finalExam = Mapper.Map<PPT.Database.Entities.ExamEntity>(exam);
 
@@ -68,14 +71,28 @@ namespace PTT.MainProject.Controllers
                     
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
-                GroupEntity groupEntity = _groupRepository.GetGroupByExam(finalExam);
+                GroupEntity groupEntity = _groupRepository.GetGroupByExam(finalExam);             
+
                 List<GroupMemberEntity> listGroupMembers = _groupMemberRepository.GetGroupMemberByGroupId(groupEntity.GroupId);
-                foreach (var item in listGroupMembers)
+                if(listGroupMembers.Count() > 0)
+                {
+                    foreach (var item in listGroupMembers)
+                    {
+                        AccountExamEntity accountExamEntity = new AccountExamEntity();
+                        accountExamEntity.Exam = finalExam;
+                        accountExamEntity.AccountId = item.AccountId;
+                        accountExamEntity.Account = item.Account;
+                        accountExamEntity.ExamId = finalExam.ExamId;
+                        accountExamEntity.IsStatus = "Do Exam";
+                        _accountExamRepository.CreateAccountExam(accountExamEntity);
+                        _accountExamRepository.Save();
+                    }
+                }
+                else
                 {
                     AccountExamEntity accountExamEntity = new AccountExamEntity();
                     accountExamEntity.Exam = finalExam;
-                    accountExamEntity.AccountId = item.AccountId;
-                    accountExamEntity.Account = item.Account;
+                    accountExamEntity.AccountId = groupOwner.AccountId;      
                     accountExamEntity.ExamId = finalExam.ExamId;
                     accountExamEntity.IsStatus = "Do Exam";
                     _accountExamRepository.CreateAccountExam(accountExamEntity);
@@ -89,13 +106,20 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
         /// Get information exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
+        /// <response code="200">
+        /// "examId": 10,
+        /// "name": "Exam 1",
+        /// "startDate": "2019-04-18T03:59:30.586",
+        /// "endDate": "2019-04-18T03:59:30.586",
+        /// "groupId": 2
+        /// </response>
         [HttpGet("getinformationexam/{examId}")]
         public JsonResult GetInformationGroup(int examId)
         {
@@ -133,6 +157,7 @@ namespace PTT.MainProject.Controllers
         /// Update information group function
         /// </summary>
         /// <param name="exam">The exam information from body</param>
+        /// <response code="200">You updated the exam successfully!</response>
         [HttpPut("updateinformationexam")]
         public JsonResult UpdateInformationExam([FromBody] ExamForCreationDto exam)
         {
@@ -193,6 +218,7 @@ namespace PTT.MainProject.Controllers
         /// Delete exam by owner function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
+        /// <response code="200">You deleted the exam successfully!</response>
         [HttpDelete("deletexam/{examId}")]
         public JsonResult DeleteGroup(int examId)
         {

@@ -38,8 +38,19 @@ namespace PPT.Database.Services
                 listAccount.Add(account);
                 
             }
-
+            foreach (var item in listAccount)
+            {
+                if(item.FullName == null)
+                {
+                    listAccount.Remove(item);
+                }
+            }
             return listAccount.Where(c => c.FullName.Contains(name)).ToList();
+        }
+
+        public List<GroupMemberEntity> GetGroupMemberByAccountId(int memberId)
+        {
+            return _context.GroupMembers.Where(m => m.AccountId == memberId).ToList();
         }
     }
 }

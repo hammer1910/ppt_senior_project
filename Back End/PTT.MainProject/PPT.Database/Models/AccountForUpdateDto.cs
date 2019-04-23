@@ -12,10 +12,7 @@ namespace PPT.Database.Models
         public string Email { get; set; }
 
         [MaxLength(30)]
-        public string FirstName { get; set; }
-
-        [MaxLength(30)]
-        public string LastName { get; set; }
+        public string FullName { get; set; }
 
         [MaxLength(20)]
         public string Phone { get; set; }

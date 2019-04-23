@@ -7,6 +7,7 @@ namespace PPT.Database.Models
     public class QuestionDto
     {        
         public int examId;
+        public int questionNumber;
         public string part { get; set; }
         public string image { get; set; }
         public string fileMp3 { get; set; }

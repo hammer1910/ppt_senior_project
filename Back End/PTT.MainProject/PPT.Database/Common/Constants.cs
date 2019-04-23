@@ -21,10 +21,10 @@ namespace PPT.Database.Common
         public static string oldPasswordNotTrue = "Your old password don't true. Please enter again!";
         public static string accountDeleted = "You deleted the account successfully!";
         public static string notInformationGroup = "You haven't enter information for group.";
-        public static string groupCreated = "You created the group successfully.";
+        public static string groupCreated = "You created the group successfully!";
         public static string groupNotFound = "Your group information was not found.";
-        public static string memberAdded = "You add member into the group successfully.";
-        public static string groupUpdated = "You updated the group successfully.";
+        public static string memberAdded = "You add member into the group successfully!";
+        public static string groupUpdated = "You updated the group successfully!";
         public static string groupDeleted = "You deleted the group successfully!";
         public static string notInformationMember = "Your member information of the group was not found.";
         public static string memberDeleted = "You deleted the member successfully!";
@@ -32,11 +32,11 @@ namespace PPT.Database.Common
         public static string failCreatedExam = "You created exam failed!";
         public static string examNotFound = "Your exam information was not found.";
         public static string notInformationExam = "You haven't enter information for exam.";
-        public static string examUpdated = "You updated the exam successfully.";
+        public static string examUpdated = "You updated the exam successfully!";
         public static string examDeleted = "You deleted the exam successfully!";
         public static string notInformationQuestion = "You haven't enter information for question.";
         public static string createdQuestion = "You created question successfully!";
-        public static string questionUpdated = "You updated the question successfully.";
+        public static string questionUpdated = "You updated the question successfully!";
         public static string questionDeleted = "You deleted the question successfully!";
         public static string questionNotFound = "Your question information was not found.";
         public static string createdAnswerUser = "You added answer of user successfully!";

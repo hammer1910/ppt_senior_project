@@ -24,7 +24,7 @@ namespace PTT.MainProject.Controllers
         private IAccountRepository _accountRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public CommentController(ICommentRepository commentRepository, IGroupMemberRepository groupMemberRepository, 
+        public CommentController(ICommentRepository commentRepository, IGroupMemberRepository groupMemberRepository,
             IExamRepository examRepository, IGroupRepository groupRepository, IAccountRepository accountRepository)
         {
             _commentRepository = commentRepository;
@@ -39,6 +39,7 @@ namespace PTT.MainProject.Controllers
         /// Create comment function
         /// </summary>
         /// <param name="comment">The comment information from body</param> 
+        /// <response code="200">You commented successfully!</response>
         [HttpPost("createcomment")]
         public JsonResult CreatePointOfInterest([FromBody] CommentDto comment)
         {
@@ -59,7 +60,7 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
                 }
 
-                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(comment.groupId, comment.accountId);                                               
+                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(comment.groupId, comment.accountId);
 
                 //Map data enter from the form to comment entity
                 var comments = Mapper.Map<PPT.Database.Entities.CommentEntity>(comment);
@@ -75,7 +76,7 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
                 }
 
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.registerSuccess));
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.commentSuccess));
                 return Json(MessageResult.GetMessage(MessageType.COMMENTSUCCESS));
             }
             catch (Exception ex)
@@ -88,11 +89,25 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Get information comment function
         /// </summary>
-        /// <param name="examId">Get id exam on the url</param>        
+        /// <param name="examId">Get id exam on the url</param>       
+        /// <response code="200">
+        /// [
+        ///  {
+        ///    "name": "Trương Văn Cảnh",
+        ///    "content": "Exam is very good",
+        ///    "dateTime": "2019-04-22T16:26:37.3356622"
+        ///  },
+        ///  {
+        ///    "name": "Nguyễn Văn Té",
+        ///    "content": "Exam is very useful",
+        ///    "dateTime": "2019-04-22T16:24:41.556793"
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("getcomment/{examId}")]
         public JsonResult GetInformationGroup(int examId)
         {
-            
+
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             try

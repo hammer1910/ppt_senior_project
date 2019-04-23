@@ -68,6 +68,7 @@ namespace PTT.MainProject
             services.AddScoped<ICommentRepository, CommentService>();
             services.AddScoped<IGroupMemberRepository, GroupMemberService>();
             services.AddScoped<IAccountExamRepository, AccountExamService>();
+            services.AddScoped<IGroupOwnerRepository, GroupOwnerService>();
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {

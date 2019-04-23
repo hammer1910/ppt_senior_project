@@ -7,6 +7,7 @@ namespace PPT.Database.ResultObject
     public class QuestionListResult
     {
         public int questionId { get; set; }
+        public int questionNumber { get; set; }
         public string part { get; set; }
         public string image { get; set; }
         public string fileMp3 { get; set; }

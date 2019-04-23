@@ -18,7 +18,7 @@ namespace PTT.MainProject.Controllers
 {
     [Route("api/exam")]
     public class AccountController : Controller
-    {        
+    {
         private IAccountRepository _accountRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
@@ -32,7 +32,18 @@ namespace PTT.MainProject.Controllers
         /// Login function
         /// </summary>
         /// <param name="account">The account information from body</param>  
-        /// <response code="400">Bad Request</response>
+        /// <response code="200">
+        /// "accountId": 9,
+        /// "email": "vuong113@gmail.com",
+        /// "password": "E10ADC3949BA59ABBE56E057F20F883E",
+        /// "fullName": "Nguyễn Văn Té",
+        /// "address": "Đà Nẵng",
+        /// "phoneNumber": "03259689",
+        /// "roles": [
+        /// "user"
+        /// ],
+        /// "session": "AAAAAA=="
+        /// </response>
         [HttpPost("login")]
         public JsonResult Login([FromBody] AccountDto account)
         {
@@ -93,35 +104,36 @@ namespace PTT.MainProject.Controllers
                 result.Roles = listRoles;
                 return Json(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-                   
+
 
         }
 
         /// <summary>
         /// Forgot password function
         /// </summary>
-        /// <param name="account">The account information from body</param> 
-        [HttpGet("forgotpassword")]
-        public JsonResult ForgotPassword([FromBody] AccountEntity account)
+        /// <param name="email">Get email of the account on the url</param> 
+        /// <response code="200">Your password have send on your email account.</response>
+        [HttpGet("forgotpassword/{email}")]
+        public JsonResult ForgotPassword(string email)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
             try
-            {               
+            {
                 //Check value enter from the form 
-                if (account == null)
+                if (email == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notEnterEmail));
                     return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
                 }
 
                 //Check email enter from the form not exist in the database
-                if (_accountRepository.EmailExist(account.Email))
+                if (_accountRepository.EmailExist(email))
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailNotExist));
                     return Json(MessageResult.GetMessage(MessageType.EMAIL_NOT_EXIST));
@@ -134,12 +146,12 @@ namespace PTT.MainProject.Controllers
                 }
 
                 //Check email enter from the form exist in the database
-                if (!_accountRepository.EmailExist(account.Email))
+                if (!_accountRepository.EmailExist(email))
                 {
                     //This is send new password through email
-                    string code = SendGmail.ForgotPassword(account.Email);
+                    string code = SendGmail.ForgotPassword(email);
 
-                    AccountEntity accountEntity = _accountRepository.GetAccountByEmail(account.Email);
+                    AccountEntity accountEntity = _accountRepository.GetAccountByEmail(email);
                     //This is update new password 
                     accountEntity.Password = PasswordUtil.CreateMD5(code);
                 }
@@ -153,18 +165,19 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.sendPassword));
                 return Json(MessageResult.GetMessage(MessageType.SEND_PASSWORD));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
         /// Register user function
         /// </summary>
         /// <param name="account">The account information from body</param> 
+        /// <response code="200">You registered the account successfully!</response>
         [HttpPost("register")]
         public JsonResult CreatePointOfInterest([FromBody] AccountForCreationDto account)
         {
@@ -224,6 +237,14 @@ namespace PTT.MainProject.Controllers
         /// Get information account function
         /// </summary>
         /// <param name="id">Get id account on the url</param> 
+        /// <response code="200">
+        /// "accountId": 9,
+        /// "email": "vuong113@gmail.com",
+        /// "password": "FE9FC8835E5637C2812035D7623B843B",
+        /// "fullName": "Nguyễn Văn Té",
+        /// "phone": "03259689",
+        /// "address": "Đà Nẵng"
+        /// </response>
         [HttpGet("getinformationaccount/{id}")]
         public JsonResult GetInformationAccount(int id)
         {
@@ -249,20 +270,21 @@ namespace PTT.MainProject.Controllers
 
                 return Json(account);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-           
+
         }
 
         /// <summary>
         /// Update information account function
         /// </summary>
         /// <param name="account">The account information from body</param>
+        /// <response code="200">Your account information updated successfully.</response>
         [HttpPut("updateinformationaccount")]
-        public JsonResult UpdateAccount( [FromBody] AccountForUpdateDto account)
+        public JsonResult UpdateAccount([FromBody] AccountForUpdateDto account)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -309,18 +331,19 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountUpdated));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
         /// Change password account function
         /// </summary>
         /// <param name="account">The account information from body</param>
+        /// <response code="200">Your account information updated successfully.</response>
         [HttpPost("updatepasswordaccount")]
         public JsonResult UpdateAccountPatch([FromBody] ChangingPassword account)
         {
@@ -378,18 +401,19 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountUpdated));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_UPDATED));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
         /// Delete account function
         /// </summary>
         /// <param name="id">Get id account on the url</param>
+        /// <response code="200">You deleted the account successfully!</response>
         [HttpDelete("deleteaccount/{id}")]
         public JsonResult DeleteAccount(int id)
         {
@@ -425,17 +449,37 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountDeleted));
                 return Json(MessageResult.GetMessage(MessageType.ACCOUNT_DELETED));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
         /// Get all accounts of the database function
         /// </summary>
+        /// <response code="200">
+        /// [
+        /// {
+        ///  "accountId": 9,
+        ///  "email": "vuong113@gmail.com",
+        ///  "password": null,
+        ///  "fullName": "Nguyễn Văn Té",
+        ///  "address": "Đà Nẵng",
+        ///  "phoneNumber": "03259689",
+        /// },
+        /// {
+        ///  "accountId": 11,
+        ///  "email": "canhtruong@gmail.com",
+        ///  "password": null,
+        ///  "fullName": "Trương Văn Cảnh",
+        ///  "address": "Huế",
+        /// "phoneNumber": "08996556322",
+        /// }
+        /// ]
+        /// </response>
         [HttpGet("getallaccounts")]
         public JsonResult GetAllAccounts()
         {
@@ -468,12 +512,12 @@ namespace PTT.MainProject.Controllers
 
                 return Json(listAccount);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
     }
