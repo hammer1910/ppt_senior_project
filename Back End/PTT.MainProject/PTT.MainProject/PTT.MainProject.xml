@@ -274,7 +274,7 @@
             <param name="accountId">Get id account on the url</param> 
             <response code="200">You deleted the member successfully!</response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.SearchMemberInGroup(System.Int32,System.String)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.SearchMemberInGroup(System.String)">
             <summary>
             Search member by name function
             </summary>

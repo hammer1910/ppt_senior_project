@@ -26,27 +26,7 @@ namespace PPT.Database.Services
         public List<GroupMemberEntity> GetGroupMemberByGroupId(int groupId)
         {
             return _context.GroupMembers.Where(m => m.GroupId == groupId).ToList();
-        }
-
-        public List<AccountEntity> SearchMemberByName(string name, int groupId)
-        {
-            List<GroupMemberEntity> listMember = _context.GroupMembers.Where(m => m.GroupId == groupId).ToList();
-            List<AccountEntity> listAccount = new List<AccountEntity>();
-            foreach (var item in listMember)
-            {
-                AccountEntity account = _accountRepository.GetAccountById(item.AccountId);
-                listAccount.Add(account);
-                
-            }
-            foreach (var item in listAccount)
-            {
-                if(item.FullName == null)
-                {
-                    listAccount.Remove(item);
-                }
-            }
-            return listAccount.Where(c => c.FullName.Contains(name)).ToList();
-        }
+        }        
 
         public List<GroupMemberEntity> GetGroupMemberByAccountId(int memberId)
         {

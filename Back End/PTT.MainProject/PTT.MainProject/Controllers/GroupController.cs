@@ -515,15 +515,15 @@ namespace PTT.MainProject.Controllers
         ///  }
         /// ]
         /// </response>
-        [HttpGet("searchmember/{groupId}/{name}")]
-        public JsonResult SearchMemberInGroup(int groupId, string name)
+        [HttpGet("searchmember/{name}")]
+        public JsonResult SearchMemberInGroup(string name)
         {
             //get method name
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
             try
             {
                 //Check value enter id group
-                if (groupId == 0 || name == null)
+                if (name == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.valueIsNull));
                     return Json(MessageResult.GetMessage(MessageType.VALUEISNULL));
@@ -531,7 +531,7 @@ namespace PTT.MainProject.Controllers
                 
                 List<SearchResult> listResult = new List<SearchResult>();
                 //get all member with contain name from form body
-                List<AccountEntity> memberEntities = _groupMemberRepository.SearchMemberByName(name, groupId);
+                List<AccountEntity> memberEntities = _accountRepository.SearchMemberByName(name);
                 if (memberEntities != null)
                 {
                     //add member into listResult
