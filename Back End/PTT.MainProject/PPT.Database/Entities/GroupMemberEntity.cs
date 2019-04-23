@@ -19,5 +19,7 @@ namespace PPT.Database.Entities
         [ForeignKey("AccountId")]
         public AccountEntity Account { set; get; }
         public int AccountId { get; set; }
+
+        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
     }
 }

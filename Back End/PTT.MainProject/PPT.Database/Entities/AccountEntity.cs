@@ -19,10 +19,7 @@ namespace PPT.Database.Entities
         public string Password { get; set; }
 
         [MaxLength(30)]
-        public string FirstName { get; set; }
-
-        [MaxLength(30)]
-        public string LastName { get; set; }
+        public string FullName { get; set; }
 
         [MaxLength(20)]
         public string Phone { get; set; }
@@ -36,5 +33,7 @@ namespace PPT.Database.Entities
         public ICollection<AccountRoleEntity> AccountRoles { get; set; } = new List<AccountRoleEntity>();
         public ICollection<GroupOwnerEntity> GroupOwners { get; set; } = new List<GroupOwnerEntity>();
         public ICollection<AnswerUserEntity> AnswerUsers { get; set; } = new List<AnswerUserEntity>();
+        public ICollection<CommentEntity> Comments { get; set; } = new List<CommentEntity>();
+        public ICollection<AccountExamEntity> AccountExams { get; set; } = new List<AccountExamEntity>();
     }
 }

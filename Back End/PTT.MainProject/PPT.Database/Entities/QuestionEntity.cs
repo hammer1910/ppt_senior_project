@@ -12,6 +12,8 @@ namespace PPT.Database.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int QuestionId { get; set; }
 
+        public int QuestionNumber { get; set; }
+
         [MaxLength(10)]
         public string Part { get; set; }
 
@@ -37,9 +39,13 @@ namespace PPT.Database.Entities
         [MaxLength(255)]
         public string D { get; set; }
 
+        [MaxLength(10)]
+        public string CorrectAnswer { get; set; }
+
         [MaxLength(20)]
         public string Team { get; set; }
 
         public ICollection<ExamQuestionEntity> ExamQuestions { get; set; } = new List<ExamQuestionEntity>();
+        public ICollection<AnswerUserEntity> AnswerUsers { get; set; } = new List<AnswerUserEntity>();
     }
 }

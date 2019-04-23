@@ -1,6 +1,5 @@
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.deps.json
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.dll
-E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
@@ -9,3 +8,41 @@ E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Data
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.pdb
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.dll
 E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.pdb
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.deps.json
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.json
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.dev.json
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.dll
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.pdb
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.dll
+D:\PTTProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.pdb
+E:\Dot Net\PPTSeniorProject\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.deps.json
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.json
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.dev.json
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.dll
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.pdb
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.dll
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.pdb
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\System.Data.Linq.dll
+D:\PTT_Project\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CopyComplete
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.deps.json
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.json
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.runtimeconfig.dev.json
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.dll
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\PPT.Database.pdb
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Debug\netcoreapp2.2\System.Data.Linq.dll
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.csproj.CopyComplete
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.dll
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Debug\netcoreapp2.2\PPT.Database.pdb
