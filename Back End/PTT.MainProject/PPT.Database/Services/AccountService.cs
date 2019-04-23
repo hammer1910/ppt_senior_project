@@ -80,5 +80,10 @@ namespace PPT.Database.Services
         {
             return _context.Accounts.ToList();
         }
+
+        public List<AccountEntity> SearchMemberByName(string name)
+        {
+            return _context.Accounts.Where(c => c.FullName.Contains(name)).ToList();
+        }
     }
 }
