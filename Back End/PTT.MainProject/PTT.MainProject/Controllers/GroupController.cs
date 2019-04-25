@@ -106,6 +106,14 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
                 }
 
+                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(groupId, account.accountID);
+
+                if (groupMemberEntity != null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupMemberExist));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_MEMBER_EXIST));
+                }
+
                 if (!ModelState.IsValid)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
@@ -126,16 +134,27 @@ namespace PTT.MainProject.Controllers
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
-                }
+                }                
 
                 //This is query add member into this group
                 _groupRepository.AddMemberIntoGroup(groupEntity, accountEntity);
+
+                List<ExamEntity> listExamEntity = _examRepository.GetListExamByGroupId(groupId);
+
+                foreach (var item in listExamEntity)
+                {
+                    AccountExamEntity accountExamEntity = new AccountExamEntity();
+                    accountExamEntity.AccountId = accountEntity.AccountId;
+                    accountExamEntity.ExamId = item.ExamId;
+                    accountExamEntity.IsStatus = "Do Exam";
+                    _accountExamRepository.CreateAccountExam(accountExamEntity);
+                }
 
                 if (!_groupRepository.Save())
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-                }
+                }                
 
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.memberAdded));
                 return Json(MessageResult.GetMessage(MessageType.MEMBER_ADDED));
@@ -350,30 +369,30 @@ namespace PTT.MainProject.Controllers
 
                 //
                 foreach (var groupOwner in groupEntities)
-                {
+                {                    
+                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                     GroupListResult groupList = new GroupListResult();
                     groupList.groupId = groupOwner.GroupId;
                     groupList.groupOwnerId = groupOwner.GroupOwnerId;
                     groupList.ownerGroupId = groupOwner.AccountId;
-                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                     groupList.groupName = group.Name;
                     groupList.description = group.Description;
                     groupListResult.Add(groupList);
                 }
 
                 foreach (var groupMember in groupMembers)
-                {
+                {                    
+                    GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
                     GroupListResult groupList = new GroupListResult();
                     groupList.groupId = groupMember.GroupId;
                     groupList.groupOwnerId = groupMember.GroupMemberId;
                     groupList.ownerGroupId = groupMember.AccountId;
-                    GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
                     groupList.groupName = group.Name;
                     groupList.description = group.Description;
                     groupListResult.Add(groupList);
                 }
 
-                return Json(groupListResult);
+                return Json(groupListResult.OrderByDescending(a => a.groupId));
             }
             catch (Exception ex)
             {
@@ -551,7 +570,7 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
                 }
                 
-                return Json(listResult);
+                return Json(listResult.Take(10));
             }
             catch (Exception ex)
             {
@@ -617,11 +636,10 @@ namespace PTT.MainProject.Controllers
                         result.examId = accountExam.ExamId;
                         result.name = examEntity.Name;
                         result.status = accountExam.IsStatus;
-                        result.ownerId = ownerEntity.AccountId;
                         examResults.Add(result);
                     }
                 }
-               
+
                 ExamResultHasOwner examResultHasOwner = new ExamResultHasOwner();
                 examResultHasOwner.ownerId = ownerEntity.AccountId;
                 examResultHasOwner.examResults = examResults;

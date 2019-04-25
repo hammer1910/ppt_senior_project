@@ -43,7 +43,7 @@ namespace PTT.MainProject
                 //The generated Swagger JSON file will have these properties.
                 c.SwaggerDoc("v1", new Info
                 {
-                    Title = "Pass Toeic Together Api",
+                    Title = "Let's TOEIC Api",
                     Version = "v1",
                 });
                 
@@ -118,7 +118,7 @@ namespace PTT.MainProject
             //This line enables Swagger UI, which provides us with a nice, simple UI with which we can view our API calls.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pass Toeic Together Api");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Let's TOEIC Api");
             });
 
         }

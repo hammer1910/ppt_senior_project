@@ -104,8 +104,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 25,
         ///   "questionNumber": 1,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "image": "part1_10.jpg",
+        ///   "fileMp3": "11796_010_Q.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -119,8 +119,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 26,
         ///   "questionNumber": 2,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "image": "part1_9.jpg",
+        ///   "fileMp3": "11796_003_N.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -211,6 +211,7 @@ namespace PTT.MainProject.Controllers
         /// Get all questions by part of the exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="accountId">Get id account on the url</param>
         /// <param name="part">Get part parameter on the url</param> 
         /// <response code="200">
         /// [
@@ -218,8 +219,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 25,
         ///   "questionNumber": 1,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "image": "part1_10.jpg",
+        ///   "fileMp3": "11796_010_Q.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -233,8 +234,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 26,
         ///   "questionNumber": 2,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "image": "part1_9.jpg",
+        ///   "fileMp3": "11796_003_N.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -246,8 +247,8 @@ namespace PTT.MainProject.Controllers
         ///  }
         /// ]
         /// </response>
-        [HttpGet("{examId}/getListQuestionByPart/{part}")]
-        public JsonResult GetListQuestionByPart(int examId, string part)
+        [HttpGet("{examId}/{accountId}/getListQuestionByPart/{part}")]
+        public JsonResult GetListQuestionByPart(int examId, string part, int accountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -277,29 +278,40 @@ namespace PTT.MainProject.Controllers
                 }
 
                 List<QuestionListResult> questionLists = new List<QuestionListResult>();
-                foreach (var item in listQuestionEntities)
+                List<AnswerUserEntity> answerUserEntities = _answerUserRepository.GetAnswerUserEntities(accountId);
+
+                List<AnswerUserResult> answerUserResults = new List<AnswerUserResult>();
+                foreach (var examQuestion in listQuestionEntities)
                 {
                     QuestionListResult q = new QuestionListResult();
-                    if (item.Part.Equals(part))
+                    foreach (var item in answerUserEntities)
                     {
-                        q.questionId = item.QuestionId;
-                        q.questionNumber = item.QuestionNumber;
-                        q.part = item.Part;
-                        q.image = item.Image;
-                        q.fileMp3 = item.FileMp3;
-                        q.questionName = item.QuestionName;
-                        q.A = item.A;
-                        q.B = item.B;
-                        q.C = item.C;
-                        q.D = item.D;
-                        q.correctAnswer = item.CorrectAnswer;
-                        q.team = item.Team;
+                        if (item.QuestionId == examQuestion.QuestionId)
+                        {
+                            q.answerUser = item.AnswerKey;
+                            break;
+                        }
+
+                    }
+                    if (examQuestion.Part.Equals(part))
+                    {
+                        q.questionId = examQuestion.QuestionId;
+                        q.part = examQuestion.Part;
+                        q.image = examQuestion.Image;
+                        q.fileMp3 = examQuestion.FileMp3;
+                        q.questionName = examQuestion.QuestionName;
+                        q.A = examQuestion.A;
+                        q.B = examQuestion.B;
+                        q.C = examQuestion.C;
+                        q.D = examQuestion.D;
+                        q.correctAnswer = examQuestion.CorrectAnswer;
+                        q.team = examQuestion.Team;
+
                         questionLists.Add(q);
                     }
-
                 }
 
-                return Json(questionLists);
+                return Json(questionLists.OrderBy(q => q.questionNumber));
             }
             catch(Exception ex)
             {
@@ -318,8 +330,8 @@ namespace PTT.MainProject.Controllers
         ///  "questionId": 26,
         ///  "questionNumber": 2,
         ///  "part": "1",
-        ///  "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///  "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///  "image": "part1_9.jpg",
+        ///  "fileMp3": "11796_003_N.mp3",
         ///  "questionName": null,
         ///  "a": null,
         ///  "b": null,

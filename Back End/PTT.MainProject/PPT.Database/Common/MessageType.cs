@@ -41,6 +41,7 @@ namespace PPT.Database.Common
         CREATED_ANSWER_USER = 33,
         QUESTION_ID_WRONG = 34,
         COMMENTSUCCESS = 35,
-        VALUEISNULL = 36
+        VALUEISNULL = 36,
+        GROUP_MEMBER_EXIST = 37
     }
 }

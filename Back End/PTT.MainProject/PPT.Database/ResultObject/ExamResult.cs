@@ -6,7 +6,6 @@ namespace PPT.Database.ResultObject
 {
     public class ExamResult
     {
-        public int ownerId ;
         public int examId { get; set; }
         public string name { get; set; }
         public string status { get; set; }

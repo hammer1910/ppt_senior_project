@@ -76,6 +76,13 @@ namespace PTT.MainProject.Controllers
                 List<GroupMemberEntity> listGroupMembers = _groupMemberRepository.GetGroupMemberByGroupId(groupEntity.GroupId);
                 if(listGroupMembers.Count() > 0)
                 {
+                    AccountExamEntity accountExamEntity1 = new AccountExamEntity();
+                    accountExamEntity1.Exam = finalExam;
+                    accountExamEntity1.AccountId = groupOwner.AccountId;
+                    accountExamEntity1.ExamId = finalExam.ExamId;
+                    accountExamEntity1.IsStatus = "Do Exam";
+                    _accountExamRepository.CreateAccountExam(accountExamEntity1);
+                    _accountExamRepository.Save();
                     foreach (var item in listGroupMembers)
                     {
                         AccountExamEntity accountExamEntity = new AccountExamEntity();
