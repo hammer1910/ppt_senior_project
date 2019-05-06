@@ -296,6 +296,7 @@ namespace PTT.MainProject.Controllers
                     if (examQuestion.Part.Equals(part))
                     {
                         q.questionId = examQuestion.QuestionId;
+                        q.questionNumber = examQuestion.QuestionNumber;
                         q.part = examQuestion.Part;
                         q.image = examQuestion.Image;
                         q.fileMp3 = examQuestion.FileMp3;

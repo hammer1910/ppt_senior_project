@@ -289,9 +289,18 @@ namespace PTT.MainProject.Controllers
                             if (item.QuestionId == examQuestion.QuestionId)
                             {
                                 AnswerUserResult answerUser = new AnswerUserResult();
+                                answerUser.part = examQuestion.Part;
                                 answerUser.quetionNumber = examQuestion.QuestionNumber;
-                                answerUser.answerUser = item.AnswerKey;
-                                answerUser.finalAnswer = examQuestion.CorrectAnswer;
+                                answerUser.answerUser = item.AnswerKey.ToUpper();
+                                answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
+                                if (item.AnswerKey.Equals(examQuestion.CorrectAnswer))
+                                {                                   
+                                    answerUser.status = "correct";                                   
+                                }
+                                else
+                                {                                    
+                                    answerUser.status = "uncorrect";                                    
+                                }
                                 answerUserResults.Add(answerUser);
                             }
                         }
@@ -300,6 +309,7 @@ namespace PTT.MainProject.Controllers
                 else if (anotherAccountId > 0)
                 {
                     List<AnswerUserEntity> anotherAccount = _answerUserRepository.GetAnswerUserEntities(anotherAccountId);
+                    AccountEntity nameAnother = _accountRepository.GetAccountById(anotherAccountId);
                     foreach (var examQuestion in listQuestionEntities)
                     {
                         foreach (var item in answerUserEntities)
@@ -309,19 +319,41 @@ namespace PTT.MainProject.Controllers
                                 if (item.QuestionId == examQuestion.QuestionId && another.QuestionId == examQuestion.QuestionId)
                                 {
                                     AnswerUserResult answerUser = new AnswerUserResult();
+                                    answerUser.part = examQuestion.Part;
+                                    answerUser.nameAnother = nameAnother.FullName;
                                     answerUser.quetionNumber = examQuestion.QuestionNumber;
-                                    answerUser.answerUser = item.AnswerKey;
-                                    answerUser.finalAnswer = examQuestion.CorrectAnswer;
-                                    answerUser.answerAnother = another.AnswerKey;
+                                    answerUser.answerUser = item.AnswerKey.ToUpper();
+                                    answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
+                                    answerUser.answerAnother = another.AnswerKey.ToUpper();
+                                    
+                                    if (item.AnswerKey.Equals(another.AnswerKey) && item.AnswerKey.Equals(examQuestion.CorrectAnswer))
+                                    {
+                                        // a = a = a
+                                        answerUser.status = "correct";
+                                    }
+                                    else if (item.AnswerKey.Equals(another.AnswerKey) && !item.AnswerKey.Equals(examQuestion.CorrectAnswer))
+                                    {
+                                        // a = a != b
+                                        answerUser.status = "1";
+                                    }
+                                    else if (!item.AnswerKey.Equals(another.AnswerKey) && item.AnswerKey.Equals(examQuestion.CorrectAnswer))
+                                    {
+                                        //a != b = a
+                                        answerUser.status = "2";
+                                    }
+                                    else
+                                    {
+                                        answerUser.status = "3";
+                                    }
                                     answerUserResults.Add(answerUser);
                                 }
                             }
                         }
 
                     }
-                }
+                }                                             
 
-                return Json(answerUserResults);
+                return Json(answerUserResults.OrderBy(a => a.quetionNumber));
             }
             catch (Exception ex)
             {

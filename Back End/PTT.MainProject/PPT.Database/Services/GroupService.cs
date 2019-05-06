@@ -34,7 +34,7 @@ namespace PPT.Database.Services
             groupOwner.AccountId = accountEntity.AccountId;
             groupOwner.GroupId = groupEntity.GroupId;
 
-            _context.GroupOwners.Add(groupOwner);   
+            _context.GroupOwners.Add(groupOwner);       
         }
 
         public bool Save()

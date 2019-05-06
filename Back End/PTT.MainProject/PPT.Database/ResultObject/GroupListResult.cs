@@ -8,7 +8,7 @@ namespace PPT.Database.ResultObject
     {
         public int groupOwnerId { get; set; }
         public int ownerGroupId { get; set; }
-        public int groupId { get; set; }
+        public string groupId { get; set; }
         public string groupName { get; set; }
         public string description { get; set; }
     }

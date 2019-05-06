@@ -366,13 +366,12 @@ namespace PTT.MainProject.Controllers
 
                 // Create new list result to get data
                 List<GroupListResult> groupListResult = new List<GroupListResult>();
-
-                //
+                                
                 foreach (var groupOwner in groupEntities)
                 {                    
                     GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                     GroupListResult groupList = new GroupListResult();
-                    groupList.groupId = groupOwner.GroupId;
+                    groupList.groupId = groupOwner.GroupId.ToString("0000");
                     groupList.groupOwnerId = groupOwner.GroupOwnerId;
                     groupList.ownerGroupId = groupOwner.AccountId;
                     groupList.groupName = group.Name;
@@ -384,9 +383,78 @@ namespace PTT.MainProject.Controllers
                 {                    
                     GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
                     GroupListResult groupList = new GroupListResult();
-                    groupList.groupId = groupMember.GroupId;
+                    groupList.groupId = groupMember.GroupId.ToString("0000");
                     groupList.groupOwnerId = groupMember.GroupMemberId;
                     groupList.ownerGroupId = groupMember.AccountId;
+                    groupList.groupName = group.Name;
+                    groupList.description = group.Description;
+                    groupListResult.Add(groupList);
+                }
+
+                return Json(groupListResult.OrderByDescending(a => a.groupId));
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Get list group function
+        /// </summary>
+        /// <param name="accountId">Get id owner on the url</param> 
+        /// <response code="200">
+        /// [
+        ///   {
+        ///    "groupOwnerId": 1016,
+        ///    "ownerGroupId": 42,
+        ///    "groupId": "1012",
+        ///    "groupName": "ABC",
+        ///    "description": "ABC"
+        ///   },
+        ///   {
+        ///    "groupOwnerId": 1013,
+        ///    "ownerGroupId": 42,
+        ///    "groupId": "1009",
+        ///    "groupName": "Delete Group",
+        ///    "description": "Delete Group"
+        ///   }
+        /// ]
+        /// </response>
+        [HttpGet("getlistgroupowner/{accountId}")]
+        public JsonResult GetGroupOwnerList(int accountId)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                //Check value enter id account
+                if (accountId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
+                    return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                }
+
+                //get group list by owner Id
+                List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(accountId);
+
+                if (groupEntities == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                // Create new list result to get data
+                List<GroupListResult> groupListResult = new List<GroupListResult>();
+                                
+                foreach (var groupOwner in groupEntities)
+                {
+                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
+                    GroupListResult groupList = new GroupListResult();
+                    groupList.groupId = groupOwner.GroupId.ToString("0000");
+                    groupList.groupOwnerId = groupOwner.GroupOwnerId;
+                    groupList.ownerGroupId = groupOwner.AccountId;
                     groupList.groupName = group.Name;
                     groupList.description = group.Description;
                     groupListResult.Add(groupList);
@@ -477,10 +545,11 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Delete member by owner function
         /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         /// <param name="accountId">Get id account on the url</param> 
         /// <response code="200">You deleted the member successfully!</response>
-        [HttpDelete("deletemember/{accountId}")]
-        public JsonResult DeleteMember(int accountId)
+        [HttpDelete("deletemember/{groupId}/{accountId}")]
+        public JsonResult DeleteMember(int groupId, int accountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -494,7 +563,7 @@ namespace PTT.MainProject.Controllers
                 }
 
                 //This is get all member of group by id acount
-                var memberEntity = _groupRepository.GetMemberByAccountId(accountId);
+                var memberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(groupId ,accountId);
 
                 if (memberEntity == null)
                 {

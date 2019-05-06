@@ -276,6 +276,30 @@
             ]
             </response>
         </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetGroupOwnerList(System.Int32)">
+            <summary>
+            Get list group function
+            </summary>
+            <param name="accountId">Get id owner on the url</param> 
+            <response code="200">
+            [
+              {
+               "groupOwnerId": 1016,
+               "ownerGroupId": 42,
+               "groupId": "1012",
+               "groupName": "ABC",
+               "description": "ABC"
+              },
+              {
+               "groupOwnerId": 1013,
+               "ownerGroupId": 42,
+               "groupId": "1009",
+               "groupName": "Delete Group",
+               "description": "Delete Group"
+              }
+            ]
+            </response>
+        </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetMemberList(System.Int32)">
             <summary>
             Get list member of group function
@@ -304,10 +328,11 @@
             ]
             </response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32,System.Int32)">
             <summary>
             Delete member by owner function
             </summary>
+            <param name="groupId">Get id group on the url</param> 
             <param name="accountId">Get id account on the url</param> 
             <response code="200">You deleted the member successfully!</response>
         </member>
