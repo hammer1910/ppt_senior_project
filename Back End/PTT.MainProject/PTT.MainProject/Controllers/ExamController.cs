@@ -76,6 +76,13 @@ namespace PTT.MainProject.Controllers
                 List<GroupMemberEntity> listGroupMembers = _groupMemberRepository.GetGroupMemberByGroupId(groupEntity.GroupId);
                 if(listGroupMembers.Count() > 0)
                 {
+                    AccountExamEntity accountExamEntity1 = new AccountExamEntity();
+                    accountExamEntity1.Exam = finalExam;
+                    accountExamEntity1.AccountId = groupOwner.AccountId;
+                    accountExamEntity1.ExamId = finalExam.ExamId;
+                    accountExamEntity1.IsStatus = "Empty";
+                    _accountExamRepository.CreateAccountExam(accountExamEntity1);
+                    _accountExamRepository.Save();
                     foreach (var item in listGroupMembers)
                     {
                         AccountExamEntity accountExamEntity = new AccountExamEntity();
@@ -83,7 +90,7 @@ namespace PTT.MainProject.Controllers
                         accountExamEntity.AccountId = item.AccountId;
                         accountExamEntity.Account = item.Account;
                         accountExamEntity.ExamId = finalExam.ExamId;
-                        accountExamEntity.IsStatus = "Do Exam";
+                        accountExamEntity.IsStatus = "Empty";
                         _accountExamRepository.CreateAccountExam(accountExamEntity);
                         _accountExamRepository.Save();
                     }
@@ -94,7 +101,7 @@ namespace PTT.MainProject.Controllers
                     accountExamEntity.Exam = finalExam;
                     accountExamEntity.AccountId = groupOwner.AccountId;      
                     accountExamEntity.ExamId = finalExam.ExamId;
-                    accountExamEntity.IsStatus = "Do Exam";
+                    accountExamEntity.IsStatus = "Empty";
                     _accountExamRepository.CreateAccountExam(accountExamEntity);
                     _accountExamRepository.Save();
                 }

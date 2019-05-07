@@ -110,6 +110,43 @@
             <param name="examId">Get id exam on the url</param> 
             <param name="accountId">Get id account on the url</param>
             <param name="anotherAccountId">Get another id account on the url</param>
+            <response code="200">
+            [
+             {
+              "quetionNumber": 1,
+              "answerUser": "a",
+              "finalAnswer": "A",
+              "answerAnother": "b"
+             },
+             {
+              "quetionNumber": 2,
+              "answerUser": "a",
+              "finalAnswer": "B",
+              "answerAnother": "a"
+             },
+             {
+              "quetionNumber": 3,
+              "answerUser": "a",
+              "finalAnswer": "C",
+              "answerAnother": "b"
+             }
+            ]
+            </response>
+        </member>
+        <member name="M:PTT.MainProject.Controllers.AnswerUserController.GetListQuestionByPart(System.Int32,System.Int32)">
+            <summary>
+            Get list account finished exam function
+            </summary>
+            <param name="accountId">Get id account on the url</param> 
+            <param name="examId">Get id exam on the url</param> 
+            <response code="200">  
+            [
+             {
+              "accountId": 42,
+              "name": "Nguyễn Văn Dũng"
+             }
+            ]
+            </response>
         </member>
         <member name="M:PTT.MainProject.Controllers.CommentController.CreatePointOfInterest(PPT.Database.Models.CommentDto)">
             <summary>
@@ -239,6 +276,30 @@
             ]
             </response>
         </member>
+        <member name="M:PTT.MainProject.Controllers.GroupController.GetGroupOwnerList(System.Int32)">
+            <summary>
+            Get list group function
+            </summary>
+            <param name="accountId">Get id owner on the url</param> 
+            <response code="200">
+            [
+              {
+               "groupOwnerId": 1016,
+               "ownerGroupId": 42,
+               "groupId": "1012",
+               "groupName": "ABC",
+               "description": "ABC"
+              },
+              {
+               "groupOwnerId": 1013,
+               "ownerGroupId": 42,
+               "groupId": "1009",
+               "groupName": "Delete Group",
+               "description": "Delete Group"
+              }
+            ]
+            </response>
+        </member>
         <member name="M:PTT.MainProject.Controllers.GroupController.GetMemberList(System.Int32)">
             <summary>
             Get list member of group function
@@ -267,10 +328,11 @@
             ]
             </response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32)">
+        <member name="M:PTT.MainProject.Controllers.GroupController.DeleteMember(System.Int32,System.Int32)">
             <summary>
             Delete member by owner function
             </summary>
+            <param name="groupId">Get id group on the url</param> 
             <param name="accountId">Get id account on the url</param> 
             <response code="200">You deleted the member successfully!</response>
         </member>
@@ -353,8 +415,8 @@
               "questionId": 25,
               "questionNumber": 1,
               "part": "1",
-              "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-              "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+              "image": "part1_10.jpg",
+              "fileMp3": "11796_010_Q.mp3",
               "questionName": null,
               "a": null,
               "b": null,
@@ -368,8 +430,8 @@
               "questionId": 26,
               "questionNumber": 2,
               "part": "1",
-              "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-              "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+              "image": "part1_9.jpg",
+              "fileMp3": "11796_003_N.mp3",
               "questionName": null,
               "a": null,
               "b": null,
@@ -382,11 +444,12 @@
             ]
             </response>
         </member>
-        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String)">
+        <member name="M:PTT.MainProject.Controllers.QuestionController.GetListQuestionByPart(System.Int32,System.String,System.Int32)">
             <summary>
             Get all questions by part of the exam function
             </summary>
             <param name="examId">Get id exam on the url</param> 
+            <param name="accountId">Get id account on the url</param>
             <param name="part">Get part parameter on the url</param> 
             <response code="200">
             [
@@ -394,8 +457,8 @@
               "questionId": 25,
               "questionNumber": 1,
               "part": "1",
-              "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-              "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+              "image": "part1_10.jpg",
+              "fileMp3": "11796_010_Q.mp3",
               "questionName": null,
               "a": null,
               "b": null,
@@ -409,8 +472,8 @@
               "questionId": 26,
               "questionNumber": 2,
               "part": "1",
-              "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-              "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+              "image": "part1_9.jpg",
+              "fileMp3": "11796_003_N.mp3",
               "questionName": null,
               "a": null,
               "b": null,
@@ -434,8 +497,8 @@
              "questionId": 26,
              "questionNumber": 2,
              "part": "1",
-             "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-             "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+             "image": "part1_9.jpg",
+             "fileMp3": "11796_003_N.mp3",
              "questionName": null,
              "a": null,
              "b": null,

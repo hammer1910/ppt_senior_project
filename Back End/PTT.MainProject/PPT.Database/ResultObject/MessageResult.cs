@@ -93,13 +93,7 @@ namespace PPT.Database.ResultObject
                     MessageId = 7,
                     MessageReturnTrue = Constants.sendPassword,
                     IsSuccessful = true
-                },
-                new MessageResult()
-                {
-                    MessageId = 36,
-                    MessageReturnTrue = Constants.valueIsNull,
-                    IsSuccessful = false
-                },
+                },                
                 new MessageResult()
                 {
                     MessageId = 8,
@@ -266,6 +260,18 @@ namespace PPT.Database.ResultObject
                 {
                     MessageId = 35,
                     MessageReturnFalse = Constants.commentSuccess,
+                    IsSuccessful = false
+                },
+                new MessageResult()
+                {
+                    MessageId = 36,
+                    MessageReturnTrue = Constants.valueIsNull,
+                    IsSuccessful = false
+                },
+                new MessageResult()
+                {
+                    MessageId = 37,
+                    MessageReturnTrue = Constants.groupMemberExist,
                     IsSuccessful = false
                 }
             };

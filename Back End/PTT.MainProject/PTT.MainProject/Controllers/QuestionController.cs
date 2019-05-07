@@ -18,14 +18,16 @@ namespace PTT.MainProject.Controllers
     public class QuestionController : Controller
     {
         private IAccountRepository _accountRepository;
+        private IAccountExamRepository _accountExamRepository;
         private IAnswerUserRepository _answerUserRepository;
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
         private IExamQuestionRepository _examQuestionRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public QuestionController(IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
+        public QuestionController(IAccountExamRepository accountExamRepository,IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
         {
+            _accountExamRepository = accountExamRepository;
             _accountRepository = accountRepository;
             _examRepository = examRepository;
             _questionRepository = questionRepository;
@@ -46,17 +48,22 @@ namespace PTT.MainProject.Controllers
 
             try
             {
+                int examId = 0;
+
                 if (questions == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
+
                 foreach(var question in questions){
                     if (!_examRepository.ExamExist(question.examId))
                     {
                         Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                         return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                     }
+
+                    examId = question.examId;
                 }
                 
 
@@ -74,7 +81,13 @@ namespace PTT.MainProject.Controllers
                     _questionRepository.CreatePart(partExam, question.examId);
                 }
 
-               
+                List<AccountExamEntity> accountExams = _accountExamRepository.GetListAccountExamByExamId(examId);
+
+                foreach (var item in accountExams)
+                {
+                    item.IsStatus = "Do Exam";
+                    _accountExamRepository.Save();
+                }
 
                 if (!_questionRepository.Save())
                 {
@@ -104,8 +117,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 25,
         ///   "questionNumber": 1,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "image": "part1_10.jpg",
+        ///   "fileMp3": "11796_010_Q.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -119,8 +132,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 26,
         ///   "questionNumber": 2,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "image": "part1_9.jpg",
+        ///   "fileMp3": "11796_003_N.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -211,6 +224,7 @@ namespace PTT.MainProject.Controllers
         /// Get all questions by part of the exam function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param> 
+        /// <param name="accountId">Get id account on the url</param>
         /// <param name="part">Get part parameter on the url</param> 
         /// <response code="200">
         /// [
@@ -218,8 +232,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 25,
         ///   "questionNumber": 1,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_10.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_010_Q.mp3",
+        ///   "image": "part1_10.jpg",
+        ///   "fileMp3": "11796_010_Q.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -233,8 +247,8 @@ namespace PTT.MainProject.Controllers
         ///   "questionId": 26,
         ///   "questionNumber": 2,
         ///   "part": "1",
-        ///   "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///   "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///   "image": "part1_9.jpg",
+        ///   "fileMp3": "11796_003_N.mp3",
         ///   "questionName": null,
         ///   "a": null,
         ///   "b": null,
@@ -246,8 +260,8 @@ namespace PTT.MainProject.Controllers
         ///  }
         /// ]
         /// </response>
-        [HttpGet("{examId}/getListQuestionByPart/{part}")]
-        public JsonResult GetListQuestionByPart(int examId, string part)
+        [HttpGet("{examId}/{accountId}/getListQuestionByPart/{part}")]
+        public JsonResult GetListQuestionByPart(int examId, string part, int accountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -277,29 +291,41 @@ namespace PTT.MainProject.Controllers
                 }
 
                 List<QuestionListResult> questionLists = new List<QuestionListResult>();
-                foreach (var item in listQuestionEntities)
+                List<AnswerUserEntity> answerUserEntities = _answerUserRepository.GetAnswerUserEntities(accountId);
+
+                List<AnswerUserResult> answerUserResults = new List<AnswerUserResult>();
+                foreach (var examQuestion in listQuestionEntities)
                 {
                     QuestionListResult q = new QuestionListResult();
-                    if (item.Part.Equals(part))
+                    foreach (var item in answerUserEntities)
                     {
-                        q.questionId = item.QuestionId;
-                        q.questionNumber = item.QuestionNumber;
-                        q.part = item.Part;
-                        q.image = item.Image;
-                        q.fileMp3 = item.FileMp3;
-                        q.questionName = item.QuestionName;
-                        q.A = item.A;
-                        q.B = item.B;
-                        q.C = item.C;
-                        q.D = item.D;
-                        q.correctAnswer = item.CorrectAnswer;
-                        q.team = item.Team;
+                        if (item.QuestionId == examQuestion.QuestionId)
+                        {
+                            q.answerUser = item.AnswerKey;
+                            break;
+                        }
+
+                    }
+                    if (examQuestion.Part.Equals(part))
+                    {
+                        q.questionId = examQuestion.QuestionId;
+                        q.questionNumber = examQuestion.QuestionNumber;
+                        q.part = examQuestion.Part;
+                        q.image = examQuestion.Image;
+                        q.fileMp3 = examQuestion.FileMp3;
+                        q.questionName = examQuestion.QuestionName;
+                        q.A = examQuestion.A;
+                        q.B = examQuestion.B;
+                        q.C = examQuestion.C;
+                        q.D = examQuestion.D;
+                        q.correctAnswer = examQuestion.CorrectAnswer;
+                        q.team = examQuestion.Team;
+
                         questionLists.Add(q);
                     }
-
                 }
 
-                return Json(questionLists);
+                return Json(questionLists.OrderBy(q => q.questionNumber));
             }
             catch(Exception ex)
             {
@@ -318,8 +344,8 @@ namespace PTT.MainProject.Controllers
         ///  "questionId": 26,
         ///  "questionNumber": 2,
         ///  "part": "1",
-        ///  "image": "http://192.168.20.152:8069/Part1/part1_9.jpg",
-        ///  "fileMp3": "http://192.168.20.152:8069/Part1/11796_003_N.mp3",
+        ///  "image": "part1_9.jpg",
+        ///  "fileMp3": "11796_003_N.mp3",
         ///  "questionName": null,
         ///  "a": null,
         ///  "b": null,

@@ -27,7 +27,7 @@ namespace PTT.MainProject.Controllers
         private IGroupRepository _groupRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public AnswerUserController(IAccountExamRepository accountExamRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IHistoryRepository historyRepository,
+        public AnswerUserController(IAccountExamRepository accountExamRepository, IExamRepository examRepository, IQuestionRepository questionRepository, IHistoryRepository historyRepository,
             IExamQuestionRepository examQuestionRepository, IAnswerUserRepository answerUserRepository, IAccountRepository accountRepository, IGroupRepository groupRepository)
         {
             _accountExamRepository = accountExamRepository;
@@ -47,7 +47,7 @@ namespace PTT.MainProject.Controllers
         /// <param name="answerUserModel">The information answer of user from body</param> 
         /// <response code="200">You added answer of user successfully!</response>
         [HttpPost("createansweruser")]
-        public JsonResult CreateAnswerUser( [FromBody] AnswerUserModel answerUserModel)
+        public JsonResult CreateAnswerUser([FromBody] AnswerUserModel answerUserModel)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -88,7 +88,7 @@ namespace PTT.MainProject.Controllers
                 List<AnswerUserDto> newAccountAnswer = new List<AnswerUserDto>();
                 //list answer of this account from DB
                 List<AnswerUserDto> oldAccountUser = new List<AnswerUserDto>();
-               
+
 
                 // divide between old and new answer
                 foreach (var answer in answersFromForm)
@@ -116,9 +116,9 @@ namespace PTT.MainProject.Controllers
                             }
                         }
                     }
-                    
+
                     foreach (var examQuestion in examQuestionEntity)
-                    {                    
+                    {
                         foreach (var answer in newAccountAnswer)
                         {
                             if (examQuestion.QuestionId == answer.questionId)
@@ -128,12 +128,12 @@ namespace PTT.MainProject.Controllers
                                 answerUser.AccountId = answerUserModel.accountId;
                                 //This is query insert question
                                 _answerUserRepository.CreateAnswerUser(answerUser);
-                                
+
                             }
 
                         }
                     }
-                    
+
                     foreach (var answer in oldAccountUser)
                     {
                         foreach (var answerU in answerUsersFromDB)
@@ -146,7 +146,7 @@ namespace PTT.MainProject.Controllers
                     }
                 }
                 //this function shows that user haven't ever done this exam. This is the first time they do it.
-                
+
                 else
                 {
                     //1 -> 14
@@ -163,7 +163,7 @@ namespace PTT.MainProject.Controllers
                                 //This is query insert question
                                 _answerUserRepository.CreateAnswerUser(answerUser);
                                 AccountExamEntity accountExamEntity = _accountExamRepository.GetByAccountIdAndExamId(answerUser.AccountId, examQuestion.ExamId);
-                                
+
                                 accountExamEntity.IsStatus = "Continue Do Exam";
                                 _accountExamRepository.Save();
                             }
@@ -177,14 +177,14 @@ namespace PTT.MainProject.Controllers
                     finishExam.IsStatus = "Finish";
                     _accountExamRepository.Save();
                 }
-                
+
                 //get account by Id
                 AccountEntity account = _accountRepository.GetAccountById(answerUserModel.accountId);
                 //get exam by Id
                 ExamEntity exam = _examRepository.GetExamById(answerUserModel.examId);
                 int groupId = exam.GroupId;
                 //get group by Id
-                GroupEntity group = _groupRepository.GetGroupById(groupId);               
+                GroupEntity group = _groupRepository.GetGroupById(groupId);
 
                 if (_historyRepository.CheckAccount(account.AccountId, exam.ExamId))
                 {
@@ -194,7 +194,7 @@ namespace PTT.MainProject.Controllers
                     history.Group = group;
                     _historyRepository.CreateHistory(history);
                     _historyRepository.Save();
-                }             
+                }
 
                 if (!_answerUserRepository.Save())
                 {
@@ -205,12 +205,12 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdAnswerUser));
                 return Json(MessageResult.GetMessage(MessageType.CREATED_ANSWER_USER));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
 
         /// <summary>
@@ -219,6 +219,28 @@ namespace PTT.MainProject.Controllers
         /// <param name="examId">Get id exam on the url</param> 
         /// <param name="accountId">Get id account on the url</param>
         /// <param name="anotherAccountId">Get another id account on the url</param>
+        /// <response code="200">
+        /// [
+        ///  {
+        ///   "quetionNumber": 1,
+        ///   "answerUser": "a",
+        ///   "finalAnswer": "A",
+        ///   "answerAnother": "b"
+        ///  },
+        ///  {
+        ///   "quetionNumber": 2,
+        ///   "answerUser": "a",
+        ///   "finalAnswer": "B",
+        ///   "answerAnother": "a"
+        ///  },
+        ///  {
+        ///   "quetionNumber": 3,
+        ///   "answerUser": "a",
+        ///   "finalAnswer": "C",
+        ///   "answerAnother": "b"
+        ///  }
+        /// ]
+        /// </response>
         [HttpGet("{accountId}/{examId}/getanswerkeyandcorrectanswer/{anotherAccountId}")]
         public JsonResult GetAnswerKeyAndCorrectAnswer(int examId, int accountId, int anotherAccountId)
         {
@@ -258,8 +280,8 @@ namespace PTT.MainProject.Controllers
 
                 List<AnswerUserResult> answerUserResults = new List<AnswerUserResult>();
 
-                if (anotherAccountId <=0 )
-                {                    
+                if (anotherAccountId <= 0)
+                {
                     foreach (var examQuestion in listQuestionEntities)
                     {
                         foreach (var item in answerUserEntities)
@@ -267,8 +289,11 @@ namespace PTT.MainProject.Controllers
                             if (item.QuestionId == examQuestion.QuestionId)
                             {
                                 AnswerUserResult answerUser = new AnswerUserResult();
-                                answerUser.answerUser = item.AnswerKey;
-                                answerUser.finalAnswer = examQuestion.CorrectAnswer;
+                                answerUser.part = examQuestion.Part;
+                                answerUser.quetionNumber = examQuestion.QuestionNumber;
+                                answerUser.answerUser = item.AnswerKey.ToUpper();
+                                answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
+                                
                                 answerUserResults.Add(answerUser);
                             }
                         }
@@ -277,6 +302,7 @@ namespace PTT.MainProject.Controllers
                 else if (anotherAccountId > 0)
                 {
                     List<AnswerUserEntity> anotherAccount = _answerUserRepository.GetAnswerUserEntities(anotherAccountId);
+                    AccountEntity nameAnother = _accountRepository.GetAccountById(anotherAccountId);
                     foreach (var examQuestion in listQuestionEntities)
                     {
                         foreach (var item in answerUserEntities)
@@ -286,27 +312,94 @@ namespace PTT.MainProject.Controllers
                                 if (item.QuestionId == examQuestion.QuestionId && another.QuestionId == examQuestion.QuestionId)
                                 {
                                     AnswerUserResult answerUser = new AnswerUserResult();
-                                    answerUser.answerUser = item.AnswerKey;
-                                    answerUser.finalAnswer = examQuestion.CorrectAnswer;
-                                    answerUser.answerAnother = another.AnswerKey;
+                                    answerUser.part = examQuestion.Part;
+                                    answerUser.nameAnother = nameAnother.FullName;
+                                    answerUser.quetionNumber = examQuestion.QuestionNumber;
+                                    answerUser.answerUser = item.AnswerKey.ToUpper();
+                                    answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
+                                    answerUser.answerAnother = another.AnswerKey.ToUpper();
+                                    
+                                    if (!item.AnswerKey.Equals(another.AnswerKey))
+                                    {
+                                        answerUser.status = "uncorrect";
+                                    }
+                                    
                                     answerUserResults.Add(answerUser);
                                 }
                             }
                         }
-                        
-                    }
-                }                
 
-                return Json(answerUserResults);
+                    }
+                }                                             
+
+                return Json(answerUserResults.OrderBy(a => a.quetionNumber));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-           
+
         }
 
+        /// <summary>
+        /// Get list account finished exam function
+        /// </summary>
+        /// <param name="accountId">Get id account on the url</param> 
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <response code="200">  
+        /// [
+        ///  {
+        ///   "accountId": 42,
+        ///   "name": "Nguyễn Văn Dũng"
+        ///  }
+        /// ]
+        /// </response>
+        [HttpGet("getListAccountFinishExam/{accountId}/{examId}")]
+        public JsonResult GetListQuestionByPart(int examId, int accountId)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
+            try
+            {
+                if (!_examRepository.ExamExist(examId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all account exam of the exam by id exam
+                List<AccountExamEntity> listAccountExamEntity = _accountExamRepository.GetListAccountExamByExamId(examId);
+
+                List<AccountFinishExam> accountFinishExams = new List<AccountFinishExam>();
+
+                foreach (var item in listAccountExamEntity)
+                {
+                    if (item.IsStatus.Equals("Finish"))
+                    {
+                        AccountEntity accountEntity = _accountRepository.GetAccountById(item.AccountId);
+                        AccountFinishExam accountFinishExam = new AccountFinishExam();
+                        accountFinishExam.accountId = accountEntity.AccountId;
+                        accountFinishExam.name = accountEntity.FullName;
+                        accountFinishExams.Add(accountFinishExam);
+                    }
+                }
+
+                accountFinishExams = accountFinishExams.Where(a => a.accountId != accountId).ToList();
+
+                return Json(accountFinishExams);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }
     }
 }

@@ -36,6 +36,11 @@ namespace PPT.Database.Services
             return _context.Exams.Where(e => e.ExamId == examId).FirstOrDefault();
         }
 
+        public List<ExamEntity> GetListExamByGroupId(int groupId)
+        {
+            return _context.Exams.Where(e => e.GroupId == groupId).ToList();
+        }
+
         public bool Save()
         {
             return  (_context.SaveChanges() >= 0);

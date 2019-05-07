@@ -14,7 +14,6 @@ E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Dat
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.runtimeconfig.dev.json
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.dll
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\PPT.Database.pdb
-E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.csproj.CoreCompileInputs.cache
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.AssemblyInfoInputs.cache
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.AssemblyInfo.cs
@@ -22,3 +21,4 @@ E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Dat
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.pdb
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\bin\Release\netcoreapp2.2\System.Data.Linq.dll
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.csproj.CopyComplete
+E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PPT.Database\obj\Release\netcoreapp2.2\PPT.Database.csprojAssemblyReference.cache

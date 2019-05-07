@@ -106,6 +106,14 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_ENTER_EMAIL));
                 }
 
+                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(groupId, account.accountID);
+
+                if (groupMemberEntity != null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupMemberExist));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_MEMBER_EXIST));
+                }
+
                 if (!ModelState.IsValid)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
@@ -126,16 +134,27 @@ namespace PTT.MainProject.Controllers
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
-                }
+                }                
 
                 //This is query add member into this group
                 _groupRepository.AddMemberIntoGroup(groupEntity, accountEntity);
+
+                List<ExamEntity> listExamEntity = _examRepository.GetListExamByGroupId(groupId);
+
+                foreach (var item in listExamEntity)
+                {
+                    AccountExamEntity accountExamEntity = new AccountExamEntity();
+                    accountExamEntity.AccountId = accountEntity.AccountId;
+                    accountExamEntity.ExamId = item.ExamId;
+                    accountExamEntity.IsStatus = "Do Exam";
+                    _accountExamRepository.CreateAccountExam(accountExamEntity);
+                }
 
                 if (!_groupRepository.Save())
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
                     return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-                }
+                }                
 
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.memberAdded));
                 return Json(MessageResult.GetMessage(MessageType.MEMBER_ADDED));
@@ -347,33 +366,101 @@ namespace PTT.MainProject.Controllers
 
                 // Create new list result to get data
                 List<GroupListResult> groupListResult = new List<GroupListResult>();
-
-                //
+                                
                 foreach (var groupOwner in groupEntities)
-                {
+                {                    
+                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                     GroupListResult groupList = new GroupListResult();
-                    groupList.groupId = groupOwner.GroupId;
+                    groupList.groupId = groupOwner.GroupId.ToString("0000");
                     groupList.groupOwnerId = groupOwner.GroupOwnerId;
                     groupList.ownerGroupId = groupOwner.AccountId;
-                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
                     groupList.groupName = group.Name;
                     groupList.description = group.Description;
                     groupListResult.Add(groupList);
                 }
 
                 foreach (var groupMember in groupMembers)
-                {
+                {                    
+                    GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
                     GroupListResult groupList = new GroupListResult();
-                    groupList.groupId = groupMember.GroupId;
+                    groupList.groupId = groupMember.GroupId.ToString("0000");
                     groupList.groupOwnerId = groupMember.GroupMemberId;
                     groupList.ownerGroupId = groupMember.AccountId;
-                    GroupEntity group = _groupRepository.GetGroupById(groupMember.GroupId);
                     groupList.groupName = group.Name;
                     groupList.description = group.Description;
                     groupListResult.Add(groupList);
                 }
 
-                return Json(groupListResult);
+                return Json(groupListResult.OrderByDescending(a => a.groupId));
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Get list group function
+        /// </summary>
+        /// <param name="accountId">Get id owner on the url</param> 
+        /// <response code="200">
+        /// [
+        ///   {
+        ///    "groupOwnerId": 1016,
+        ///    "ownerGroupId": 42,
+        ///    "groupId": "1012",
+        ///    "groupName": "ABC",
+        ///    "description": "ABC"
+        ///   },
+        ///   {
+        ///    "groupOwnerId": 1013,
+        ///    "ownerGroupId": 42,
+        ///    "groupId": "1009",
+        ///    "groupName": "Delete Group",
+        ///    "description": "Delete Group"
+        ///   }
+        /// ]
+        /// </response>
+        [HttpGet("getlistgroupowner/{accountId}")]
+        public JsonResult GetGroupOwnerList(int accountId)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                //Check value enter id account
+                if (accountId == 0)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.emailAndPasswordWrong));
+                    return Json(MessageResult.GetMessage(MessageType.EMAIL_AND_PASSWORD_WRONG));
+                }
+
+                //get group list by owner Id
+                List<GroupOwnerEntity> groupEntities = _groupRepository.GetGroupListByOwnerId(accountId);
+
+                if (groupEntities == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.groupNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.GROUP_NOT_FOUND));
+                }
+
+                // Create new list result to get data
+                List<GroupListResult> groupListResult = new List<GroupListResult>();
+                                
+                foreach (var groupOwner in groupEntities)
+                {
+                    GroupEntity group = _groupRepository.GetGroupById(groupOwner.GroupId);
+                    GroupListResult groupList = new GroupListResult();
+                    groupList.groupId = groupOwner.GroupId.ToString("0000");
+                    groupList.groupOwnerId = groupOwner.GroupOwnerId;
+                    groupList.ownerGroupId = groupOwner.AccountId;
+                    groupList.groupName = group.Name;
+                    groupList.description = group.Description;
+                    groupListResult.Add(groupList);
+                }
+
+                return Json(groupListResult.OrderByDescending(a => a.groupId));
             }
             catch (Exception ex)
             {
@@ -458,10 +545,11 @@ namespace PTT.MainProject.Controllers
         /// <summary>
         /// Delete member by owner function
         /// </summary>
+        /// <param name="groupId">Get id group on the url</param> 
         /// <param name="accountId">Get id account on the url</param> 
         /// <response code="200">You deleted the member successfully!</response>
-        [HttpDelete("deletemember/{accountId}")]
-        public JsonResult DeleteMember(int accountId)
+        [HttpDelete("deletemember/{groupId}/{accountId}")]
+        public JsonResult DeleteMember(int groupId, int accountId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -475,7 +563,7 @@ namespace PTT.MainProject.Controllers
                 }
 
                 //This is get all member of group by id acount
-                var memberEntity = _groupRepository.GetMemberByAccountId(accountId);
+                var memberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(groupId ,accountId);
 
                 if (memberEntity == null)
                 {
@@ -551,7 +639,7 @@ namespace PTT.MainProject.Controllers
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_MEMBER));
                 }
                 
-                return Json(listResult);
+                return Json(listResult.Take(10));
             }
             catch (Exception ex)
             {
@@ -617,11 +705,10 @@ namespace PTT.MainProject.Controllers
                         result.examId = accountExam.ExamId;
                         result.name = examEntity.Name;
                         result.status = accountExam.IsStatus;
-                        result.ownerId = ownerEntity.AccountId;
                         examResults.Add(result);
                     }
                 }
-               
+
                 ExamResultHasOwner examResultHasOwner = new ExamResultHasOwner();
                 examResultHasOwner.ownerId = ownerEntity.AccountId;
                 examResultHasOwner.examResults = examResults;

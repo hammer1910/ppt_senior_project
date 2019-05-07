@@ -34,7 +34,7 @@ namespace PPT.Database.Services
             groupOwner.AccountId = accountEntity.AccountId;
             groupOwner.GroupId = groupEntity.GroupId;
 
-            _context.GroupOwners.Add(groupOwner);   
+            _context.GroupOwners.Add(groupOwner);       
         }
 
         public bool Save()
@@ -44,7 +44,7 @@ namespace PPT.Database.Services
 
         public GroupEntity GetGroupById(int id)
         {
-            return _context.Groups.Where(a => a.GroupId == id).FirstOrDefault();
+            return _context.Groups.Where(a => a.GroupId == id).OrderByDescending(a => a.CreatedDate).FirstOrDefault();
         }
 
         public bool GroupExist(int groupId)

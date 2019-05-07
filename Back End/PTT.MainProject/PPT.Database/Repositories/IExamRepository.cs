@@ -12,5 +12,6 @@ namespace PPT.Database.Repositories
         bool ExamExist(int examId);
         ExamEntity GetExamById(int examId);
         void DeleteExam(ExamEntity exam);
+        List<ExamEntity> GetListExamByGroupId(int groupId);
     }
 }
