@@ -293,14 +293,7 @@ namespace PTT.MainProject.Controllers
                                 answerUser.quetionNumber = examQuestion.QuestionNumber;
                                 answerUser.answerUser = item.AnswerKey.ToUpper();
                                 answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
-                                if (item.AnswerKey.Equals(examQuestion.CorrectAnswer))
-                                {                                   
-                                    answerUser.status = "correct";                                   
-                                }
-                                else
-                                {                                    
-                                    answerUser.status = "uncorrect";                                    
-                                }
+                                
                                 answerUserResults.Add(answerUser);
                             }
                         }
@@ -326,25 +319,11 @@ namespace PTT.MainProject.Controllers
                                     answerUser.finalAnswer = examQuestion.CorrectAnswer.ToUpper();
                                     answerUser.answerAnother = another.AnswerKey.ToUpper();
                                     
-                                    if (item.AnswerKey.Equals(another.AnswerKey) && item.AnswerKey.Equals(examQuestion.CorrectAnswer))
+                                    if (!item.AnswerKey.Equals(another.AnswerKey))
                                     {
-                                        // a = a = a
-                                        answerUser.status = "correct";
+                                        answerUser.status = "uncorrect";
                                     }
-                                    else if (item.AnswerKey.Equals(another.AnswerKey) && !item.AnswerKey.Equals(examQuestion.CorrectAnswer))
-                                    {
-                                        // a = a != b
-                                        answerUser.status = "1";
-                                    }
-                                    else if (!item.AnswerKey.Equals(another.AnswerKey) && item.AnswerKey.Equals(examQuestion.CorrectAnswer))
-                                    {
-                                        //a != b = a
-                                        answerUser.status = "2";
-                                    }
-                                    else
-                                    {
-                                        answerUser.status = "3";
-                                    }
+                                    
                                     answerUserResults.Add(answerUser);
                                 }
                             }

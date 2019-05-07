@@ -18,14 +18,16 @@ namespace PTT.MainProject.Controllers
     public class QuestionController : Controller
     {
         private IAccountRepository _accountRepository;
+        private IAccountExamRepository _accountExamRepository;
         private IAnswerUserRepository _answerUserRepository;
         private IExamRepository _examRepository;
         private IQuestionRepository _questionRepository;
         private IExamQuestionRepository _examQuestionRepository;
         private static string className = System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Name;
 
-        public QuestionController(IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
+        public QuestionController(IAccountExamRepository accountExamRepository,IAccountRepository accountRepository,IAnswerUserRepository answerUserRepository,IExamRepository examRepository, IQuestionRepository questionRepository, IExamQuestionRepository examQuestionRepository)
         {
+            _accountExamRepository = accountExamRepository;
             _accountRepository = accountRepository;
             _examRepository = examRepository;
             _questionRepository = questionRepository;
@@ -46,17 +48,22 @@ namespace PTT.MainProject.Controllers
 
             try
             {
+                int examId = 0;
+
                 if (questions == null)
                 {
                     Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
                     return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
                 }
+
                 foreach(var question in questions){
                     if (!_examRepository.ExamExist(question.examId))
                     {
                         Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
                         return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
                     }
+
+                    examId = question.examId;
                 }
                 
 
@@ -74,7 +81,13 @@ namespace PTT.MainProject.Controllers
                     _questionRepository.CreatePart(partExam, question.examId);
                 }
 
-               
+                List<AccountExamEntity> accountExams = _accountExamRepository.GetListAccountExamByExamId(examId);
+
+                foreach (var item in accountExams)
+                {
+                    item.IsStatus = "Do Exam";
+                    _accountExamRepository.Save();
+                }
 
                 if (!_questionRepository.Save())
                 {
