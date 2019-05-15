@@ -37,75 +37,6 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
-        /// Create exam function
-        /// </summary>
-        /// <param name="questions">The information of question from body</param>  
-        /// <response code="200">You created question successfully!</response>
-        [HttpPost("createquestion")]
-        public JsonResult CreateQuestion([FromBody] List<QuestionDto> questions)
-        {
-            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-
-            try
-            {
-                int examId = 0;
-
-                if (questions == null)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
-                }
-
-                foreach(var question in questions){
-                    if (!_examRepository.ExamExist(question.examId))
-                    {
-                        Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
-                        return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
-                    }
-
-                    examId = question.examId;
-                }
-                
-
-                if (!ModelState.IsValid)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-                }
-                foreach (var question in questions)
-                {
-                    //Map data enter from the form to question entity
-                    var partExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
-
-                    //This is query insert question
-                    _questionRepository.CreatePart(partExam, question.examId);
-                }
-
-                List<AccountExamEntity> accountExams = _accountExamRepository.GetListAccountExamByExamId(examId);
-
-                foreach (var item in accountExams)
-                {
-                    item.IsStatus = "Do Exam";
-                    _accountExamRepository.Save();
-                }
-
-                if (!_questionRepository.Save())
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
-                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-                }
-
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdQuestion));
-                return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
-            }
-            catch(Exception ex)
-            {
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
-                return Json(MessageResult.ShowServerError(ex.Message));
-            }            
-        }
-
-        /// <summary>
         /// Get all questions of the exam function
         /// </summary>
         /// <param name="accountId">Get id account on the url</param>
@@ -212,7 +143,7 @@ namespace PTT.MainProject.Controllers
 
                 return Json(pagging);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
@@ -327,7 +258,7 @@ namespace PTT.MainProject.Controllers
 
                 return Json(questionLists.OrderBy(q => q.questionNumber));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
@@ -357,7 +288,7 @@ namespace PTT.MainProject.Controllers
         /// }
         /// </response>
         [HttpGet("{examId}/getQuestionInformation/{questionId}")]
-        public JsonResult GetInformationGroup(int examId,int questionId)
+        public JsonResult GetInformationGroup(int examId, int questionId)
         {
             string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
 
@@ -409,8 +340,77 @@ namespace PTT.MainProject.Controllers
                 Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
-            
+
         }
+
+        /// <summary>
+        /// Create exam function
+        /// </summary>
+        /// <param name="questions">The information of question from body</param>  
+        /// <response code="200">You created question successfully!</response>
+        [HttpPost("createquestion")]
+        public JsonResult CreateQuestion([FromBody] List<QuestionDto> questions)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                int examId = 0;
+
+                if (questions == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationQuestion));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_QUESTION));
+                }
+
+                foreach(var question in questions){
+                    if (!_examRepository.ExamExist(question.examId))
+                    {
+                        Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
+                        return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                    }
+
+                    examId = question.examId;
+                }
+                
+
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+                foreach (var question in questions)
+                {
+                    //Map data enter from the form to question entity
+                    var partExam = Mapper.Map<PPT.Database.Entities.QuestionEntity>(question);
+
+                    //This is query insert question
+                    _questionRepository.CreatePart(partExam, question.examId);
+                }
+
+                List<AccountExamEntity> accountExams = _accountExamRepository.GetListAccountExamByExamId(examId);
+
+                foreach (var item in accountExams)
+                {
+                    item.IsStatus = "Do Exam";
+                    _accountExamRepository.Save();
+                }
+
+                if (!_questionRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.createdQuestion));
+                return Json(MessageResult.GetMessage(MessageType.CREATED_QUESTION));
+            }
+            catch(Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }            
+        }    
 
         /// <summary>
         /// Update information group function

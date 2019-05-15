@@ -36,57 +36,6 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
-        /// Create comment function
-        /// </summary>
-        /// <param name="comment">The comment information from body</param> 
-        /// <response code="200">You commented successfully!</response>
-        [HttpPost("createcomment")]
-        public JsonResult CreatePointOfInterest([FromBody] CommentDto comment)
-        {
-            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-
-            try
-            {
-                //Check value enter from the form 
-                if (comment == null)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-                }
-
-                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(comment.groupId, comment.accountId);
-
-                //Map data enter from the form to comment entity
-                var comments = Mapper.Map<PPT.Database.Entities.CommentEntity>(comment);
-                comments.GroupMemberId = groupMemberEntity.GroupMemberId;
-                comments.DateTimeComment = DateTime.Now;
-                comments.AccountId = comment.accountId;
-
-                _commentRepository.CreateComment(comments);
-
-                if (!_commentRepository.Save())
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
-                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
-                }
-
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.commentSuccess));
-                return Json(MessageResult.GetMessage(MessageType.COMMENTSUCCESS));
-            }
-            catch (Exception ex)
-            {
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
-                return Json(MessageResult.ShowServerError(ex.Message));
-            }
-        }
-
-        /// <summary>
         /// Get information comment function
         /// </summary>
         /// <param name="examId">Get id exam on the url</param>       
@@ -149,5 +98,56 @@ namespace PTT.MainProject.Controllers
             }
 
         }
+
+        /// <summary>
+        /// Create comment function
+        /// </summary>
+        /// <param name="comment">The comment information from body</param> 
+        /// <response code="200">You commented successfully!</response>
+        [HttpPost("createcomment")]
+        public JsonResult CreatePointOfInterest([FromBody] CommentDto comment)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                //Check value enter from the form 
+                if (comment == null)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notInformationAccount));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_INFORMATION_ACCOUNT));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                GroupMemberEntity groupMemberEntity = _groupMemberRepository.GetGroupMemberByGroupIdAndAccountId(comment.groupId, comment.accountId);
+
+                //Map data enter from the form to comment entity
+                var comments = Mapper.Map<PPT.Database.Entities.CommentEntity>(comment);
+                comments.GroupMemberId = groupMemberEntity.GroupMemberId;
+                comments.DateTimeComment = DateTime.Now;
+                comments.AccountId = comment.accountId;
+
+                _commentRepository.CreateComment(comments);
+
+                if (!_commentRepository.Save())
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.badRequest));
+                    return Json(MessageResult.GetMessage(MessageType.BAD_REQUEST));
+                }
+
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.commentSuccess));
+                return Json(MessageResult.GetMessage(MessageType.COMMENTSUCCESS));
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+        }        
     }
 }
