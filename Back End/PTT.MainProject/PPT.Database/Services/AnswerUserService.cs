@@ -18,7 +18,11 @@ namespace PPT.Database.Services
 
         public void CreateAnswerUser(AnswerUserEntity answerUserEntity)
         {
-            _context.AnswerUsers.Add(answerUserEntity);
+            AnswerUserEntity answer = _context.AnswerUsers.FirstOrDefault(c => c.AccountId == answerUserEntity.AccountId && c.QuestionId == answerUserEntity.QuestionId);
+            if(answer == null)
+            {
+                _context.AnswerUsers.Add(answerUserEntity);
+            }            
         }
 
         public AnswerUserEntity GetAnswerUserByQuestionId(int questionId)

@@ -34,6 +34,50 @@ namespace PTT.MainProject.Controllers
         }
 
         /// <summary>
+        /// Get information exam function
+        /// </summary>
+        /// <param name="examId">Get id exam on the url</param> 
+        /// <response code="200">
+        /// "examId": 10,
+        /// "name": "Exam 1",
+        /// "startDate": "2019-04-18T03:59:30.586",
+        /// "endDate": "2019-04-18T03:59:30.586",
+        /// "groupId": 2
+        /// </response>
+        [HttpGet("getinformationexam/{examId}")]
+        public JsonResult GetInformationGroup(int examId)
+        {
+            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+
+            try
+            {
+                //Check id exam exist in the database
+                if (!_examRepository.ExamExist(examId))
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
+                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
+                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
+                }
+
+                //This is get all information of exam by Id
+                ExamEntity examEntity = _examRepository.GetExamById(examId);
+
+                return Json(examEntity);
+            }
+            catch (Exception ex)
+            {
+                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
+                return Json(MessageResult.ShowServerError(ex.Message));
+            }
+
+        }
+
+        /// <summary>
         /// Create exam function
         /// </summary>
         /// <param name="exam">The account exam from body</param>       
@@ -114,51 +158,7 @@ namespace PTT.MainProject.Controllers
                 return Json(MessageResult.ShowServerError(ex.Message));
             }
 
-        }
-
-        /// <summary>
-        /// Get information exam function
-        /// </summary>
-        /// <param name="examId">Get id exam on the url</param> 
-        /// <response code="200">
-        /// "examId": 10,
-        /// "name": "Exam 1",
-        /// "startDate": "2019-04-18T03:59:30.586",
-        /// "endDate": "2019-04-18T03:59:30.586",
-        /// "groupId": 2
-        /// </response>
-        [HttpGet("getinformationexam/{examId}")]
-        public JsonResult GetInformationGroup(int examId)
-        {
-            string functionName = System.Reflection.MethodBase.GetCurrentMethod().Name;
-
-            try
-            {
-                //Check id exam exist in the database
-                if (!_examRepository.ExamExist(examId))
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.examNotFound));
-                    return Json(MessageResult.GetMessage(MessageType.EXAM_NOT_FOUND));
-                }
-
-                if (!ModelState.IsValid)
-                {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.notFound));
-                    return Json(MessageResult.GetMessage(MessageType.NOT_FOUND));
-                }
-
-                //This is get all information of exam by Id
-                ExamEntity examEntity = _examRepository.GetExamById(examId);
-
-                return Json(examEntity);
-            }
-            catch(Exception ex)
-            {
-                Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(ex.Message));
-                return Json(MessageResult.ShowServerError(ex.Message));
-            }
-            
-        }
+        }        
 
         /// <summary>
         /// Update information group function
