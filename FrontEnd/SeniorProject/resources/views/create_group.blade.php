@@ -7,7 +7,7 @@
             <strong>{{session('message')}}</strong>
         </div>
     @endif
-    <div class="col-lg-8 " style="margin-top: 30px">
+    <div class="col-lg-8 " style="margin-top: 50px">
         <h2 style="text-align: center">Create new group</h2>
 
         <form action="{{route('create_group')}}" method="post">
@@ -15,10 +15,12 @@
             <div class="form-group">
                 <label>Group Name</label>
                 <input class="form-control" name="group_name" placeholder="Please Enter Group Name" />
+                <div type="hidden" class="alert-warning" >{{$errors->first('group_name')}}</div>
             </div>
             <div class="form-group">
                 <label>Description</label>
                 <textarea class="form-control" name="description" placeholder="Please Enter Description"></textarea>
+                <div type="hidden" class="alert-warning" >{{$errors->first('description')}}</div>
             </div>
             <div style="display: block; text-align: center">
                 <button type="submit" class="btn btn-success" style="text-align: center">Create </button>

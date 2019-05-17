@@ -73,12 +73,12 @@
                                    class="compare btn btn-info">Compare</a>
                             @endif
 
-                            @if (session('user_id')== $listExams['ownerId'])
-                                <input value="{{$listExam['examId']}}" name="examId" style="display: none">
-                                <a href="{{URL::to('') }}/upload/{{$listExam['examId']}}" id="{{$listExam['examId']}}"  class="action btn btn-success" >Upload
-                                    <i class="fa fa-upload"></i></a>
-                                </a>
-                            @endif
+                                    @if (session('user_id')== $listExams['ownerId'])
+                                        <input value="{{$listExam['examId']}}" name="examId" style="display: none">
+                                        <a href="{{URL::to('') }}/upload/{{$listExam['examId']}}" id="{{$listExam['examId']}}"  class="action btn btn-success" >Upload
+                                            <i class="fa fa-upload"></i></a>
+                                        </a>
+                                @endif
                                 @if (session('user_id')== $listExams['ownerId'])
                                 <button id="{{$listExam['examId']}}" type="button" value="Delete" class="deleteExam btn btn-danger" > Delete
                                     <i class="fa fa-trash"></i></button>
@@ -154,6 +154,12 @@
             </form>
         </div>
         <div id="menu1" class="tab-pane fade" style="margin-left: 20px">
+            @foreach($members as $member)
+                @if (session('user_id')== $member['accountId'])
+                <button id="{{$member['accountId']}}" type="button" value="leave" class="leaveGroup btn btn-danger" style="float: right" > Leave Group
+                    <span class="glyphicon glyphicon-log-in"></span></button>
+                @endif
+                @endforeach
             <h3 style="text-align: center">List Member</h3>
             {{--<a href=""  id="addMembers"  class="action btn btn-success" data-toggle="modal" data-target="#addMembers"style="float: right; margin-bottom: 10px"> Add Members </a>--}}
             @if (session('user_id')== $listExams['ownerId'])
@@ -167,6 +173,7 @@
                     @if (session('user_id')== $listExams['ownerId'])
                     <th style="text-align: center">Action</th>
                         @endif
+                    {{--<th style="text-align: center">Out Group</th>--}}
                 </tr>
                 </thead>
                 @foreach($members as $member)
@@ -174,13 +181,16 @@
                         <tr class="odd gradeX" align="center">
                             <td>{{$member['email']}}</td>
                             <td>{{$member['fullName']}}</td>
+                            {{--<input id="userId" name="userId"  value="{{$member['accountId']}}" >--}}
                             @if (session('user_id')== $listExams['ownerId'])
                             <td class="center">
 
                                 <button id="{{$member['accountId']}}" type="button" value="Delete" class="deleteMember btn btn-danger" > Delete
                                     <i class="fa fa-trash"></i></button>
                             </td>
-                                @endif
+
+                            @endif
+
                         </tr>
                     </tbody>
                 @endforeach
@@ -237,6 +247,35 @@
 
                 </script>
                 <script>
+                    $("button.leaveGroup").click(function() {
+                        var memberId = $(this).attr('id');
+                        var x = confirm("Do you want to leave this group?");
+                        if (x) {
+                            leaveGroup(memberId);
+                        }
+                        else
+                            return false;
+                    });
+                    function leaveGroup(memberId) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            method: 'DELETE',
+                            dataType: 'json',
+                            url: '{!! url('/deleteMember')!!}' + '/' + memberId,
+                            success: function (data) {
+                                window.location = "../home";
+                            },
+                            error: function (e) {
+                                console.log(e.message);
+                            }
+                        });
+                    }
+                </script>
+                <script>
                     $("button.deleteMember").click(function() {
                         var memberId = $(this).attr('id');
                         var x = confirm("Do you want to delete this member?");
@@ -277,8 +316,8 @@
                             <!-- Modal Header -->
 
                                     <div class="modal-header">
-                                        <h4 class="modal-title" align="center">Add Member
-                                            <button type="button" class="close" data-dismiss="modal">X</button></h4>
+                                        <h2 class="modal-title" align="center" >Add Member
+                                            <button type="button" class="close" data-dismiss="modal">X</button></h2>
 
                                     </div>
                                     <div class="modal-body">

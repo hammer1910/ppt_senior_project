@@ -99,7 +99,7 @@ class UploadController extends Controller
         ];
 
         $data = [];
-        $numberOfQuestions = sizeof($request['correct_answer']);
+        $numberOfQuestions = sizeof($request['mp3']);
         Log::info("numberOfQuestions: " . $numberOfQuestions);
         $ftp = "192.168.20.152/Part1";
         $dir = "Part1";
@@ -119,7 +119,8 @@ class UploadController extends Controller
                 ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
                 $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
                 $body['image'] = $image;
-                $correctAnswer = $request['correct_answer'][$i];
+                $correctAnswer = $request['answer'][$i];
+                Log::info("correctAnswer: " . $correctAnswer);
                 $body['correctAnswer'] = $correctAnswer;
                 $data[] = $body;
                 $count++;
@@ -177,15 +178,16 @@ class UploadController extends Controller
         ];
 
         $data=[];
-        $numberOfQuestions1 = sizeof($request['correct_answer_1']);
-        $numberOfQuestions2 = sizeof($request['correct_answer_2']);
-        $numberOfQuestions3 = sizeof($request['correct_answer_3']);
+        $numberOfQuestions1 = sizeof($request['answer2_1']);
+        $numberOfQuestions2 = sizeof($request['answer2_2']);
+        $numberOfQuestions3 = sizeof($request['answer2_3']);
         Log::info("numberOfQuestions1: " . $numberOfQuestions1);
         Log::info("numberOfQuestions2: " . $numberOfQuestions2);
         Log::info("numberOfQuestions3: " . $numberOfQuestions3);
         $ftp = "192.168.20.152/Part2";
         $dir = "Part2";
-
+        $team = $request['countTeamPart2'];
+        Log::info("Teammmmm: ". $team);
         if($numberOfQuestions1 > 0 && $request->hasfile('mp3')) {
             for($i=0; $i <$numberOfQuestions1; $i++) {
                 $body['questionNumber']=$request['questionNumber_1'][$i];
@@ -194,9 +196,9 @@ class UploadController extends Controller
                 ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
                 $audio = 'http://192.168.20.152:8069/Part2/' . $mp3FileName;
                 $body['fileMp3'] = $audio;
-                $correctAnswer = $request['correct_answer_1'][$i];
+                $correctAnswer = $request['answer2_1'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -209,9 +211,9 @@ class UploadController extends Controller
                 ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
                 $audio = 'http://192.168.20.152:8069/Part2/' . $mp3FileName;
                 $body['fileMp3'] = $audio;
-                $correctAnswer = $request['correct_answer_2'][$i];
+                $correctAnswer = $request['answer2_2'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -224,9 +226,9 @@ class UploadController extends Controller
                 ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
                 $audio = 'http://192.168.20.152:8069/Part2/' . $mp3FileName;
                 $body['fileMp3'] = $audio;
-                $correctAnswer = $request['correct_answer_3'][$i];
+                $correctAnswer = $request['answer2_3'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -296,6 +298,8 @@ class UploadController extends Controller
         Log::info("numberOfQuestions3: " . $numberOfQuestions3);
         $ftp = "192.168.20.152/Part3";
         $dir = "Part3";
+        $team = $request['countTeamPart3'];
+        Log::info("Teammmmm: ". $team);
         if($numberOfQuestions1 > 0 && $request->hasfile('mp3')) {
             for($i=0; $i <$numberOfQuestions1; $i++) {
                 $body['questionNumber']=$request['questionNumber_4'][$i];
@@ -314,9 +318,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_1_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_1'][$i];
+                $correctAnswer = $request['answer3_1'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -340,9 +344,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_2_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_2'][$i];
+                $correctAnswer = $request['answer3_2'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -365,9 +369,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_3_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_3'][$i];
+                $correctAnswer = $request['answer3_3'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -437,6 +441,8 @@ class UploadController extends Controller
         Log::info("numberOfQuestions3: " . $numberOfQuestions3);
         $ftp = "192.168.20.152/Part4";
         $dir = "Part4";
+        $team = $request['countTeamPart4'];
+        Log::info("Teammmmm: ". $team);
         if($numberOfQuestions1 > 0 && $request->hasfile('mp3')) {
             for($i=0; $i <$numberOfQuestions1; $i++) {
                 $body['questionNumber']=$request['questionNumber_7'][$i];
@@ -455,9 +461,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_1_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_1'][$i];
+                $correctAnswer = $request['answer4_1'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team +$i+1;
                 $data[] = $body;
 
             }
@@ -481,9 +487,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_2_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_2'][$i];
+                $correctAnswer = $request['answer4_2'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team + $i+1;
                 $data[] = $body;
 
             }
@@ -506,9 +512,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_3_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_3'][$i];
+                $correctAnswer = $request['answer4_3'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team +$i+1;
                 $data[] = $body;
 
             }
@@ -550,7 +556,7 @@ class UploadController extends Controller
 
         $data=[];
         $count = $request->count5;
-        $numberOfQuestions = sizeof($request['correct_answer']);
+        $numberOfQuestions = sizeof($request['question']);
         Log::info("numberOfQuestions: " . $numberOfQuestions);
         if($numberOfQuestions > 0) {
             for($i=0; $i < $numberOfQuestions; $i++) {
@@ -565,7 +571,7 @@ class UploadController extends Controller
                 $body['c'] = $answer_c;
                 $answer_d=$request['answer_D'][$i];
                 $body['d'] = $answer_d;
-                $correctAnswer = $request['correct_answer'][$i];
+                $correctAnswer = $request['answer5'][$i];
                 $body['correctAnswer'] = $correctAnswer;
                 $data[]=$body;
                 $count ++;
@@ -601,6 +607,7 @@ class UploadController extends Controller
         $body=[
             'examId' =>$examId,
             'questionNumber'=>'',
+            'questionName'=>'',
             'part' => '6',
             'image'=>'',
             'a' => '',
@@ -612,18 +619,23 @@ class UploadController extends Controller
         ];
 
         $data=[];
-        $numberOfQuestions1 = sizeof($request['answer_1_A']);
-        $numberOfQuestions2 = sizeof($request['answer_2_A']);
-        $numberOfQuestions3 = sizeof($request['answer_3_A']);
+        $numberOfQuestions1 = sizeof($request['question_1']);
+        $numberOfQuestions2 = sizeof($request['question_2']);
+        $numberOfQuestions3 = sizeof($request['question_3']);
         Log::info("numberOfQuestions1: " . $numberOfQuestions1);
         Log::info("numberOfQuestions2: " . $numberOfQuestions2);
         Log::info("numberOfQuestions3: " . $numberOfQuestions3);
         $ftp = "192.168.20.152/Part6";
         $dir = "Part6";
+        $team = $request['countTeamPart6'];
+        Log::info("Teammmmm: ". $team);
         if($numberOfQuestions1 > 0 && $request->hasfile('images')) {
             for($i=0; $i <$numberOfQuestions1; $i++) {
                 $body['questionNumber']=$request['questionNumber_10'][$i];
                 $image = $request->file('images')[$i];
+                $questionName=$request['question_1'][$i];
+                Log::info("Question Name--: " . $questionName);
+                $body['questionName'] = $questionName;
                 $imageFileName = $request->file('images')[$i]->getClientOriginalName();
                 ftp_put($ftp_conn, $imageFileName, $image, FTP_BINARY);
                 $images= 'http://192.168.20.152:8069/Part6/' . $imageFileName;
@@ -636,9 +648,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_1_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_1'][$i];
+                $correctAnswer = $request['answer6_1'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -648,6 +660,9 @@ class UploadController extends Controller
             for($i=0; $i < $numberOfQuestions2; $i++) {
                 $body['questionNumber']=$request['questionNumber_11'][$i];
                 $image = $request->file('images')[$i];
+                $questionName=$request['question_2'][$i];
+                Log::info("Question Name--: " . $questionName);
+                $body['questionName'] = $questionName;
                 $imageFileName = $request->file('images')[$i]->getClientOriginalName();
                 ftp_put($ftp_conn, $imageFileName, $image, FTP_BINARY);
                 $images = 'http://192.168.20.152:8069/Part6/' . $imageFileName;
@@ -660,9 +675,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_2_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_2'][$i];
+                $correctAnswer = $request['answer6_2'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -671,6 +686,9 @@ class UploadController extends Controller
             for($i=0; $i < $numberOfQuestions3; $i++) {
                 $body['questionNumber']=$request['questionNumber_12'][$i];
                 $image = $request->file('images')[$i];
+                $questionName=$request['question_3'][$i];
+                Log::info("Question Name--: " . $questionName);
+                $body['questionName'] = $questionName;
                 $imageFileName = $request->file('images')[$i]->getClientOriginalName();
                 ftp_put($ftp_conn, $imageFileName, $image, FTP_BINARY);
                 $images = 'http://192.168.20.152:8069/Part6/' . $imageFileName;
@@ -683,9 +701,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_3_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_3'][$i];
+                $correctAnswer = $request['answer6_3'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -733,13 +751,15 @@ class UploadController extends Controller
         ];
 
         $data=[];
-        $numberOfQuestions1 = sizeof($request['answer_1_A']);
-        $numberOfQuestions2 = sizeof($request['answer_2_A']);
-        $numberOfQuestions3 = sizeof($request['answer_3_A']);
+        $numberOfQuestions1 = sizeof($request['question_3']);
+        $numberOfQuestions2 = sizeof($request['question_3']);
+        $numberOfQuestions3 = sizeof($request['question_3']);
         Log::info("numberOfQuestions1: " . $numberOfQuestions1);
         Log::info("numberOfQuestions2: " . $numberOfQuestions2);
         $ftp = "192.168.20.152/Part7";
         $dir = "Part7";
+        $team = $request['countTeamPart7'];
+        Log::info("Teammmmm: ". $team);
         if($numberOfQuestions1 > 0 && $request->hasfile('images')) {
             for($i=0; $i <$numberOfQuestions1; $i++) {
                 $body['questionNumber']=$request['questionNumber_13'][$i];
@@ -758,9 +778,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_1_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_1'][$i];
+                $correctAnswer = $request['answer7_1'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }
@@ -784,9 +804,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_2_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_2'][$i];
+                $correctAnswer = $request['answer7_2'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
             }
         }
@@ -796,7 +816,7 @@ class UploadController extends Controller
                 $image = $request->file('images')[$i];
                 $imageFileName = $request->file('images')[$i]->getClientOriginalName();
                 ftp_put($ftp_conn, $imageFileName, $image, FTP_BINARY);
-                $images = 'http://192.168.20.152:8069/Part6/' . $imageFileName;
+                $images = 'http://192.168.20.152:8069/Part7/' . $imageFileName;
                 $body['image'] = $images;
                 $answer_a=$request['answer_3_A'][$i];
                 $body['a']=$answer_a;
@@ -806,9 +826,9 @@ class UploadController extends Controller
                 $body['c']=$answer_c;
                 $answer_d=$request['answer_3_D'][$i];
                 $body['d']=$answer_d;
-                $correctAnswer = $request['correct_answer_3'][$i];
+                $correctAnswer = $request['answer7_3'][$i];
                 $body['correctAnswer'] = $correctAnswer;
-                $body['team']=$i+1;
+                $body['team']=$team+$i+1;
                 $data[] = $body;
 
             }

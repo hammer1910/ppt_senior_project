@@ -2,9 +2,10 @@
 @extends('Home_Master')
 @section('content')
 
-    <form action="" method="post">
+    <form action="" method="get">
         <meta name="_token" content="{{csrf_token()}}" />
         <input type="hidden" name="_token" value="{!! csrf_token()!!}">
+        @include('doExamTop')
         <table height="100%" width="100%">
             <tbody>
             <tr>
@@ -69,47 +70,8 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
 
             </tbody>
         </table>
-        {{--</div>--}}
-
-        <div id="paging" class="paging">
-        </div>
-        <div id="score" class="notView button2 " align="center">
-
-            {{--<button><a href="{{route('question_part2')}}" style="color: black">Next</a></button>--}}
-            {{--<button><a href="{{route('question_part2')}}" style="color: black">Next</a></button>--}}
-            {{--<input type="submit" id="finish" value="ok">--}}
-            {{--<input type="text" id="test"  value="Test">--}}
-        </div>
-
-        </div>
-        </div>
         <script>
             function  func() {
-                // var user_answer=[];
-                // var type = document.getElementsByName("answer");
-                // for(var i=0; i<type.length; i++){
-                //     if (type[i].checked){
-                //         var id = type[i].id;
-                //         var answer =  type[i].value;
-                //         user_answer.push({"answerKey":answer,"questionId":id})
-                //
-                //     }
-                // }
-                // $("#finish").click(function () {
-                //     $.ajax({
-                //         type: 'POST',
-                //         dataType: 'JSON',
-                //         url: "QuestionController.php",
-                //         data :'myData='+ user_answer,
-                //         success: function(data){
-                //             alert("success");
-                //
-                //         },
-                //         error: function(e){
-                //             console.log(e.message);
-                //         }
-                //     });
-                // })
             }
 
 

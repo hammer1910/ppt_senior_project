@@ -83,24 +83,41 @@ class AuthController extends Controller
                 'address'=>$data->address,
                 'phone'=>$data->phoneNumber
             );
-
+            $roles =$data->roles;
+            $role =$roles[0];
+            Log::info("Roles : ".$role  );
             $fullName = $data->fullName;
             $phone = $data->phoneNumber;
             $address = $data->address;
             $id= $data->accountId;
             $email = $data->email;
+            $passwords = $data->password;
+
             $request->session()->put('user_id',$id);
             $request->session()->put('fullName',$fullName);
             $request->session()->put('phone',$phone);
             $request->session()->put('email',$email);
+            $request->session()->put('role',$role);
+            $request->session()->put('password',$passwords);
           //
-            //return view('user_profile',['id'=>$id,'lastname'=>$lastname,'firstname'=>$firstname,'phone'=>$firstname,'firstname'=>$firstname]);
-          return redirect()->route('home');
-            //return redirect()->route('manager.user.profile',['data',$request->session()->get('user')]);
+            if($role == "Admin"){
+                return redirect()->route('home');
+            }
+            else {
+                return redirect()->route('home');
+            }
     }
 
     }
+    public function getAccountById(Request $request, $accountId) {
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('get', 'http://192.168.20.152:8020/api/exam/getinformationaccount/'.$accountId);
+        $response = $req->getBody()->getContents();
+        $accountInfo = json_decode($response, true);
+        Log::info("Question  : ",$accountInfo);
 
+        return json_encode($accountInfo);
+    }
 
     public function forgotPass(Request $request)
     {
@@ -150,5 +167,35 @@ class AuthController extends Controller
     }
     public function user_login(){
         return view('login');
+    }
+    public function updateAccount(Request $request)
+    {
+
+        $user = [
+            'accountId'=>$request->accountId,
+            'email'=>$request->email,
+            'fullName' => $request->fullName,
+            'phone' => $request->phoneNumber,
+            'address' => $request->address,
+        ];
+        Log::info("GET BODY------", $user);
+        $data = json_encode($user);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('PUT', 'http://192.168.20.152:8020/api/exam/updateinformationaccount', array(
+            'headers' => array('Content-type' => 'application/json'),
+            'body' => $data
+        ));
+        Log::info("GET BODY");
+        $response = $req->getBody();
+        $data = json_decode($response);
+        //$message = $data->messageReturn;
+        if (($data->messageId) == 10) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
     }
 }

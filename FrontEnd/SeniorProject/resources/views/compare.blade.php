@@ -74,7 +74,7 @@
 </style>
 <style>
     .content{
-        width: 70%;
+        width: 80%;
         margin: 0 auto;
     }
     .inlineTable{
@@ -85,6 +85,11 @@
     }
     .inlineTable2{
         float: left;
+        margin: 0 auto;
+    }
+    .inlineTable3{
+        float: left;
+        margin: 0 auto;
     }
 </style>
 <div class="container" id="listAnswer">
@@ -108,7 +113,7 @@
         </div>
     </div>
     <div class="content" style="margin:0 auto;display:block;">
-        <table border=1 class="inlineTable" id="1" style="margin-right: 10px">
+        <table border=1 class="inlineTable" id="1" style="margin-right: 10px" width="50%">
             <caption id="1" style="text-align: center;font-size:x-large">
             </caption>
             <thead>
@@ -116,7 +121,7 @@
             <tbody>
             </tbody>
         </table>
-        <table border=1 class="inlineTable" id="2" >
+        <table border=1 class="inlineTable" id="2"  width="49%" >
             <caption id="2" style="text-align: center;font-size:x-large">
             </caption>
             <thead>
@@ -124,19 +129,47 @@
             <tbody>
             </tbody>
         </table>
+        <table border=1 class="inlineTable2" id="3" style="margin-right: 10px;" width="50%">
+            <caption style="text-align: center;font-size:x-large">
+            </caption>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <table border=1 class="inlineTable2" id="4"  width="49%" >
+            <caption style="text-align: center;font-size:x-large">
+            </caption>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <table border=1 class="inlineTable3" id="5" style="margin-right: 10px;" width="50%">
+            <caption style="text-align: center;font-size:x-large">
+            </caption>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <table border=1 class="inlineTable3" id="6"  width="49%" >
+            <caption style="text-align: center;font-size:x-large">
+            </caption>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <table border=1 class="inlineTable2" id="7"style="margin-right: 10px;margin-bottom: 20px" width="49%" >
+            <caption style="text-align: center;font-size:x-large">
+            </caption>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
-    <table border=1 class="inlineTable2" id="3" style="margin-right: 10px;">
-        <thead>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <table border=1 class="inlineTable2" id="4" >
-        <thead>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
     </div>
     <script>
        window.onload = function () {
@@ -183,9 +216,19 @@
 
                    var tablePart1 =$('#listAnswer').find('table#1');
                    var tablePart2 =$('#listAnswer').find('table#2');
+                   var tablePart3 =$('#listAnswer').find('table#3');
+                   var tablePart4 =$('#listAnswer').find('table#4');
+                   var tablePart5 =$('#listAnswer').find('table#5');
+                   var tablePart6 =$('#listAnswer').find('table#6');
+                   var tablePart7 =$('#listAnswer').find('table#7');
                    var trData = '';
                    var trData1 = '';
                    var trData2 = '';
+                   var trData3 = '';
+                   var trData4 = '';
+                   var trData5 = '';
+                   var trData6 = '';
+                   var trData7 = '';
                    var cap1 ='';
                    var cap2 = '';
                    if(data[0]['nameAnother'] != null) {
@@ -223,26 +266,10 @@
                                        '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
                                        '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
                                        '        </tr>';
-                               };
-                               // if(data[i]['status']=== "correct"){
-                               //     trData +='<tr>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerUser']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerAnother']+'</td>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
-                               //         '        </tr>';
-                               // }
-                               // if(data[i]['status']=== "1"){
-                               //     trData +='<tr>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerUser']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerAnother']+'</td>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
-                               //         '        </tr>';
-                               // }
-                           };
+                               }
+
+                           }
                            if(data[i]['part']=== "2"){
-                               cap2 +='Part 2';
                                if(data[i]['status']=== "uncorrect"){
 
                                trData2 +='<tr>\n' +
@@ -252,31 +279,116 @@
                                    '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
                                    '        </tr>';
                                }
-                             else{
+                               else{
                                    trData2 +='<tr>\n' +
                                        '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
                                        '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
                                        '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
                                        '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
                                        '        </tr>';
-                               };
-                               // if(data[i]['status']=== "correct"){
-                               //     trData2 +='<tr>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerUser']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerAnother']+'</td>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
-                               //         '        </tr>';
-                               // };
-                               // if(data[i]['status']=== "1"){
-                               //     trData2 +='<tr>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerUser']+'</td>\n' +
-                               //         '            <td  style="text-align: center;">'+data[i]['answerAnother']+'</td>\n' +
-                               //         '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
-                               //         '        </tr>';
-                               // };
-                           };
+                               }
+
+                           }
+                           if(data[i]['part']=== "3"){
+                               if(data[i]['status']=== "uncorrect"){
+
+                                   trData3 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+                               else{
+                                   trData3 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+
+                           }
+                           if(data[i]['part']=== "4"){
+                               if(data[i]['status']=== "uncorrect"){
+
+                                   trData4 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+                               else{
+                                   trData4 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+
+                           }
+                           if(data[i]['part']=== "5"){
+                               if(data[i]['status']=== "uncorrect"){
+
+                                   trData5 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+                               else{
+                                   trData5 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+
+                           }
+                           if(data[i]['part']=== "6"){
+                               if(data[i]['status']=== "uncorrect"){
+
+                                   trData6 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+                               else{
+                                   trData6 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+
+                           }
+                           if(data[i]['part']=== "7"){
+                               if(data[i]['status']=== "uncorrect"){
+
+                                   trData7 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center;background-color: yellow">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+                               else{
+                                   trData7 +='<tr>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['quetionNumber']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerUser']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['answerAnother']+'</td>\n' +
+                                       '            <td  style="text-align: center">'+data[i]['finalAnswer']+'</td>\n' +
+                                       '        </tr>';
+                               }
+
+                           }
                        }
                        else {
                            if(data[i]['part']=== "1") {
@@ -293,33 +405,130 @@
                                    '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
                                    '        </tr>';
                            }
-
+                           if(data[i]['part']=== "3") {
+                               trData3 += '<tr>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
+                                   '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
+                                   '        </tr>';
+                           }
+                           if(data[i]['part']=== "4") {
+                               trData4 += '<tr>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
+                                   '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
+                                   '        </tr>';
+                           }
+                           if(data[i]['part']=== "5") {
+                               trData5 += '<tr>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
+                                   '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
+                                   '        </tr>';
+                           }
+                           if(data[i]['part']=== "6") {
+                               trData6 += '<tr>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
+                                   '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
+                                   '        </tr>';
+                           }
+                           if(data[i]['part']=== "7") {
+                               trData7 += '<tr>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
+                                   '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
+                                   '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
+                                   '        </tr>';
+                           }
 
                        }
                    }
-                   tablePart1.find('thead').html(trData1);
-                   tablePart1.find('caption').html("Part 1");
-                   tablePart1.find('tbody').html(trData);
-                   var check=0;
+
+                   //Part 3
+
+                   // tablePart3.find('thead').html(trData1);
+                   // tablePart3.find('caption').html("Part 3");
+                   // tablePart3.find('tbody').html(trData3);
+                   //Part  5
+
+                   //Part  7
+
+                   var check2=0,check3=0,check4=0,check5=0,check6=0,check7=0;check1=0;
                    for (var i = 0; i < data.length; i++) {
-
+                       if(data[i]['part']=== "1"){
+                           check1++;
+                       }
                        if(data[i]['part']=== "2"){
-                           check++;
+                           check2++;
+                       }
+                       if(data[i]['part']=== "3"){
+                           check3++;
+                       }
+                       if(data[i]['part']=== "4"){
+                           check4++;
+                       }
+                       if(data[i]['part']=== "5"){
+                           check5++;
+                       }
+                       if(data[i]['part']=== "6"){
+                           check6++;
+                       }
+                       if(data[i]['part']=== "7"){
+                           check7++;
                        }
                    }
-                   if(check === 0){
+                   if(check2 === 0){
                        $('.content').css('width','40%');
                    }
                    else{
                        if(data[0]['nameAnother'] != null) {
                            $('.content').css('width','90%');
                        }else{
-                           $('.content').css('width','70%');
+                           $('.content').css('width','90%');
                        }
+
+                        //Part 4
+
+                        //Part 6
+
+                   }
+                   if(check1!=0){
+                       tablePart1.find('thead').html(trData1);
+                       tablePart1.find('caption').html("Part 1");
+                       tablePart1.find('tbody').html(trData);;
+                   }
+                   if(check2!=0){
                        tablePart2.find('thead').html(trData1);
                        tablePart2.find('caption').html("Part 2");
                        tablePart2.find('tbody').html(trData2);
                    }
+                   if(check3!=0){
+                       tablePart3.find('thead').html(trData1);
+                       tablePart3.find('caption').html("Part 3");
+                       tablePart3.find('tbody').html(trData3);
+                   }
+                   if(check4!=0){
+                       tablePart4.find('thead').html(trData1);
+                       tablePart4.find('caption').html("Part 4");
+                       tablePart4.find('tbody').html(trData4);
+                   }
+                   if(check5!=0){
+                       tablePart5.find('thead').html(trData1);
+                       tablePart5.find('caption').html("Part 5");
+                       tablePart5.find('tbody').html(trData5);
+                   }
+                   if(check6!=0){
+                       tablePart6.find('thead').html(trData1);
+                       tablePart6.find('caption').html("Part 6");
+                       tablePart6.find('tbody').html(trData6);
+                   }
+                   if(check7!=0){
+                       tablePart7.find('thead').html(trData1);
+                       tablePart7.find('caption').html("Part 7");
+                       tablePart7.find('tbody').html(trData7);
+                   }
+
+
                },
                error: function (e) {
                    console.log(e.message);

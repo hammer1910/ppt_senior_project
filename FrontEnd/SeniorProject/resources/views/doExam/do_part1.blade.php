@@ -5,10 +5,10 @@
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 
 
-<form action="" method="post">
+<form action="" method="get">
     <meta name="_token" content="{{csrf_token()}}" />
     <input type="hidden" name="_token" value="{!! csrf_token()!!}">
-
+    @include('doExamTop')
     @if (session('message'))
         <div class="alert alert-success" style="text-align: center; font-size: large">
             <strong>Success!</strong> {{session('message')}}
@@ -36,7 +36,7 @@
                 <td>
                     <div class="question" data-question-id="{{$value['questionId']}}">
                         <br>
-                        <div class="questionOrder"> Question {{$value['questionNumber']}}. Look at the picture ?</div>
+                        <div class="questionOrder"> Question {{$value['questionNumber']}}. Look at the picture.</div>
                         {{--<div class="questionContent"> Look at the picture ?</div>--}}
                         <br><br>
                         <div align="center" class="imageContain img"><img src="{{$value['image']}}" style="height: 300px;width: 500px"></div>
@@ -104,6 +104,44 @@
                 });
             }
 
+        </script>
+        <script>
+            $('a#getQuestion').click(function () {
+                var user_answer = [];
+                var questions = $('div.question');
+                if($('input[type="radio"]:checked').length >0) {
+                    questions.each(function () {
+
+                        var answer = $(this).find('input[type="radio"]:checked').val();
+                        var id = $(this).data('question-id');
+                        user_answer.push({"answerKey": answer, "questionId": id});
+                        console.log("User Answers: " + JSON.stringify(user_answer));
+                    });
+
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        method: 'post',
+                        dataType: 'json',
+                        url: "{{ url('/continue') }}",
+                        data: {myData1: JSON.stringify(user_answer)},
+                        success: function (data) {
+                            console.log("Answer : " + JSON.stringify(data));
+                        },
+                        error: function (e) {
+                            console.log(e.message);
+                        }
+                    });
+                }
+                else{
+
+                }
+            });
         </script>
         </tbody>
     </table>

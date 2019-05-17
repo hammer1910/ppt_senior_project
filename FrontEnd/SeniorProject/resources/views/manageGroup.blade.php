@@ -5,7 +5,7 @@
             <strong>{{session('message')}}</strong>
         </div>
     @endif
-<h3 style="text-align: center">List Group</h3>
+<h2 style="text-align: center;margin-top: 15px">List Group</h2>
 {{--<a href=""  id="addMembers"  class="action btn btn-success" data-toggle="modal" data-target="#addMembers"style="float: right; margin-bottom: 10px"> Add Members </a>--}}
 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
     <thead>
