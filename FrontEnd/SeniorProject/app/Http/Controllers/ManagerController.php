@@ -137,8 +137,31 @@ class ManagerController extends Controller
 //            }
 //    }
 
-    public function profile(){
-        return view('ad_profile');
+    public function profile(Request $request){
+        $id= session()->get('user_id');
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('get', 'http://192.168.20.152:8020/api/exam/getinformationaccount/'.$id);
+        Log::info("GET BODY");
+        $response = $req->getBody();
+        $data = json_decode($response);
+        Log::info("BODY Response: " . $response);
+        //$message = $data->messageReturn;
+        if(isset($data->messageId))
+        {   $messaerror =$data->messageId;
+
+            echo $messaerror;
+        }
+
+        if(isset($data->accountId)){
+            $email=$data->email;
+            $fullName = $data->fullName;
+            $phone = $data->phone;
+            $address = $data->address;
+
+            $request->session()->put('fullName',$fullName);
+            $id= $data->accountId;
+            return view('ad_profile',['id'=>$id,'email'=>$email,'fullName'=>$fullName,'phone'=>$phone,'address'=>$address]);
+        }
     }
     public function adchangepass(){
         return view('ad_change_pass');

@@ -2,9 +2,10 @@
 @extends('Home_Master')
 @section('content')
     <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <form action="" method="post">
+    <form action="" method="get">
     <meta name="_token" content="{{csrf_token()}}" />
     <input type="hidden" name="_token" value="{!! csrf_token()!!}">
+        @include('doExamTop')
     <table height="100%" width="100%">
         <tbody>
         <tr>
@@ -95,6 +96,7 @@
         @endforeach
 
         </tbody>
+
     </table>
     {{--</div>--}}
 
@@ -102,6 +104,44 @@
     </div>
     <div id="score" class="notView button2 " align="center"> </div>
         @include('do_exam_master')
+        <script>
+            $('a#getQuestion').click(function () {
+                var user_answer = [];
+                var questions = $('div.question');
+                if($('input[type="radio"]:checked').length >0) {
+                    questions.each(function () {
+
+                        var answer = $(this).find('input[type="radio"]:checked').val();
+                        var id = $(this).data('question-id');
+                        user_answer.push({"answerKey": answer, "questionId": id});
+                        console.log("User Answers: " + JSON.stringify(user_answer));
+                    });
+
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+
+                    $.ajax({
+                        method: 'post',
+                        dataType: 'json',
+                        url: "{{ url('/continue') }}",
+                        data: {myData1: JSON.stringify(user_answer)},
+                        success: function (data) {
+                            console.log("Answer : " + JSON.stringify(data));
+                        },
+                        error: function (e) {
+                            console.log(e.message);
+                        }
+                    });
+                }
+                else{
+
+                }
+            });
+        </script>
     <script>
         function  func() {
         }

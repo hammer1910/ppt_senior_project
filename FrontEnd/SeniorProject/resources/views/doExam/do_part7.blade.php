@@ -2,6 +2,16 @@
 @extends('Home_Master')
 @section('content')
 
+<<<<<<< HEAD
+    <form action="" method="get">
+        <meta name="_token" content="{{csrf_token()}}" />
+        <input type="hidden" name="_token" value="{!! csrf_token()!!}">
+        @include('doExamTop')
+        <table height="100%" width="100%">
+            <tbody>
+            <tr>
+                <td><br> <span style="font-size: 40px; text-align: center;margin: auto 0px;display: block"> Part 7</span></td>
+=======
     <form action="" method="post">
         <meta name="_token" content="{{csrf_token()}}" />
         <input type="hidden" name="_token" value="{!! csrf_token()!!}">
@@ -9,6 +19,7 @@
             <tbody>
             <tr>
                 <td><br> <span style="font-size: 40px; text-align: center"> Part 7</span></td>
+>>>>>>> master
             </tr>
             <tr>
                 <td><br><span style="font-size: 24px">Text completion</span>
@@ -69,6 +80,10 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
 
             </tbody>
         </table>
+<<<<<<< HEAD
+        <script>
+            function  func() {
+=======
         {{--</div>--}}
 
         <div id="paging" class="paging">
@@ -110,6 +125,7 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
                 //         }
                 //     });
                 // })
+>>>>>>> master
             }
 
 

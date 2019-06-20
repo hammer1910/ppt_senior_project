@@ -9,12 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-    <link href="{{ url('admin/bower_components/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
+{{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">--}}
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>--}}
+{{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
+{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
+{{--<link href="{{ url('admin/bower_components/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">--}}
 
-    <!-- MetisMenu CSS -->
+<!-- MetisMenu CSS -->
     <link href="{{ url('admin/bower_components/metisMenu/dist/metisMenu.min.css')}}" rel="stylesheet">
 
     <!-- Custom CSS -->
@@ -34,18 +37,26 @@
     <link rel="shortcut icon" type="image/png" href="{{url('images/icon.png')}}"/>
     <link href="{{url('assets/css/font-awesome.css')}}" rel="stylesheet">
     {{--<link rel="stylesheet" href="{{asset('css/sidebar.css')}}">--}}
-    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    {{--<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>--}}
     <link href="{{url('js/jquery.flexdatalist.min.css')}}" rel="stylesheet" type="text/css">
     <script src="{{url('js/jquery.flexdatalist.min.js')}}"></script>
     <link href="http://projects.sergiodinislopes.pt/flexdatalist/src/jquery.flexdatalist.css?1.8.5" rel="stylesheet"
           type="text/css">
-    <link rel="shortcut icon" href="{{url('assets/img/favicon.ico')}}" type="image/x-icon">
-
-    <!-- Font awesome -->
+    {{--<script src="{{ url('admin/bower_components/jquery/dist/jquery.min.js')}}"></script>--}}
+    {{--<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--}}
+    <script
+        src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>--}}
+{{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--}}
+{{--<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>--}}
+<!-- Font awesome -->
     <link href="{{url('assets/css/font-awesome.css')}}" rel="stylesheet">
     <!-- Bootstrap -->
-    <link href="{{url('assets/css/bootstrap.css')}}" rel="stylesheet">
-    <!-- Slick slider -->
+{{--<link href="{{url('assets/css/bootstrap.css')}}" rel="stylesheet">--}}
+<!-- Slick slider -->
     <link rel="stylesheet" type="text/css" href="{{url('assets/css/slick.css')}}">
     <!-- Fancybox slider -->
     <link rel="stylesheet" href="{{url('assets/css/jquery.fancybox.css')}}" type="text/css" media="screen" />
@@ -86,24 +97,69 @@
         </div>
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
-                <li>
-                    {{--<a href="{{route('manager.admin.list')}}"><i class="fa fa-list fa-fw"></i> List Account</a> --}}
-                    <a href=""><i class="fa fa-list fa-fw"></i> List Account</a>
+                <li class="active">
+                    <a href="{{route('group_ID')}}" style="color: black"><i class="fa fa-group fa-fw"></i> Group<span
+                            class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse in">
+                        <li >
+                            <a href="{{route('createGroup')}}"style="color: black">Create Group</a>
+                        </li>
+                        <li >
+                            <a href="{{route('listGroup')}}" style="color: black" class="manageGroup">Manage Group</a>
+                        </li>
 
+                        <li >
+                            <a href=""style="color: black">List Group<span
+                                    class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level" style="overflow: hidden;">
+                                @foreach($listGroups as $value)
+                                    <li>
+                                        <a href="{{ URL::to('/') }}/groupDetail/{{$value['groupId']}}" class="group_exam" style="color: black"
+                                           id="{{$value['groupId']}}" name="{{$value['groupName']}}"><i class="fa">{{$value['groupId']}}</i>  - {{$value['groupName']}}</a>
+                                    </li>
+                                    <script>
+                                        $("a.group_exam").click(function () {
+                                            var id = $(this).attr('id');
+                                            var id = $("{{$value['groupId']}}").attr("id")
+                                            $.ajaxSetup({
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                                                }
+                                            });
+                                            $.ajax({
+                                                method: 'POST',
+                                                dataType: 'json',
+                                                url: "{{ url('/createExam') }}",
+                                                data: {"groupId": id},
+                                                success: function (data) {
+                                                    console.log("ID: " + data);
+                                                },
+                                                error: function (e) {
+                                                    console.log(e.message);
+                                                }
+                                            });
+                                        });
+                                    </script>
+                                @endforeach
+                            </ul>
+                        </li>
+
+                    </ul>
                 </li>
 
 
                 <li>
-                    <a href="#"><i class="fa fa-users fa-fw"></i> User<span class="fa arrow"></span></a>
+                    <a href=""><i class="fa fa-list fa-fw"></i> List Account</a>
+
+                </li>
+                <li>
+                    <a href="#" style="color: black"><i class="fa fa-user fa-fw"></i> Manage Profile<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="{{route('manager.admin.profile')}}">Profile</a>
+                            <a href="{{route('manager.admin.profile')}}" style="color: black">Profile</a>
                         </li>
                         <li>
-                            <a href="{{route('manager.admin.pass')}}">Change Password</a>
-                        </li>
-                        <li>
-                            <a href="{{route('login')}}">Logout</a>
+                            <a href="{{route('manager.admin.pass')}}" style="color: black">Change Password</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
@@ -123,7 +179,7 @@
     <!-- /#wrapper -->
 
     <!-- jQuery -->
-    <script src="{{ url('admin/bower_components/jquery/dist/jquery.min.js')}}"></script>
+
     <!-- Bootstrap Core JavaScript -->
     <script src="{{ url('admin/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <!-- Metis Menu Plugin JavaScript -->

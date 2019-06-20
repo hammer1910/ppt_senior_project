@@ -13,8 +13,24 @@ class GroupController extends Controller
     return view('list_group');
     }
 
-    public function create_Group(Request $request){
-        Log::info("LOGIN");
+    public function create_Group(Request $request)
+    {
+        $this->validate($request, [
+            'group_name' => 'bail|required',
+            'description' => 'bail|required'
+        ]
+            ,
+            [
+                'group_name.required'=>'Group Name is required',
+                'description.required'=>'Description is required',
+
+
+            ],
+            [
+                'group_name' =>'Group Name',
+                'description' => 'Description',
+            ]);
+       ;
         $id = session('user_id');
         $user = [
             'accountId'=>$id,

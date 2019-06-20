@@ -74,7 +74,7 @@
 <nav class="navbar-light" style="background-color: #e3f2fd;position: sticky">
     <div class="container-fluid">
         <div class="navbar-header" style="margin-right: 50px">
-            <a href=""><img src="{{ URL::to('/') }}/images/logo.png" style="width: 50px;height: 50px;margin:auto 0px"></a>
+            <a href=""><img src="{{ URL::to('/') }}/images/LogoToeic.png" style="width: 50px;height: 50px;margin:auto 0px;margin-left: 20px;"></a>
         </div>
         <ul class="nav navbar-nav">
             <li class="active"><a href="{{route('home')}}">Home</a></li>
@@ -146,8 +146,14 @@
 
                     </ul>
                 </li>
+                @if (session('role')=="Admin")
                 <li>
-                    <a href="#" style="color: black"><i class="fa fa-user fa-fw"></i> Manage Account<span class="fa arrow"></span></a>
+                    <a href="{{route('admin')}}" style="color: black"><i class="fa fa-list fa-fw"></i> List User</a>
+
+                </li>
+                @endif
+                <li>
+                    <a href="#" style="color: black"><i class="fa fa-user fa-fw"></i> Manage Profile<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="{{route('manager.user.profile')}}" style="color: black">Profile</a>

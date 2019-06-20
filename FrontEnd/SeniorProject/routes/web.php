@@ -58,7 +58,9 @@ Route::group(['prefix'=>'manager'],function (){
     Route::group(['prefix'=>'admin'],function (){
         //Route::get('list',['as'=>'manager.admin.list','uses'=>'ManagerController@list']);
         Route::get('profile',['as'=>'manager.admin.profile','uses'=>'ManagerController@profile']);
+        Route::post('profile_update','UsersController@edit')->name('edit_profile');
         Route::get('change_password',['as'=>'manager.admin.pass','uses'=>'ManagerController@adchangepass']);
+        Route::post('change_password',['as'=>'change_pass','uses'=>'UsersController@update']);
         //        Route::post('add',['as'=>'admin.cate.postAdd','uses'=>'ManagerController@postAdd']);
 
     });
@@ -103,27 +105,27 @@ Route::get('list_user', function () {
     return view('do_exam_part1');
 });
 Route::post('list_user','ManagerController@getListUser')->name('delete');
-Route::get('list_user','ManagerController@getListUser')->name('question_part1');
+Route::get('list_user','ManagerController@getListUser')->name('admin');
 Route::post('list_user_account','ManagerController@deleteUser')->name('delete_user');
 //do part 1
 
-//Route::post('dopart1','QuestionController@question_part1')->name('question_part1');
+//Route::post('dopart1','QuestionController@question_part_1');
 Route::get('dopart1','QuestionController@question_part_1')->name('question_part1');
 //do part 2
 
-//Route::post('dopart2','QuestionController@question_part2')->name('question_part2');
+//Route::post('dopart2','QuestionController@question_part2');
 Route::get('dopart2','QuestionController@question_part2')->name('question_part2');
 //do part 3
 
-//Route::post('dopart3','QuestionController@question_part3')->name('question_part3');
+//Route::post('dopart3','QuestionController@continueDoExam');
 Route::get('dopart3','QuestionController@question_part3')->name('question_part3');
 //do part 4
 
-//Route::post('dopart4','QuestionController@question_part4')->name('question_part4');
+//Route::post('dopart4','QuestionController@continueDoExam');
 Route::get('dopart4','QuestionController@question_part4')->name('question_part4');
 //do part 5
 
-//Route::post('dopart5','QuestionController@question_part5')->name('question_part5');
+//Route::post('dopart5','QuestionController@continueDoExam');
 Route::get('dopart5','QuestionController@question_part5')->name('question_part5');
 // do part 6
 
@@ -178,8 +180,8 @@ Route::delete('deleteQuestion/{questionId}','QuestionController@deleteQuestion')
 Route::post('list_group','GroupController@addMember')->name('add_member');
 Route::get('list_group','GroupController@getListGroup')->name('list_group');
 //Route::get('list_group','ManagerController@getMember')->name('getMember');
-Route::get('index','HomeController@index_page')->name('index');
-Route::get('index','HomeController@index_page')->name('index');
+//Route::get('index','HomeController@index_page')->name('index');
+//Route::get('index','HomeController@index_page')->name('index');
 Route::get('index','AuthController@logout')->name('logout');
 
 Route::get('Home','HomeController@home_page')->name('Home');
@@ -193,6 +195,11 @@ Route::get('getQuestionsByID/{questionId}','QuestionController@getQuestionsById'
 Route::get('getQuestionsByPart/{partId}','QuestionController@getQuestionsByPart')->name('getQuestionsByPart');
 Route::post('getQuestionsByPart','QuestionController@updateQuestion')->name('updateQuestion');
 Route::post('uploadQuestionPart2','QuestionController@updateQuestionPart2')->name('updateQuestionPart2');
+Route::post('uploadQuestionPart3','QuestionController@updateQuestionPart3')->name('updateQuestionPart3');
+Route::post('uploadQuestionPart4','QuestionController@updateQuestionPart4')->name('updateQuestionPart4');
+Route::post('uploadQuestionPart5','QuestionController@updateQuestionPart5')->name('updateQuestionPart5');
+Route::post('uploadQuestionPart6','QuestionController@updateQuestionPart6')->name('updateQuestionPart6');
+Route::post('uploadQuestionPart7','QuestionController@updateQuestionPart7')->name('updateQuestionPart7');
 Route::get('uploadPart1','QuestionController@getQuestionPart1')->name('uploadPart1');
 Route::get('uploadPart2','QuestionController@getQuestionPart2')->name('uploadPart2');
 
@@ -224,6 +231,8 @@ Route::get('userAnswerPart2','QuestionController@answerUserPart2');
 Route::get('listGroup','GroupController@listGroup')->name('listGroup');
 Route::get('getGroupById/{groupId}','GroupController@getGroupById')->name('getGroupById');
 Route::post('updateGroup','GroupController@updateGroup')->name('updateGroup');
-Route::get('met', function () {
-    return view('uploadExam.upload_exam_part7');
-});
+
+Route::post('updateAccount','AuthController@updateAccount')->name('updateAccount');
+
+Route::get('getAccountById/{accountId}','AuthController@getAccountById')->name('getAccountById');
+

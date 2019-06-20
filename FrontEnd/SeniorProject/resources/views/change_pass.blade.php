@@ -2,7 +2,15 @@
 {{--@section('controller','Category')--}}
 {{--@section('action','Add')--}}
 @section('content')
+<<<<<<< HEAD
+    @if (session('message'))
+        <div class="alert alert-success" style="text-align: center; font-size: large">
+            <strong>{{session('message')}}</strong>
+        </div>
+    @endif
+=======
 
+>>>>>>> master
     <!-- /.col-lg-12 -->
     <div class="col-lg-7" style="padding-top:50px">
         <h2 style="text-align: center">Change Password</h2>
@@ -27,7 +35,11 @@
 
             </div>
 
+<<<<<<< HEAD
+            <button type="submit" class="btn btn-success" style="display: block; margin: auto;">Update</button>
+=======
             <button type="submit" class="btn badge-danger" style="display: block; margin: auto;">Update</button>
+>>>>>>> master
             {{--<button type="reset" class="btn btn-default">Reset</button>--}}
             @if (session('messaerror'))
                 <div class="alert alert-success" style="text-align: center; font-size: large">

@@ -99,18 +99,20 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id)
+    public function edit(Request $request)
     {
+        $id= session()->get('user_id');
         $user = [
+            'accountId'=>$id,
             'email'=>$request->email,
-            'firstName' => $request->first_name,
-            'lastName' => $request->last_name,
+            'fullName' => $request->fullName,
             'phone' => $request->phone_number,
             'address' => $request->address,
         ];
+
         $data = json_encode($user);
         $client = new \GuzzleHttp\Client();
-        $req = $client->request('PUT', 'http://192.168.20.152:8020/api/exam/updateinformationaccount/'.$id, array(
+        $req = $client->request('PUT', 'http://192.168.20.152:8020/api/exam/updateinformationaccount', array(
             'headers' => array('Content-type' => 'application/json'),
             'body' => $data
         ));
@@ -118,12 +120,19 @@ class UsersController extends Controller
         $response = $req->getBody();
         $data = json_decode($response);
         //$message = $data->messageReturn;
-
-        if (isset($data->messageReturn)) {
-            $messaerror = $data->messageReturn;
-
-            return redirect()->route('manager.user.profile',$id)->with('messaerror', $messaerror);
+        if (($data->messageId) == 10) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
         }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+//        if (isset($data->messageReturn)) {
+//            $messaerror = $data->messageReturn;
+//
+//            return redirect()->route('manager.user.profile',$id)->with('messaerror', $messaerror);
+//        }
     }
 
     /**
@@ -173,33 +182,12 @@ class UsersController extends Controller
         //$message = $data->messageReturn;
 
         if (isset($data->messageReturnTrue)) {
-            $messaerror = $data->messageReturnTrue;
-            Log::info("GET BODY". $messaerror);
-            return redirect()->back()->with('messaerror', $messaerror);
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
         }
-//
-//        if (isset($data->accountId)) {
-//
-//            $arr = array('accountId' => $data->accountId,
-//                'email' => $data->email,
-//                'password' => $data->password,
-//                'firstname' => $data->firstName,
-//                'lastname' => $data->lastName,
-//                'address' => $data->address,
-//                'phone' => $data->phoneNumber
-//            );
-//
-//            $firstname = $data->firstName;
-//            $lastname = $data->lastName;
-//            $phone = $data->phoneNumber;
-//            $address = $data->address;
-//            $request->session()->put('user', $lastname);
-//            $id = $data->accountId;
-//            // echo $ID;
-//            //
-//            //return view('user_profile',['id'=>$id,'lastname'=>$lastname,'firstname'=>$firstname,'phone'=>$firstname,'firstname'=>$firstname]);
-//            return redirect()->route('manager.user.profile', $id)->with(['id' => $id, 'lastname' => $lastname, 'firstname' => $firstname, 'phone' => $phone, 'address' => $address]);
-        //}
     }
 
     /**

@@ -2,74 +2,14 @@
 @extends('Home_Master')
 @section('content')
 
-    <form action="" method="post">
+    <form action="" method="get">
         <meta name="_token" content="{{csrf_token()}}" />
-        {{--<div id="clockdiv" class="time">--}}
-        {{--<h1>Time</h1>--}}
-        {{--<div>--}}
-        {{--<span class="minutes"></span>--}}
-        {{--<div class="smalltext">Minutes</div>--}}
-        {{--</div>--}}
-        {{--<div>--}}
-        {{--<span class="seconds"></span>--}}
-        {{--<div class="smalltext">Seconds</div>--}}
-        {{--</div>--}}
-        {{--</div>--}}
         <input type="hidden" name="_token" value="{!! csrf_token()!!}">
-
-        {{--<style>--}}
-        {{--body{--}}
-        {{--text-align: center;--}}
-        {{--font-family: sans-serif;--}}
-        {{--font-weight: 100;--}}
-        {{--}--}}
-
-        {{--h1{--}}
-        {{--color: #396;--}}
-        {{--font-weight: 100;--}}
-        {{--font-size: 40px;--}}
-        {{--margin: 40px 0px 20px;--}}
-        {{--}--}}
-
-        {{--#clockdiv{--}}
-        {{--font-family: sans-serif;--}}
-        {{--color: #fff;--}}
-        {{--display: inline-block;--}}
-        {{--font-weight: 100;--}}
-        {{--text-align: center;--}}
-        {{--font-size: 30px;--}}
-        {{--float: right;--}}
-        {{--}--}}
-
-        {{--#clockdiv > div{--}}
-        {{--padding: 10px;--}}
-        {{--border-radius: 3px;--}}
-        {{--background: #00BF96;--}}
-        {{--display: inline-block;--}}
-        {{--}--}}
-
-        {{--#clockdiv div > span{--}}
-        {{--padding: 15px;--}}
-        {{--border-radius: 3px;--}}
-        {{--background: #00816A;--}}
-        {{--display: inline-block;--}}
-        {{--}--}}
-
-        {{--.smalltext{--}}
-        {{--padding-top: 5px;--}}
-        {{--font-size: 16px;--}}
-        {{--}--}}
-        {{--div.time{--}}
-        {{--position: -webkit-sticky;--}}
-        {{--position: sticky;--}}
-        {{--top: 0;--}}
-        {{--}--}}
-        {{--</style>--}}
-
+        @include('doExamTop')
         <table height="100%" width="100%">
             <tbody>
             <tr>
-                <td><br> <span style="font-size: 40px; text-align: center"> Part 6</span></td>
+                <td><br> <span style="font-size: 40px; text-align: center;margin: auto 0px;display: block"> Part 6</span></td>
             </tr>
             <tr>
                 <td><br><span style="font-size: 24px">Text completion</span>
@@ -96,7 +36,7 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
                         @foreach($value['questions'] as $question)
                             <?php $questionOrder =$questionOrder+1 ?>
                             <div class="question" data-question-id="{{$question['questionId']}}">
-                                <div class="questionOrder">Question {{$questionOrder}}.</div>
+                                <div class="questionOrder">Question {{$questionOrder}}. {{$question['questionName']}}</div><br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="a" type="radio">(A){{$question['a']}}<br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="b" type="radio">(B){{$question['b']}}<br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="c" type="radio">(C){{$question['c']}}<br>
@@ -128,47 +68,8 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
 
             </tbody>
         </table>
-        {{--</div>--}}
-
-        <div id="paging" class="paging">
-        </div>
-        <div id="score" class="notView button2 " align="center">
-
-            {{--<button><a href="{{route('question_part2')}}" style="color: black">Next</a></button>--}}
-            {{--<button><a href="{{route('question_part2')}}" style="color: black">Next</a></button>--}}
-            {{--<input type="submit" id="finish" value="ok">--}}
-            {{--<input type="text" id="test"  value="Test">--}}
-        </div>
-
-        </div>
-        </div>
         <script>
             function  func() {
-                // var user_answer=[];
-                // var type = document.getElementsByName("answer");
-                // for(var i=0; i<type.length; i++){
-                //     if (type[i].checked){
-                //         var id = type[i].id;
-                //         var answer =  type[i].value;
-                //         user_answer.push({"answerKey":answer,"questionId":id})
-                //
-                //     }
-                // }
-                // $("#finish").click(function () {
-                //     $.ajax({
-                //         type: 'POST',
-                //         dataType: 'JSON',
-                //         url: "QuestionController.php",
-                //         data :'myData='+ user_answer,
-                //         success: function(data){
-                //             alert("success");
-                //
-                //         },
-                //         error: function(e){
-                //             console.log(e.message);
-                //         }
-                //     });
-                // })
             }
 
 

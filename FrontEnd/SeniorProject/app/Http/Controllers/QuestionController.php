@@ -95,7 +95,7 @@ class QuestionController extends Controller
                 ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
                 $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
                 $body['image'] = $image;
-                $correctAnswer = $request['correct_answer'];
+                $correctAnswer = $request['answer1'];
                 $body['correctAnswer'] = $correctAnswer;
 
         }
@@ -109,7 +109,7 @@ class QuestionController extends Controller
             Log::info("Imageeee --- : ".$fileImage);
             $body['fileMp3'] = $fileMp3;
             $body['image'] =$fileImage;
-            $body['correctAnswer'] = $request['correct_answer'];;
+            $body['correctAnswer'] = $request['answer1'];;
         }
 
         Log::info("Question --- : ",$body);
@@ -134,6 +134,7 @@ class QuestionController extends Controller
     {
         $questionId=$request['questionId'];
         $partId=$request['partId'];
+
 //        $partId=session('partId');
         $ftp_server = "192.168.20.152";
         $ftp = "192.168.20.152/Part2";
@@ -145,13 +146,15 @@ class QuestionController extends Controller
         ftp_chdir($ftp_conn, "Part2");
         $examId=session('examId');
         $questionNumber=$request['questionNumber'];
+        $team = $request['teamPart2'];
         $body = [
             'questionId'=> $questionId,
             'examId' => $examId,
             'questionNumber'=>$questionNumber,
             'part' => $partId,
             'fileMp3' => '',
-            'correctAnswer' => ''
+            'correctAnswer' => '',
+            'team'=>$team
         ];
         if ($request->hasfile('mp3'))
         {
@@ -165,7 +168,7 @@ class QuestionController extends Controller
 //            ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
 //            $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
 //            $body['image'] = $image;
-            $correctAnswer = $request['correct_answer'];
+            $correctAnswer = $request['answer2'];
             $body['correctAnswer'] = $correctAnswer;
 
         }
@@ -177,7 +180,7 @@ class QuestionController extends Controller
 //            $fileImage=  'http://192.168.20.152:8069/Part1/' . $Image;
 //
 //            $body['image'] =$fileImage;
-            $body['correctAnswer'] = $request['correct_answer'];;
+            $body['correctAnswer'] = $request['answer2'];;
         }
 
         Log::info("Question --- : ",$body);
@@ -198,10 +201,363 @@ class QuestionController extends Controller
             return redirect()->back()->with('message', $message);
         }
     }
+    public function updateQuestionPart3(Request $request)
+    {
+        $questionId=$request['questionId3'];
+        $partId=$request['partId3'];
+        $answerA=$request['answerA'];
+        $answerB=$request['answerB'];
+        $answerC=$request['answerC'];
+        $answerD=$request['answerD'];
+        $team = $request['teamPart3'];
+        $questionName=$request['questionName'];
+//        $partId=session('partId');
+        $ftp_server = "192.168.20.152";
+        $ftp = "192.168.20.152/Part3";
+        $dir = "Part3";
+        $ftp_username = "FTP-User";
+        $ftp_userpass = "123456";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+        $login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
+        ftp_chdir($ftp_conn, "Part3");
+        $examId=session('examId');
+        $questionNumber=$request['questionNumber3'];
+        $body = [
+            'questionId'=> $questionId,
+            'examId' => $examId,
+            'questionNumber'=>$questionNumber,
+            'part' => $partId,
+            'questionName' => $questionName,
+            'a' => $answerA,
+            'b' => $answerB,
+            'c' => $answerC,
+            'd' => $answerD,
+            'fileMp3' => '',
+            'correctAnswer' => '',
+            'team'=>$team
+        ];
+        Log::info("Question ---------------------------------------- : ",$body);
+        if ($request->hasfile('mp3'))
+        {
+            $fileMp3 = $request->file('mp3');
+            $mp3FileName = $fileMp3->getClientOriginalName();
+            ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
+            $audio = 'http://192.168.20.152:8069/Part3/' . $mp3FileName;
+            $body['fileMp3'] = $audio;
+//            $fileImage = $request->file('images');
+//            $imageFileName = $request->file('images')->getClientOriginalName();
+//            ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
+//            $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
+//            $body['image'] = $image;
+            $correctAnswer = $request['answer3'];
+            $body['correctAnswer'] = $correctAnswer;
 
-//    public function showViewCompare(){
-//        return view('compare');
-//    }
+        }
+        else
+        {   $Mp3 = $request['mp3Edit3'];
+            $fileMp3=  'http://192.168.20.152:8069/Part3/' . $Mp3;
+            $body['fileMp3'] = $fileMp3;
+            $body['correctAnswer'] = $request['answer3'];;
+        }
+
+
+        $data = json_encode($body);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('put', 'http://192.168.20.152:8020/api/exam/updatequestion',array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => $data
+        ));
+        $response = $req->getBody();
+        $data = json_decode($response);
+        if (isset($data->messageReturnTrue)) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+    }
+    public function updateQuestionPart4(Request $request)
+    {
+        $questionId=$request['questionId4'];
+        $partId=$request['partId4'];
+        $answerA=$request['answerA'];
+        $answerB=$request['answerB'];
+        $answerC=$request['answerC'];
+        $answerD=$request['answerD'];
+        $team = $request['teamPart4'];
+        $questionName=$request['questionName'];
+//        $partId=session('partId');
+        $ftp_server = "192.168.20.152";
+        $ftp = "192.168.20.152/Part4";
+        $dir = "Part6";
+        $ftp_username = "FTP-User";
+        $ftp_userpass = "123456";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+        $login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
+        ftp_chdir($ftp_conn, "Part4");
+        $examId=session('examId');
+        $questionNumber=$request['questionNumber4'];
+        $body = [
+            'questionId'=> $questionId,
+            'examId' => $examId,
+            'questionNumber'=>$questionNumber,
+            'part' => $partId,
+            'questionName' => $questionName,
+            'a' => $answerA,
+            'b' => $answerB,
+            'c' => $answerC,
+            'd' => $answerD,
+            'fileMp3' => '',
+            'correctAnswer' => '',
+            'team'=>$team
+        ];
+
+        if ($request->hasfile('mp3'))
+        {
+            $fileMp3 = $request->file('mp3');
+            $mp3FileName = $fileMp3->getClientOriginalName();
+            ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
+            $audio = 'http://192.168.20.152:8069/Part4/' . $mp3FileName;
+            $body['fileMp3'] = $audio;
+            $correctAnswer = $request['correctAnswer3'];
+            $body['correctAnswer'] = $correctAnswer;
+
+        }
+        else
+        {   $Mp3 = $request['mp3Edit4'];
+            $fileMp3=  'http://192.168.20.152:8069/Part4/' . $Mp3;
+            $body['fileMp3'] = $fileMp3;
+            $body['correctAnswer'] = $request['correctAnswer3'];;
+        }
+
+        Log::info("Question +++++++++++- : ",$body);
+        $data = json_encode($body);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('put', 'http://192.168.20.152:8020/api/exam/updatequestion',array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => $data
+        ));
+        $response = $req->getBody();
+        $data = json_decode($response);
+        if (isset($data->messageReturnTrue)) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+    }
+    public function updateQuestionPart5(Request $request)
+    {
+        $questionId=$request['questionId5'];
+        $partId=$request['partId5'];
+        $answerA=$request['answerA'];
+        $answerB=$request['answerB'];
+        $answerC=$request['answerC'];
+        $answerD=$request['answerD'];
+
+        $questionName=$request['questionName'];
+//        $partId=session('partId');
+        $ftp_server = "192.168.20.152";
+        $ftp = "192.168.20.152/Part4";
+        $dir = "Part3";
+        $ftp_username = "FTP-User";
+        $ftp_userpass = "123456";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+        $login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
+        ftp_chdir($ftp_conn, "Part4");
+        $examId=session('examId');
+        $questionNumber=$request['questionNumber5'];
+        $correctAnswer=$request['correctAnswer'];
+        $body = [
+            'questionId'=> $questionId,
+            'examId' => $examId,
+            'questionNumber'=>$questionNumber,
+            'part' => $partId,
+            'questionName' => $questionName,
+            'a' => $answerA,
+            'b' => $answerB,
+            'c' => $answerC,
+            'd' => $answerD,
+            'correctAnswer' => $correctAnswer
+        ];
+        Log::info("Question +++++++++++- : ",$body);
+        $data = json_encode($body);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('put', 'http://192.168.20.152:8020/api/exam/updatequestion',array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => $data
+        ));
+        $response = $req->getBody();
+        $data = json_decode($response);
+        if (isset($data->messageReturnTrue)) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+    }
+    public function updateQuestionPart6(Request $request)
+    {
+        $questionId=$request['questionId6'];
+        $partId=$request['partId6'];
+        $answerA=$request['answerA'];
+        $answerB=$request['answerB'];
+        $answerC=$request['answerC'];
+        $answerD=$request['answerD'];
+        $team = $request['teamPart6'];
+        $questionName=$request['questionName'];
+//        $partId=session('partId');
+        $ftp_server = "192.168.20.152";
+        $ftp = "192.168.20.152/Part6";
+        $dir = "Part6";
+        $ftp_username = "FTP-User";
+        $ftp_userpass = "123456";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+        $login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
+        ftp_chdir($ftp_conn, "Part6");
+        $examId=session('examId');
+        $questionNumber=$request['questionNumber6'];
+        $body = [
+            'questionId'=> $questionId,
+            'examId' => $examId,
+            'questionNumber'=>$questionNumber,
+            'part' => $partId,
+            'questionName' => $questionName,
+            'a' => $answerA,
+            'b' => $answerB,
+            'c' => $answerC,
+            'd' => $answerD,
+            'team' => $team,
+            'image' => '',
+            'correctAnswer' => ''
+        ];
+
+        if ($request->hasfile('images'))
+        {
+            $fileImage = $request->file('images');
+            $imageFileName = $request->file('images')->getClientOriginalName();
+            ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
+            $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
+            $body['image'] = $image;
+//            $fileMp3 = $request->file('mp3');
+//            $mp3FileName = $fileMp3->getClientOriginalName();
+//            ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
+//            $audio = 'http://192.168.20.152:8069/Part4/' . $mp3FileName;
+//            $body['fileMp3'] = $audio;
+            $correctAnswer = $request['answer6'];
+            $body['correctAnswer'] = $correctAnswer;
+
+        }
+        else
+        {   $Image = $request['imageEdit6'];
+            //$fileMp3=  'http://192.168.20.152:8069/6/' . $Mp3;
+            $fileImage=  'http://192.168.20.152:8069/Part6/' . $Image;
+            $body['image'] = $fileImage;
+            $body['correctAnswer'] = $request['answer6'];;
+        }
+
+        Log::info("Question +++++++++++- : ",$body);
+        $data = json_encode($body);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('put', 'http://192.168.20.152:8020/api/exam/updatequestion',array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => $data
+        ));
+        $response = $req->getBody();
+        $data = json_decode($response);
+        if (isset($data->messageReturnTrue)) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+    }
+    public function updateQuestionPart7(Request $request)
+    {
+        $questionId=$request['questionId7'];
+        $partId=$request['partId7'];
+        $answerA=$request['answerA'];
+        $answerB=$request['answerB'];
+        $answerC=$request['answerC'];
+        $answerD=$request['answerD'];
+        $team = $request['teamPart7'];
+        $questionName=$request['questionName'];
+//        $partId=session('partId');
+        $ftp_server = "192.168.20.152";
+        $ftp = "192.168.20.152/Part7";
+        $dir = "Part7";
+        $ftp_username = "FTP-User";
+        $ftp_userpass = "123456";
+        $ftp_conn = ftp_connect($ftp_server) or die("Could not connect to $ftp_server");
+        $login = ftp_login($ftp_conn, $ftp_username, $ftp_userpass);
+        ftp_chdir($ftp_conn, "Part7");
+        $examId=session('examId');
+        $questionNumber=$request['questionNumber7'];
+        $body = [
+            'questionId'=> $questionId,
+            'examId' => $examId,
+            'questionNumber'=>$questionNumber,
+            'part' => $partId,
+            'questionName' => $questionName,
+            'a' => $answerA,
+            'b' => $answerB,
+            'c' => $answerC,
+            'd' => $answerD,
+            'team' => $team,
+            'image' => '',
+            'correctAnswer' => ''
+        ];
+
+        if ($request->hasfile('images'))
+        {
+            $fileImage = $request->file('images');
+            $imageFileName = $request->file('images')->getClientOriginalName();
+            ftp_put($ftp_conn, $imageFileName, $fileImage, FTP_BINARY);
+            $image = 'http://192.168.20.152:8069/Part1/' . $imageFileName;
+            $body['image'] = $image;
+//            $fileMp3 = $request->file('mp3');
+//            $mp3FileName = $fileMp3->getClientOriginalName();
+//            ftp_put($ftp_conn, $mp3FileName, $fileMp3, FTP_BINARY);
+//            $audio = 'http://192.168.20.152:8069/Part4/' . $mp3FileName;
+//            $body['fileMp3'] = $audio;
+            $correctAnswer = $request['answer7'];
+            $body['correctAnswer'] = $correctAnswer;
+
+        }
+        else
+        {   $Image = $request['imageEdit7'];
+            //$fileMp3=  'http://192.168.20.152:8069/6/' . $Mp3;
+            $fileImage=  'http://192.168.20.152:8069/Part7/' . $Image;
+            $body['image'] = $fileImage;
+            $body['correctAnswer'] = $request['answer7'];;
+        }
+
+        Log::info("Question +++++++++++- : ",$body);
+        $data = json_encode($body);
+        $client = new \GuzzleHttp\Client();
+        $req = $client->request('put', 'http://192.168.20.152:8020/api/exam/updatequestion',array(
+            'headers' => array('Content-Type' => 'application/json'),
+            'body' => $data
+        ));
+        $response = $req->getBody();
+        $data = json_decode($response);
+        if (isset($data->messageReturnTrue)) {
+            $message = $data->messageReturnTrue;
+            return redirect()->back()->with('message', $message);
+        }
+        else{
+            $message = $data->messageReturnFalse;
+            return redirect()->back()->with('message', $message);
+        }
+    }
     public function getExamID(Request $request,$examID){
         Log::info("EXAMMM : ".$examID);
         $client = new \GuzzleHttp\Client();
@@ -926,6 +1282,7 @@ class QuestionController extends Controller
             Log::info("Part 6 --- TEAM : " . $arrays[$i]["team"]);
             $question = [
                 'questionId' => $arrays[$i]["questionId"],
+                'questionName'=>$arrays[$i]["questionName"],
                 'a' => $arrays[$i]["a"],
                 'b' => $arrays[$i]["b"],
                 'c' => $arrays[$i]["c"],
@@ -1210,40 +1567,44 @@ class QuestionController extends Controller
             'accountId' => $user_id,
             'listAnswerUser' => []
         ];
-        try {
+        try{
             foreach ($questions as $question) {
-                Log::info("POST:" . $question->answerKey . " ---- " . $question->questionId);
-                $answer = [
-                    'answerKey' => $question->answerKey,
-                    'questionId' => $question->questionId
-                ];
-                $listAnswerUser[] = $answer;
+                if (isset($question->answerKey)) {
+                    Log::info("POST:" . $question->answerKey . " ---- " . $question->questionId);
+                    $answer = [
+                        'answerKey' => $question->answerKey,
+                        'questionId' => $question->questionId
+                    ];
+                    $listAnswerUser[] = $answer;
+                    Log::info("Answer:", $listAnswerUser);
+                }
             };
 
             $body['listAnswerUser'] = $listAnswerUser;
-            Log::info("POST PART 1:", $body);
+            Log::info("List Answer:", $body);
             $data1 = json_encode($body);
             Log::info("User:" . $data1);
             $client = new \GuzzleHttp\Client();
-
-            $req = $client->request('POST', 'http://192.168.20.152:8020/api/exam/createansweruser', array(
+            $req = $client->request('post', 'http://192.168.20.152:8020/api/exam/createansweruser', array(
                 'headers' => array('Content-Type' => 'application/json'),
                 'body' => $data1
             ));
             $response = $req->getBody();
             $data = json_decode($response);
-            Log::info("POST PART 1:" . $response);
-            if (($data->messageId) == 33) {
-                $message = $data->messageReturnTrue;
-                return view('do_exam_master', ['message' => $message]);
-            } else {
-                $message = $data->messageReturnFalse;
-                return view('do_exam_master', ['message' => $message]);
-
-            }
+            Log::info("Response :" . $response);
+//            if (($data->messageId) == 33) {
+//                $message = $data->messageReturnTrue;
+//                return view('do_exam_master', ['message' => $message]);
+//            } else {
+//                $message = $data->messageReturnFalse;
+//                return view('do_exam_master', ['message' => $message]);
+//
+//            }
         }catch (\Exception $e){
-            return $e->getMessage();
+
+            Log::info("Error:" .  $e->getMessage());
         }
+
 
     }
     public function getListAnswerByAccount($partId){
