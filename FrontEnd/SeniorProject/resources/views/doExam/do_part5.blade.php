@@ -48,7 +48,7 @@
         <table height="100%" width="100%">
             <tbody>
             <tr>
-                <td><br> <span style="font-size: 40px; align: center"> Part 5</span></td>
+                <td><br> <span style="font-size: 40px; text-align: center;margin: auto 0px;display: block"> Part 5</span></td>
             </tr>
             <tr>
                 <td><br><span style="font-size: 24px">Incomplete sentences</span>

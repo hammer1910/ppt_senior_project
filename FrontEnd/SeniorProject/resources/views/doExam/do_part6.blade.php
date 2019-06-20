@@ -9,7 +9,7 @@
         <table height="100%" width="100%">
             <tbody>
             <tr>
-                <td><br> <span style="font-size: 40px; text-align: center"> Part 6</span></td>
+                <td><br> <span style="font-size: 40px; text-align: center;margin: auto 0px;display: block"> Part 6</span></td>
             </tr>
             <tr>
                 <td><br><span style="font-size: 24px">Text completion</span>
@@ -36,7 +36,7 @@ given. Select the most appropriate answer to complete the text.</span><br><br>
                         @foreach($value['questions'] as $question)
                             <?php $questionOrder =$questionOrder+1 ?>
                             <div class="question" data-question-id="{{$question['questionId']}}">
-                                <div class="questionOrder">Question {{$questionOrder}}.</div>
+                                <div class="questionOrder">Question {{$questionOrder}}. {{$question['questionName']}}</div><br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="a" type="radio">(A){{$question['a']}}<br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="b" type="radio">(B){{$question['b']}}<br>
                                 <input id="{{$question['questionId']}}" name="{{$question['questionId']}}" value="c" type="radio">(C){{$question['c']}}<br>

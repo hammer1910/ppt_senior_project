@@ -24,7 +24,7 @@
             {{--<p class="help is-danger">{{ $errors->first('txtOrder') }}</p>--}}
             {{--</div>--}}
             <div class="form-group">
-                <label style="font-size: large">Phone number</label>
+                <label style="font-size: large">Phone Number</label>
                 <input style="font-size: large" class="form-control" name="phone_number" placeholder="Please Enter Your Phone Number"  value="{{$phone}}"/>
 
             </div>

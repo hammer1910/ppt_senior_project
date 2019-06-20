@@ -47,7 +47,7 @@ class AuthController extends Controller
     public function login(Request $request)
 
     {
-        Log::info("LOGIN");
+
         $this->validate($request, [
             'email' => 'bail|required|email',
             'password' => 'bail|required|min:6'

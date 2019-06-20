@@ -1282,6 +1282,7 @@ class QuestionController extends Controller
             Log::info("Part 6 --- TEAM : " . $arrays[$i]["team"]);
             $question = [
                 'questionId' => $arrays[$i]["questionId"],
+                'questionName'=>$arrays[$i]["questionName"],
                 'a' => $arrays[$i]["a"],
                 'b' => $arrays[$i]["b"],
                 'c' => $arrays[$i]["c"],

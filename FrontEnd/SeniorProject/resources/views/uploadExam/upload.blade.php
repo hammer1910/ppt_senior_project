@@ -1094,7 +1094,7 @@
                             "                    <div class=\"panel-body\" style=\"margin-top: 1px\">\n" +
                             "                        <div class=\"form-group\" style=\"margin-top: 1px;margin-bottom: 5px\">\n" +
                             "                            <label>Question</label>\n" +
-                            "                            <input class=\"form-control\" name=\"question[]\" placeholder=\"Please Enter question\" required=\"text\"/>\n" +
+                            "                            <textarea class=\"form-control\" name=\"question[]\" placeholder=\"Please Enter question\" required=\"text\"></textarea>\n" +
                             "                        </div>\n" +
                             "                        <div class=\"form-group\" style=\"margin-top: 1px;margin-bottom: 5px\">\n" +
                             "                            <label>Answer A</label>\n" +
@@ -2385,8 +2385,6 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestion"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                            <button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                        '<i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
 
@@ -2416,8 +2414,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action2 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart2"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
                             }
@@ -2452,8 +2450,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action3 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart3"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
                             }
@@ -2487,8 +2485,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action4 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart4"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
                             }
@@ -2525,8 +2523,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action5 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart5"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
 
@@ -2548,8 +2546,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action6 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart6"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
                             }
@@ -2583,8 +2581,8 @@
                                     '                        <td class="center">\n' +
                                     '                            <a href="#"  class="action7 btn btn-success" id= ' + data[i]['questionId'] + ' data-toggle="modal" data-target="#editQuestionPart7"  > Edit\n' +
                                     '                                <i class="fa fa-edit"></i></a>\n' +
-                                    '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
-                                    '                                        <i class="fa fa-trash"></i></button >\n'+
+                                    // '                           </n><button class="deleteQuestion btn btn-danger" id= ' + data[i]['questionId'] + '> Delete\n' +
+                                    // '                                        <i class="fa fa-trash"></i></button >\n'+
                                     '                        </td>\n' +
                                     '                    </tr>'
                             }

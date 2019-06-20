@@ -9,7 +9,7 @@
         <table height="100%" width="100%">
             <tbody>
             <tr>
-                <td><br> <span style="font-size: 40px; text-align: center"> Part 7</span></td>
+                <td><br> <span style="font-size: 40px; text-align: center;margin: auto 0px;display: block"> Part 7</span></td>
             </tr>
             <tr>
                 <td><br><span style="font-size: 24px">Text completion</span>

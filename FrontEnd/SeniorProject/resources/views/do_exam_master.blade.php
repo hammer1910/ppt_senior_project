@@ -68,12 +68,14 @@
                     var id = $(this).data('question-id');
                     user_answer.push({"answerKey": answer, "questionId": id})
                 });
+                localStorage.clear();
                 // console.log("User Answers: " + JSON.stringify(user_answer))
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
                 });
+
                 $.ajax({
                     method: 'POST',
                     dataType: 'json',
@@ -83,7 +85,7 @@
                         console.log("User Answers: " + JSON.stringify(data));
                     },
                     error: function (e) {
-                        localStorage.clear();
+
                         window.location = "home";
 
                     }

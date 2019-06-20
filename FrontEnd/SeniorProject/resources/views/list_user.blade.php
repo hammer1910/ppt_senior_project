@@ -35,7 +35,9 @@
             <tbody>
             <?php $question = 0?>
             @foreach($arrays as $value)
-                <?php $question =$question+1 ?>
+
+                @if(session('user_id') != $value['accountId'])
+                    <?php $question =$question+1 ?>
                 <tr class="odd gradeX" align="center">
                     <div class="account_ID" data-question-id="{{$value['accountId']}}"></div>
                     <td>{{$question}}</td>
@@ -53,7 +55,7 @@
                     </td>
 
                 </tr>
-
+                @endif
             @endforeach
 
             <script>

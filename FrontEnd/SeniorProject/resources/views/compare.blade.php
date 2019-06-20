@@ -399,12 +399,13 @@
                                    '        </tr>';
                            }
                            if(data[i]['part']=== "2") {
+
                                trData2 += '<tr>\n' +
                                    '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
                                    '            <td  style="text-align: center;">' + data[i]['answerUser'] + '</td>\n' +
                                    '            <td  style="text-align: center">' + data[i]['finalAnswer'] + '</td>\n' +
                                    '        </tr>';
-                           }
+                               }
                            if(data[i]['part']=== "3") {
                                trData3 += '<tr>\n' +
                                    '            <td  style="text-align: center">' + data[i]['quetionNumber'] + '</td>\n' +
