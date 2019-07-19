@@ -1,0 +1,48 @@
+html, body, .container-fluid {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #ddd;
+}
+.sidebar {
+    transition: all 0.3s ease;
+    position: absolute;
+    background: lightgreen;
+    width: 250px;
+    height: 100%;
+    clear: none;
+    left: 0;
+}
+.content {
+    transition: all 0.5s ease;
+    background: lightblue;
+    height: 100%;
+    margin-left: 250px;
+    overflow: hidden;
+}
+
+.container-fluid.toggled .sidebar {
+    left: -250px;
+}
+.container-fluid.toggled .content {
+    margin-left: 0;
+}
+
+/* On small screens the sidebar should be the full-width */
+@media (max-width: 768px) {
+    .container-fluid .sidebar {
+        left: -250px;
+    }
+    .container-fluid .content {
+        margin-left: 0;
+    }
+
+    .container-fluid.toggled .sidebar {
+        width: 100%;
+        left: 0;
+    }
+    .container-fluid.toggled .content {
+        margin-left: 100%;
+    }
+}
