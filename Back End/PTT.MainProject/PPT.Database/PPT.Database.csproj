@@ -17,10 +17,4 @@
     <PackageReference Include="System.Linq" Version="4.3.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Data.Linq">
-      <HintPath>C:\Users\Hammer\Downloads\System.Data.Linq.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

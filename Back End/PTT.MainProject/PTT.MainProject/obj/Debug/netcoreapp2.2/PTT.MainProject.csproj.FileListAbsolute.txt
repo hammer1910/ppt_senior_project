@@ -84,3 +84,21 @@ E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.Mai
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CopyComplete
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.dll
 E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.pdb
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csprojAssemblyReference.cache
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CoreCompileInputs.cache
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorAssemblyInfo.cache
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorAssemblyInfo.cs
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.AssemblyInfoInputs.cache
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.AssemblyInfo.cs
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.deps.json
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.runtimeconfig.json
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.runtimeconfig.dev.json
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.dll
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.pdb
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PTT.MainProject.xml
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PPT.Database.dll
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\bin\Debug\netcoreapp2.2\netcoreapp2.2\PPT.Database.pdb
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.RazorTargetAssemblyInfo.cache
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.csproj.CopyComplete
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.dll
+F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\obj\Debug\netcoreapp2.2\PTT.MainProject.pdb

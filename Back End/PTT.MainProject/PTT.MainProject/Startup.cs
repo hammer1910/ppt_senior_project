@@ -56,7 +56,7 @@ namespace PTT.MainProject
             });
 
 
-            var connectionString = @"Data Source=CPU051;Initial Catalog=let_us_toeic_wherever;Persist Security Info=True;User ID=admin;Password=@Dm1np4s5w0rD";
+            var connectionString = @"Data Source=CPU039;Initial Catalog=TestDB;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             services.AddDbContext<ExamContext>(o => o.UseSqlServer(connectionString));
             services.AddScoped<IAccountRepository, AccountService>();
             services.AddScoped<IGroupRepository, GroupService>();

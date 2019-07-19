@@ -110,7 +110,7 @@ namespace PTT.MainProject.Controllers
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(id))
                 {
-                    Log4Net.log.Error(className + "." + functionName + " - " + Log4Net.AddErrorLog(Constants.accountNotFound));
+                    
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 

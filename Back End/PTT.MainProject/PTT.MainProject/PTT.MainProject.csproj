@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>E:\Dot Net\PassToeicTogether\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\PTT.MainProject.xml</DocumentationFile>
+    <DocumentationFile>F:\ppt_senior_project\Back End\PTT.MainProject\PTT.MainProject\PTT.MainProject.xml</DocumentationFile>
     <OutputPath>bin\Debug\netcoreapp2.2\</OutputPath>
     <NoWarn>1701;1702; 1591</NoWarn>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP;NETCOREAPP2_2</DefineConstants>
@@ -35,12 +35,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PPT.Database\PPT.Database.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Data.Linq">
-      <HintPath>C:\Users\Hammer\Downloads\System.Data.Linq.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
