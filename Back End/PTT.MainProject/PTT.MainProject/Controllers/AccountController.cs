@@ -112,6 +112,7 @@ namespace PTT.MainProject.Controllers
                 {
                     var a = 10;
                     var b = a - 10;
+                    string b = "a";
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
