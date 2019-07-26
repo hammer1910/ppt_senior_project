@@ -110,7 +110,8 @@ namespace PTT.MainProject.Controllers
                 //Check id account exist in the database
                 if (!_accountRepository.AccountExists(id))
                 {
-                    
+                    var a = 10;
+                    var b = a - 10;
                     return Json(MessageResult.GetMessage(MessageType.ACCOUNT_NOT_FOUND));
                 }
 
