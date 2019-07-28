@@ -5,7 +5,8 @@ using System.Text;
 namespace PPT.Database.Common
 {
     public class Constants
-    {        
+    {
+        public string a = "123";
         public static string registerSuccess = "You registered the account successfully!";
         public static string badRequest = "A problem happened while handling your request.";
         public static string notInformationAccount = "You haven't enter information for account.";
