@@ -19,5 +19,7 @@ namespace PPT.Database.Entities
         [ForeignKey("AccountId")]
         public AccountEntity Account { set; get; }
         public int AccountId { get; set; }
+
+        string a { get; set; }
     }
 }
